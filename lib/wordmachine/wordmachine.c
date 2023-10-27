@@ -11,16 +11,16 @@ I.S : string sembarang, dan MaxCap terdefinisi
 F.S : string terdefinisi dengan buffer string dialokasikan 
       sebesar MaxCap dan length diset = 0*/
 {
-    if (str->buffer != NULL){
-        free(str->buffer);
+    if ((*str).buffer != NULL){
+        free((*str).buffer);
     }
-    str->buffer = (char*)malloc(MaxCap*sizeof(char));
+    (*str).buffer = (char*)malloc(MaxCap*sizeof(char));
     int i = 0;
-    while (str->buffer == NULL && i < 100){
-        str->buffer = (char*)malloc(MaxCap*sizeof(char));
+    while ((*str).buffer == NULL && i < 100){
+        (*str).buffer = (char*)malloc(MaxCap*sizeof(char));
         i++;
     }
-    str->length = 0;
+    (*str).length = 0;
 }
 
 void createString(STRING *str, char input[])
@@ -28,39 +28,39 @@ void createString(STRING *str, char input[])
 I.S : str sembarang, input terdefinisi
 F.S : str disimpan dalam ukuran DEFAULT_CAPACITY 
       jika ukuran input melebihi alokasi memori
-      str->buffer maka akan dilakukan ekspansi memori
+      (*str).buffer maka akan dilakukan ekspansi memori
       sebesar 2 kali ukuran awal*/
 {
     createEmptyString(str, DEFAULT_CAPACITY);
     while (input[str->length] != '\0'){
-        if (str->length == str->MaxEl){
+        if ((*str).length == (*str).MaxEl){
             expandString(str);
         }
-        str->buffer[str->length] = input[str->length];
-        str->length++;
+        (*str).buffer[str->length] = input[str->length];
+        (*str).length++;
     }
 }
 
 void expandString(STRING *str)
-/* Melakukan ekspansi memori str->buffer
+/* Melakukan ekspansi memori (*str).buffer
 I.S : str terdefinisi
-F.S : ukuran memori str->buffer terekspansi*/
+F.S : ukuran memori (*str).buffer terekspansi*/
 {
-    int len = str->MaxEl * 2;
-    char arr[str->length];
-    for (int i = 0; i < str->length; i++){
-        arr[i] = str->buffer[i];
+    int newMaxEl = (*str).MaxEl * 2;
+    char arr[(*str).length];
+    for (int i = 0; i < (*str).length; i++){
+        arr[i] = (*str).buffer[i];
     }
-    free(str->buffer);
-    str->buffer = (char*) malloc(len*sizeof(char));
+    free((*str).buffer);
+    (*str).buffer = (char*) malloc(newMaxEl*sizeof(char));
     int i = 0;
-    while (str->buffer == NULL && i < 100){
-        str->buffer = (char*) malloc(len*sizeof(char));
+    while ((*str).buffer == NULL && i < 100){
+        (*str).buffer = (char*) malloc(newMaxEl*sizeof(char));
         i++;
     }
-    str->MaxEl = len;
-    for (int i = 0; i < str->length; i++){
-        str->buffer[i] = arr[i];
+    (*str).MaxEl = newMaxEl;
+    for (int i = 0; i < (*str).length; i++){
+        (*str).buffer[i] = arr[i];
     }
 }
 
@@ -120,7 +120,7 @@ I.S : string sembarang
 F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
-    
+
 }
 
 void readBio()
@@ -160,7 +160,7 @@ void displayString(STRING s)
 I.S : string terdefinisi
 F.S : isi string s ditampilkan ke layar*/
 {
-    for (int i = 0; i < string.length; i++){
+    for (int i = 0; i < s.length; i++){
         printf("%c", s.buffer[i]);
     }
     printf("\n");
