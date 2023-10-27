@@ -26,7 +26,7 @@ void ADV();
             currentChar mungkin = MARK
             Jika  currentChar = MARK maka EOP akan menyala (true) */
 
-void endRead();
+void stopRead();
 /*Menghentikan proses pembacaan*/
 
 #endif
