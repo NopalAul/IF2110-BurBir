@@ -5,12 +5,12 @@
 void createUSER(USER *user)
 /*Melakukan inisialisasi awal user
 I.S :   user sembarang
-F.S :   user.username didefinisikan kosong dengan kapasitas USERNAME_CAPACITY
-        user.password didefinisikan kosong dengan kapasitas PASSWORD_CAPACITY
-        user.bio didefinisikan kosong dengan kapasitas BIO_CAPACITY
-        user.noHP didefinisikan kosong dengan kapasitas DEFAULT_CAPACITY
-        user.weton didefinisikan kosong dengan kapasitas DEFAULT_CAPACITY
-        user.photo didefinisikan kosong dengan kapasitas BIO_CAPACITY*/
+F.S :   user.username didefinisikan kosong 
+        user.password didefinisikan kosong 
+        user.bio didefinisikan kosong 
+        user.noHP didefinisikan kosong 
+        user.weton didefinisikan kosong 
+        user.photo didefinisikan kosong */
 {   
     createEmptyString(&USERNAME(*user));
     createEmptyString(&PASSWORD(*user));
@@ -46,24 +46,27 @@ F.S :   melakukan procedure DAFTAR seperti spek
         do {
             printf("Masukkan nama:\n");
             readUsername();
+            printf("\n");
             if (!VALID){
-                printf("\nWah, username masukan tidak sesuai! Masukkan username lain yang sesuai.\n\n");
+                printf("Wah, username masukan tidak sesuai! Masukkan username lain yang sesuai.\n\n");
             } else if (searchUser(*l, string) != NOT_FOUND){
-                printf("\nWah, sayang sekali nama tersebut telah diambil.\n\n");
+                printf("Wah, sayang sekali nama tersebut telah diambil.\n\n");
             }
         } while (!VALID || searchUser(*l, string) != NOT_FOUND);
         copyString(&USERNAME(USER(*l,LENGTH(*l))), string);
         do {
             printf("Masukkan kata sandi:\n");
             readPassword();
+            printf("\n");
             if (!VALID){
-                printf("\nWah, password tidak sesuai.\n\n");
+                printf("Wah, password tidak sesuai.\n\n");
             }
         } while (!VALID);
         copyString(&PASSWORD(USER(*l, LENGTH(*l))), string);
         printf("\nPengguna telah berhasil terdaftar. Masuk untuk menikmati fitur-fitur BurBir.\n\n");
+        LENGTH(*l)++;
     } else {
-        printf("\nWaduh, Gan, jumlah User sudah maksimal.\n\n");
+        printf("Waduh, Gan, jumlah User sudah maksimal.\n\n");
     }
 
 }
@@ -98,7 +101,7 @@ F.S :   foto profil user ditampilkan ke layar*/
             printf("\n");
         }
     }
-    printf("\n");
+    printf("\n\n");
 }
 
 void displayUser(USER user)
@@ -106,7 +109,7 @@ void displayUser(USER user)
 I.S :   user terdefinisi
 F.S :   data umum user ditampilkan ke layar*/
 {
-    printf("\n");
+    //printf("\n");
     printf("| Nama: ");
     displayString(USERNAME(user));
     printf("| Bio Akun: ");
