@@ -4,6 +4,9 @@
 
 STRING string;
 boolean VALID;
+int leftNumber;
+int rightNumber;
+
 
 void createEmptyString(STRING *str, int MaxCap)
 /* Melakukan proses alokasi memori buffer
@@ -92,6 +95,14 @@ void ignoreNewline()
     }
 }
 
+void ignoreBlankNewline()
+/*Melakukan adv jika currentChar adalah NEWLINE atau BLANK*/
+{
+    while (currentChar == NEWLINE || currentChar == BLANK){
+        ADV();
+    }
+}
+
 void readPassword()
 /* Melakukan proses akuisi string dan menyimpannya ke dalam string
 I.S : string sembarang
@@ -143,11 +154,45 @@ F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
     createEmptyString(&string, DEFAULT_CAPACITY);
     START();
     ignoreBlanks();
-    while (!EOP && string.length < DEFAULT_CAPACITY){
+    while (string.length < DEFAULT_CAPACITY && currentChar != ' ' && !EOP){
         string.buffer[string.length] = currentChar;
         ADV();
         string.length++;
     }
+    ignoreBlankNewline();
+    leftNumber = 0;
+    boolean wasEOP = false;
+    if (EOP){
+        leftNumber = NUMBER_UNDEF;
+        wasEOP = true;
+    }
+    int sign = 1;
+    if (currentChar == '-'){
+        sign = -1;
+        ADV();
+    }
+    while (!EOP && currentChar != ' ' && currentChar != '\n'){
+        leftNumber = leftNumber*10 + currentChar - '0';
+        ADV();
+    }
+    if (!wasEOP) leftNumber*=sign;
+    ignoreBlankNewline();
+    rightNumber = 0;
+    wasEOP = false;
+    if (EOP){
+        rightNumber = NUMBER_UNDEF;
+        wasEOP = true;
+    }
+    sign = 1;
+    if (currentChar == '-'){
+        sign = -1;
+        ADV();
+    }
+    while (!EOP){
+        rightNumber = rightNumber*10 + currentChar - '0';
+        ADV();
+    }
+    if (!wasEOP) rightNumber*=sign;
     ADV();
 }
 

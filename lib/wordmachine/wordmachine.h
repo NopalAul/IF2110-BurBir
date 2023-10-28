@@ -10,6 +10,8 @@
 #define DEFAULT_CAPACITY 75
 #define KICAUAN_CAPACITY 280
 
+#define NUMBER_UNDEF -9999
+
 #define BLANK ' '
 #define NEWLINE '\n'
 
@@ -25,6 +27,8 @@ typedef struct {
 
 extern STRING string;
 extern boolean VALID;
+extern int leftNumber;
+extern int rightNumber;
 
 void createEmptyString(STRING *str, int MaxCap);
 /* Melakukan proses alokasi memori buffer
@@ -55,6 +59,9 @@ void ignoreBlanks();
 
 void ignoreNewline();
 /*Melakukan adv jika currentChar adalah NEWLINE*/
+
+void ignoreBlankNewline();
+/*Melakukan adv jika currentChar adalah NEWLINE atau BLANK*/
 
 void readPassword();
 /* Melakukan proses akuisisi string dan menyimpannya ke dalam string

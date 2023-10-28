@@ -6,14 +6,20 @@ STRING stop;
 STRING now;
 
 int main(){
-    createString(&stop, "STOP");
-    displayString(stop);
-    readPassword();
+    readCommand();
     displayString(string);
-    printf("%s\n", VALID ? "valid mas" : "ga valid mas");
-    readUsername();
+    printf("Left: %d\nRight: %d\n", leftNumber, rightNumber);
+    readCommand();
     displayString(string);
-    printf("%s\n", VALID ? "valid mas" : "ga valid mas");
+    printf("Left: %d\nRight: %d\n", leftNumber, rightNumber);
+    // createString(&stop, "STOP");
+    // displayString(stop);
+    // readPassword();
+    // displayString(string);
+    // printf("%s\n", VALID ? "valid mas" : "ga valid mas");
+    // readUsername();
+    // displayString(string);
+    // printf("%s\n", VALID ? "valid mas" : "ga valid mas");
     // readCommand();
     // displayString(string);
     // readBio();
