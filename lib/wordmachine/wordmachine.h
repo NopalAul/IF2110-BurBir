@@ -20,7 +20,7 @@ typedef struct {
 } STRING;
 
 /*  Sejauh ini deklarasi variabel untuk STRING harus di luar fungsi main
-    supaya alokasi tidak diset di dalam stack
+    supaya alokasi tidak diset di dalam stackframe
     kalau diset dalam fungsi main harus dilakukan malloc terlebih dahulu */
 
 extern STRING string;
@@ -86,7 +86,22 @@ I.S : string sembarang
 F.S : alokasi memori string diset dengan KICAUAN_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 
-boolean isStringEqual(STRING s1, STRING s2);
+void readPhoto();
+/* Melakukan proses akuisisi string dan menyimpannya ke dalam string untuk Foto profil
+I.S : string sembarang
+F.S : alokasi memori string diset dengan BIO_CAPACITY
+      kemudian dilakukan pembacaan string dan disimpan ke string*/
+
+void readString();
+/* Melakukan proses akuisisi string dan menyimpannya ke dalam string selain read di atas
+I.S : string sembarang
+F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
+      kemudian dilakukan pembacaan string dan disimpan ke string*/
+
+boolean isStringSimiliar(STRING s1, STRING s2);
+/* Mengembalikan true jika s1 sama dengan s2 dalam kasus insensitive, false jika tidak*/
+
+boolean isStringEqual(STRING s1, STRING s2); //Sensitive
 /* Mengembalikan true jika s1 sama dengan s2, false jika tidak*/
 
 void displayString(STRING s);

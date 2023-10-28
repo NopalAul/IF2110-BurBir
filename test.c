@@ -1,11 +1,10 @@
 #include <stdio.h>
 
+#define kata "STOP"
+
 int main(){
-    char x[] = "asdasdasdasdasdasdasdasd";
-    int i = 0;
-    while (x[i] != '\0'){
-        i++;
-    }
-    printf("%d\n", i);
+    char a = 65;
+    printf("%c\n", a);
+    printf("%c\n", a+32);
     return 0;
 }

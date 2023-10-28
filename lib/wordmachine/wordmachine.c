@@ -175,7 +175,79 @@ F.S : alokasi memori string diset dengan KICAUAN_CAPACITY
     ADV();
 }
 
-boolean isStringEqual(STRING s1, STRING s2)
+void readPhoto()
+/* Melakukan proses akuisisi string dan menyimpannya ke dalam string untuk Foto profil
+I.S : string sembarang
+F.S : alokasi memori string diset dengan BIO_CAPACITY
+      kemudian dilakukan pembacaan string dan disimpan ke string*/
+{
+    createEmptyString(&string, BIO_CAPACITY);
+    START();
+    VALID = true;
+    int cnt = 0;
+    while (!EOP && string.length < BIO_CAPACITY){
+        if (string.length == string.MaxEl){
+            expandString(&string);
+        }
+        string.buffer[string.length] = currentChar;
+        if (cnt%2 == 1){
+            if (currentChar != ' '){
+                VALID = false;
+            }
+        } else if (cnt%4 == 0){
+            if (currentChar != 'R' && currentChar != 'G' && currentChar != 'B'){
+                VALID = false;
+            }
+        } else {
+            if (currentChar == ' '){
+                VALID = false;
+            }
+        }
+        ADV();
+        string.length++;
+        cnt++;
+    }
+    VALID = cnt == 99;
+    ADV();
+}
+
+void readString()
+/* Melakukan proses akuisisi string dan menyimpannya ke dalam string selain read di atas
+I.S : string sembarang
+F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
+      kemudian dilakukan pembacaan string dan disimpan ke string*/
+{
+    createEmptyString(&string, DEFAULT_CAPACITY);
+    START();
+    while (!EOP){
+        if (string.length == string.MaxEl){
+            expandString(&string);
+        }
+        string.buffer[string.length] = currentChar;
+        ADV();
+        string.length++;
+    }
+    ADV();
+}
+
+boolean isStringSimiliar(STRING s1, STRING s2)
+/* Mengembalikan true jika s1 sama dengan s2 dalam kasus insensitive, false jika tidak*/
+{
+    if (s1.length != s2.length){
+        return false;
+    }
+    char l,f;
+    for (int i = 0 ; i < s1.length; i++){
+        l = s1.buffer[i];
+        f = s2.buffer[i];
+        if (l != f && l+32 != f && l != f+32 && l-32 != f && l != f-32){
+            return false;
+        }
+    }
+    return true;
+}
+
+boolean isStringEqual(STRING s1, STRING s2) //sace SENSITIVE
 /* Mengembalikan true jika s1 sama dengan s2, false jika tidak*/
 {
     if (s1.length != s2.length){
