@@ -10,13 +10,19 @@ OBJ_CHARM = $(SRC_CHARM:.c=.o)
 SRC_WORD = lib/wordmachine/wordmachine.c
 OBJ_WORD = $(SRC_WORD:.c=.o)
 
-.PHONY: driver clean
+SRC_USER = lib/user/user.c
+OBJ_USER = $(SRC_USER:.c=.o)
 
-main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM)
+SRC_PCOLOR = lib/pcolor/pcolor.c
+OBJ_PCOLOR = $(SRC_PCOLOR:.c=.o)
+
+.PHONY: main clean
+
+main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f main $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM)
+	rm -f main $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR)

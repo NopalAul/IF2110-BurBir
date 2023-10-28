@@ -1,17 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lib/wordmachine/wordmachine.h"
+#include "lib/user/user.h"
 
-STRING stop;
-STRING now;
+
+
 
 int main(){
-    readCommand();
-    displayString(string);
-    printf("Left: %d\nRight: %d\n", leftNumber, rightNumber);
-    readCommand();
-    displayString(string);
-    printf("Left: %d\nRight: %d\n", leftNumber, rightNumber);
+    STRING stop;
+    STRING now;
+    ListUser UserList;
+    createListUser(&UserList);
+    createEmptyString(&stop);
+    createEmptyString(&now);
+    displayString(PHOTO(USER(UserList,2)));
+    displayDataUser(USER(UserList,0));
     // createString(&stop, "STOP");
     // displayString(stop);
     // readPassword();
@@ -33,5 +36,5 @@ int main(){
     // readString();
     // displayString(string);
     // printf("%s\n", isStringSimiliar(string, stop) ?  "sama bang" : "beda mas");
-    stopRead();
+    //stopRead();
 }

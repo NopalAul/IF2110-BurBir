@@ -9,6 +9,7 @@
 #define BIO_CAPACITY 135
 #define DEFAULT_CAPACITY 75
 #define KICAUAN_CAPACITY 280
+#define MAX_CAPACITY 300
 
 #define NUMBER_UNDEF -9999
 
@@ -16,7 +17,7 @@
 #define NEWLINE '\n'
 
 typedef struct {
-    char * buffer; // menyimpan string 
+    char buffer[MAX_CAPACITY]; // menyimpan string 
     int length; // menyimpan panjang string yang sudah disimpan 
     int MaxEl; // menyimpan kapasitas maksimum dari string
 } STRING;
@@ -30,7 +31,8 @@ extern boolean VALID;
 extern int leftNumber;
 extern int rightNumber;
 
-void createEmptyString(STRING *str, int MaxCap);
+void createEmptyString(STRING *str);
+//void createEmptyString(STRING *str, int MaxCap);
 /* Melakukan proses alokasi memori buffer
 I.S : string sembarang, dan MaxCap terdefinisi
 F.S : string terdefinisi dengan buffer string dialokasikan 
@@ -44,7 +46,7 @@ F.S : str disimpan dalam ukuran DEFAULT_CAPACITY
       str->buffer maka akan dilakukan ekspansi memori
       sebesar 2 kali ukuran awal*/
 
-void expandString(STRING *str);
+//void expandString(STRING *str);
 /* Melakukan ekspansi memori str->buffer
 I.S : str terdefinisi
 F.S : ukuran memori str->buffer terekspansi*/
