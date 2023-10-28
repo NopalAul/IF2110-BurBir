@@ -105,7 +105,11 @@ F.S : alokasi memori string diset dengan PASSWORD_CAPACITY
         ADV();
         string.length++;
     }
-    VALID = EOP == true;
+    while (!EOP){
+        ADV();
+        string.length++;
+    }
+    VALID = string.length <= PASSWORD_CAPACITY;
     ADV();
 }
 
@@ -122,7 +126,11 @@ F.S : alokasi memori string diset dengan USERNAME_CAPACITY
         ADV();
         string.length++;
     }
-    VALID = EOP == true;
+    while (!EOP){
+        ADV();
+        string.length++;
+    }
+    VALID = string.length <= USERNAME_CAPACITY;
     ADV();
 }
 
