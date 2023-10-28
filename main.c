@@ -2,19 +2,21 @@
 #include <stdlib.h>
 #include "lib/wordmachine/wordmachine.h"
 
-
+STRING stop;
+STRING now;
 
 int main(){
-    STRING *stop = (STRING*)malloc(sizeof(STRING));
-    STRING *now = (STRING*)malloc(sizeof(STRING));
-    createString(stop, "STOP");
-    displayString(*stop);
+    createString(&stop, "STOP");
+    displayString(stop);
     readPassword();
-    while (!isStringEqual(string, *stop)){
-        displayString(string);
-        readPassword();
-    }
+    displayString(string);
+    readUsername();
+    displayString(string);
+    readCommand();
+    displayString(string);
+    readBio();
+    displayString(string);
+    readKicauan();
+    displayString(string);
     stopRead();
-    createString(now, "aasdasdasddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-    displayString(*now);
 }

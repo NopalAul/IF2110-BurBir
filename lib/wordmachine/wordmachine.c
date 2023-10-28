@@ -64,6 +64,18 @@ F.S : ukuran memori (*str).buffer terekspansi*/
     }
 }
 
+void copyString(STRING *str, STRING input)
+/* Melakukan copy string input ke dalam string str
+I.S : str sembarang, input terdefinisi
+F.S : str terdefinisi sebagai hasil copy dari input*/
+{
+    createEmptyString(str, input.MaxEl);
+    for (int i = 0; i < input.length; i++){
+        str->buffer[i] = input.buffer[i];
+    }
+    str->length = input.length;
+}
+
 void ignoreBlanks()
 /*Melakukan adv jika currentChar adalah BLANK*/
 {   
@@ -120,7 +132,15 @@ I.S : string sembarang
 F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
-
+    createEmptyString(&string, DEFAULT_CAPACITY);
+    START();
+    ignoreBlanks();
+    while (!EOP && string.length < DEFAULT_CAPACITY){
+        string.buffer[string.length] = currentChar;
+        ADV();
+        string.length++;
+    }
+    ADV();
 }
 
 void readBio()
@@ -129,7 +149,14 @@ I.S : string sembarang
 F.S : alokasi memori string diset dengan BIO_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
-
+    createEmptyString(&string, BIO_CAPACITY);
+    START();
+    while (!EOP && string.length < BIO_CAPACITY){
+        string.buffer[string.length] = currentChar;
+        ADV();
+        string.length++;
+    }
+    ADV();
 }
 
 void readKicauan()
@@ -138,7 +165,14 @@ I.S : string sembarang
 F.S : alokasi memori string diset dengan KICAUAN_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
-
+    createEmptyString(&string, KICAUAN_CAPACITY);
+    START();
+    while (!EOP && string.length < KICAUAN_CAPACITY){
+        string.buffer[string.length] = currentChar;
+        ADV();
+        string.length++;
+    }
+    ADV();
 }
 
 boolean isStringEqual(STRING s1, STRING s2)

@@ -19,6 +19,10 @@ typedef struct {
     int MaxEl; // menyimpan kapasitas maksimum dari string
 } STRING;
 
+/*  Sejauh ini deklarasi variabel untuk STRING harus di luar fungsi main
+    supaya alokasi tidak diset di dalam stack
+    kalau diset dalam fungsi main harus dilakukan malloc terlebih dahulu */
+
 extern STRING string;
 extern boolean VALID;
 
@@ -40,6 +44,11 @@ void expandString(STRING *str);
 /* Melakukan ekspansi memori str->buffer
 I.S : str terdefinisi
 F.S : ukuran memori str->buffer terekspansi*/
+
+void copyString(STRING *str, STRING input);
+/* Melakukan copy string input ke dalam string str
+I.S : str sembarang, input terdefinisi
+F.S : str terdefinisi sebagai hasil copy dari input*/
 
 void ignoreBlanks();
 /*Melakukan adv jika currentChar adalah BLANK*/
