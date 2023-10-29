@@ -1,22 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lib/wordmachine/wordmachine.h"
+#include "lib/user/user.h"
 
-STRING stop;
-STRING now;
+
+
 
 int main(){
-    createString(&stop, "STOP");
-    displayString(stop);
-    readPassword();
-    displayString(string);
-    readUsername();
-    displayString(string);
-    readCommand();
-    displayString(string);
-    readBio();
-    displayString(string);
-    readKicauan();
-    displayString(string);
+    ListUser UserList;
+    createListUser(&UserList);
+    daftarUSER(&UserList);
+    displayDataUser(USER(UserList,0));
+    daftarUSER(&UserList);
+    displayDataUser(USER(UserList,1));
     stopRead();
 }
