@@ -1,187 +1,83 @@
+#ifndef user_h
+#define user_h
 
-#ifndef USER_H
-#define USER_H
+#include "../wordmachine/wordmachine.h"
+#include "../pcolor/pcolor.h"
 #include "../boolean/boolean.h"
 
+#define MAX_USER 20
+#define NOT_FOUND -1
+#define DEFAULT_PHOTO "R * R * R * R * R *\nR * R * R * R * R *\nR * R * R * R * R *\nR * R * R * R * R *\nR * R * R * R * R *"
 
-#define CAPACITY 20
-/* Kapasitas penyimpanan */
-#define IDX_MIN 0
-/* Indeks minimum list */
-#define IDX_UNDEF -1
-/* Indeks tak terdefinisi*/
-#define MARK -9999
-/* Nilai elemen tak terdefinisi*/
+typedef struct{
+    STRING username;    //menyimpan username atau nama user
+    STRING password;    //menyimpan password user
+    STRING bio;         //menyimpan bio akun user
+    STRING noHP;        //menyimpan Nomor HP user
+    STRING weton;       //menyimpan jenis weton user
+    STRING photo;       //menyimpan photo user
+    boolean accountType;//akun public bernilai TRUE, akun privat FALSE  
+} USER;
 
-typedef int STRING;
-typedef User ElType;
-typedef int IdxType;
+/*Selektor*/
+#define USERNAME(U) (U).username
+#define PASSWORD(U) (U).password
+#define BIO(U) (U).bio
+#define NOHP(U) (U).noHP
+#define WETON(U) (U).weton
+#define PHOTO(U) (U).photo
+#define ACCOUNTTYPE(U) (U).accountType
 
+typedef struct{
+    USER Tab[MAX_USER]; //menyimpan info USER (modifikasi List Statik)
+    int length;         //meyimpan banyak user
+} ListUser;
 
-typedef struct 
-{
-    int id;
-    STRING nama;
-    STRING password;
-    boolean isPrivate;
-    Profil profil;
+#define LENGTH(l) (l).length
+#define USER(l,i)  (l).Tab[i]
 
-}
-User;
+void createUSER(USER *user);
+/*Melakukan inisialisasi awal user
+I.S :   user sembarang
+F.S :   user.username didefinisikan kosong dengan kapasitas USERNAME_CAPACITY
+        user.password didefinisikan kosong dengan kapasitas PASSWORD_CAPACITY
+        user.bio didefinisikan kosong dengan kapasitas BIO_CAPACITY
+        user.noHP didefinisikan kosong dengan kapasitas DEFAULT_CAPACITY
+        user.weton didefinisikan kosong dengan kapasitas DEFAULT_CAPACITY
+        user.photo didefinisikan kosong dengan kapasitas BIO_CAPACITY*/
 
-typedef struct
-{
-    ElType contents[CAPACITY];
-}
-ListStatik;
+void createListUser(ListUser *l);
+/*Melakukan inisialisasi ListUser l
+I.S :   l sembarang
+F.S :   dibuat sebuah ListUser kosong l, l.length = 0
+        semua elemen l dilakukan createUser*/
 
-typedef struct 
-{
-    STRING bio;
-    STRING nohp;
-    STRING weton;
-}
-Profil;
+void daftarUSER(ListUser *l);
+/*Melakukan prosedur DAFTAR untuk pengguna baru
+I.S :   user sembarang
+F.S :   melakukan procedure DAFTAR seperti spek 
+        hanya meminta input untuk username dan password
+        panjang maks password dan username sama, yaitu 20
+        mengecek apakah username sudah terdaftar sebelumnya atau tidak
+        jika sudah terdaftar akan dilakukan input ulang*/
 
-#define ELMT(l, i) (l).contents[(i)]
+int searchUser(ListUser l, STRING username);
+/*Mengembalikan indeks ditemukannya user di dalam l, jika
+user tidak ditemukan maka mengembalikan NOT_FOUND*/
 
-/* ********** KONSTRUKTOR ********** */
-/* Konstruktor : create List kosong  */
-void CreateListStatik(ListStatik *l);
-/* I.S. l sembarang */
-/* F.S. Terbentuk List l kosong dengan kapasitas CAPACITY */
-/* Proses: Inisialisasi semua elemen List l dengan MARK */
+void printPhoto(USER user);
+/*Menampilkan foto profil dari user
+I.S :   user terdefinisi
+F.S :   foto profil user ditampilkan ke layar*/
 
-/* ********** SELEKTOR (TAMBAHAN) ********** */
-/* *** Banyaknya elemen *** */
-int listLength(ListStatik l);
-/* Mengirimkan banyaknya elemen efektif List */
-/* Mengirimkan nol jika List kosong */  
+void displayUser(USER user);
+/*Menampilkan profil user ke dalam
+I.S :   user terdefinisi
+F.S :   data umum user ditampilkan ke layar*/
 
-/* *** Selektor INDEKS *** */
-IdxType getFirstIdx(ListStatik l);
-/* Prekondisi : List l tidak kosong */
-/* Mengirimkan indeks elemen l pertama */
-IdxType getLastIdx(ListStatik l);
-/* Prekondisi : List l tidak kosong */
-/* Mengirimkan indeks elemen l terakhir */
-
-/* ********** Test Indeks yang valid ********** */
-boolean isIdxValid(ListStatik l, IdxType i);
-/* Mengirimkan true jika i adalah indeks yang valid utk kapasitas List l */
-/* yaitu antara indeks yang terdefinisi utk container*/
-boolean isIdxEff(ListStatik l, IdxType i);
-/* Mengirimkan true jika i adalah indeks yang terdefinisi utk List l */
-/* yaitu antara 0..length(l)-1 */
-
-/* ********** TEST KOSONG/PENUH ********** */
-/* *** Test List kosong *** */
-boolean isEmpty(ListStatik l);
-/* Mengirimkan true jika List l kosong, mengirimkan false jika tidak */
-/* *** Test List penuh *** */
-boolean isFull(ListStatik l);
-/* Mengirimkan true jika List l penuh, mengirimkan false jika tidak */
-
-/* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
-/* *** Mendefinisikan isi List dari pembacaan *** */
-void readList(ListStatik *l);
-/* I.S. l sembarang */
-/* F.S. List l terdefinisi */
-/* Proses: membaca banyaknya elemen l dan mengisi nilainya */
-/* 1. Baca banyaknya elemen diakhiri enter, misalnya n */
-/*    Pembacaan diulangi sampai didapat n yang benar yaitu 0 <= n <= CAPACITY */
-/*    Jika n tidak valid, tidak diberikan pesan kesalahan */
-/* 2. Jika 0 < n <= CAPACITY; Lakukan n kali: 
-          Baca elemen mulai dari indeks 0 satu per satu diakhiri enter */
-/*    Jika n = 0; hanya terbentuk List kosong */
-void printList(ListStatik l);
-/* Proses : Menuliskan isi List dengan traversal, List ditulis di antara kurung 
-   siku; antara dua elemen dipisahkan dengan separator "koma", tanpa tambahan 
-   karakter di depan, di tengah, atau di belakang, termasuk spasi dan enter */
-/* I.S. l boleh kosong */
-/* F.S. Jika l tidak kosong: [e1,e2,...,en] */
-/* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
-/* Jika List kosong : menulis [] */
-
-/* ********** OPERATOR ARITMATIKA ********** */
-/* *** Aritmatika List : Penjumlahan, pengurangan, perkalian, ... *** */
-ListStatik plusMinusList(ListStatik l1, ListStatik l2, boolean plus);
-/* Prekondisi : l1 dan l2 berukuran sama dan tidak kosong */
-/* Jika plus = true, mengirimkan  l1+l2, yaitu setiap elemen l1 dan l2 pada 
-       indeks yang sama dijumlahkan */
-/* Jika plus = false, mengirimkan l1-l2, yaitu setiap elemen l1 dikurangi 
-       elemen l2 pada indeks yang sama */
-
-/* ********** OPERATOR RELASIONAL ********** */
-/* *** Operasi pembandingan List: *** */
-boolean isListEqual(ListStatik l1, ListStatik l2);
-/* Mengirimkan true jika l1 sama dengan l2 yaitu jika ukuran l1 = l2 dan semua 
-   elemennya sama */
-
-/* ********** SEARCHING ********** */
-/* ***  Perhatian : List boleh kosong!! *** */
-int indexOf(ListStatik l, ElType val);
-/* Search apakah ada elemen List l yang bernilai val */
-/* Jika ada, menghasilkan indeks i terkecil, dengan ELMT(l,i) = val */
-/* Jika tidak ada atau jika l kosong, mengirimkan IDX_UNDEF */
-/* Skema Searching yang digunakan bebas */
-
-/* ********** NILAI EKSTREM ********** */
-void extremeValues(ListStatik l, ElType *max, ElType *min);
-/* I.S. List l tidak kosong */
-/* F.S. Max berisi nilai terbesar dalam l;
-        Min berisi nilai terkecil dalam l */
-
-/* ********** MENAMBAH ELEMEN ********** */
-/* *** Menambahkan elemen terakhir *** */
-void insertFirst(ListStatik *l, ElType val);
-/* Proses: Menambahkan val sebagai elemen pertama List */
-/* I.S. List l boleh kosong, tetapi tidak penuh */
-/* F.S. val adalah elemen pertama l yang baru */
-/* *** Menambahkan elemen pada index tertentu *** */
-void insertAt(ListStatik *l, ElType val, IdxType idx);
-/* Proses: Menambahkan val sebagai elemen pada index idx List */
-/* I.S. List l tidak kosong dan tidak penuh, idx merupakan index yang valid di l */
-/* F.S. val adalah elemen yang disisipkan pada index idx l */
-/* *** Menambahkan elemen terakhir *** */
-void insertLast(ListStatik *l, ElType val);
-/* Proses: Menambahkan val sebagai elemen terakhir List */
-/* I.S. List l boleh kosong, tetapi tidak penuh */
-/* F.S. val adalah elemen terakhir l yang baru */
-
-/* ********** MENGHAPUS ELEMEN ********** */
-/* *** Menghapus elemen pertama *** */
-void deleteFirst(ListStatik *l, ElType *val);
-/* Proses : Menghapus elemen pertama List */
-/* I.S. List tidak kosong */
-/* F.S. val adalah nilai elemen pertama l sebelum penghapusan, */
-/*      Banyaknya elemen List berkurang satu */
-/*      List l mungkin menjadi kosong */
-/* *** Menghapus elemen pada index tertentu *** */
-void deleteAt(ListStatik *l, ElType *val, IdxType idx);
-/* Proses : Menghapus elemen pada index idx List */
-/* I.S. List tidak kosong, idx adalah index yang valid di l */
-/* F.S. val adalah nilai elemen pada index idx l sebelum penghapusan, */
-/*      Banyaknya elemen List berkurang satu */
-/*      List l mungkin menjadi kosong */
-/* *** Menghapus elemen terakhir *** */
-void deleteLast(ListStatik *l, ElType *val);
-/* Proses : Menghapus elemen terakhir List */
-/* I.S. List tidak kosong */
-/* F.S. val adalah nilai elemen terakhir l sebelum penghapusan, */
-/*      Banyaknya elemen List berkurang satu */
-/*      List l mungkin menjadi kosong */
-
-/* ********** SORTING ********** */
-void sortList(ListStatik *l, boolean asc);
-/* I.S. l boleh kosong */
-/* F.S. Jika asc = true, l terurut membesar */
-/*      Jika asc = false, l terurut mengecil */
-/* Proses : Mengurutkan l dengan salah satu algoritma sorting,
-   algoritma bebas */
-
-
-
-
+void displayDataUser(USER user);
+/*Menampilkan profil user ke dalam
+I.S :   user terdefinisi
+F.S :   seluruh data user, kecuali password dan jenis akun ditampilkan ke layar*/
 
 #endif
