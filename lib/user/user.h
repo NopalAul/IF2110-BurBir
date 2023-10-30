@@ -91,4 +91,9 @@ void aturJenisAkun(USER *user);
 I.S :   user terdefinisi
 F.S :   jenis akun user diubah sesuai dengan pilihan user*/ 
 
+void ubahFotoProfil(USER *user);
+/*Melakukan procedure pengubahan foto profil
+I.S :   user terdefinisi
+F.S :   foto profil user digantikan dengan foto profil baru*/
+
 #endif

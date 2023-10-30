@@ -11,10 +11,8 @@ int main(){
     createListUser(&UserList);
     daftarUSER(&UserList);
     displayDataUser(USER(UserList,0));
-    gantiProfil(&USER(UserList,0));
+    ubahFotoProfil(&USER(UserList,0));
     displayDataUser(USER(UserList,0));
-    aturJenisAkun(&USER(UserList,0));
-    aturJenisAkun(&USER(UserList,0));
     //daftarUSER(&UserList);
     //displayDataUser(USER(UserList,1));
     stopRead();

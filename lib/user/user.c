@@ -218,3 +218,22 @@ F.S :   jenis akun user diubah sesuai dengan pilihan user*/
         printf("Perubahan jenis akun Anda dibatalkan.\n\n");
     }
 }
+
+void ubahFotoProfil(USER *user)
+/*Melakukan procedure pengubahan foto profil
+I.S :   user terdefinisi
+F.S :   foto profil user digantikan dengan foto profil baru*/
+{
+    printf("Foto profil Anda saat ini adalah:\n");
+    printPhoto(*user);
+    do {
+        printf("Masukkan foto profil yang baru:\n");
+        readPhoto();
+        printf("\n");
+        if (!VALID){
+            printf("Wah, foto profil yang ada input tidak valid. Masukkan yang valid ya!\n\n");
+        }
+    } while (!VALID);
+    copyString(&PHOTO(*user),string);
+    printf("Foto profil Anda sudah berhasil diganti!\n\n");
+}

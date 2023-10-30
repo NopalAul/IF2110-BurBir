@@ -233,16 +233,20 @@ F.S : alokasi memori string diset dengan BIO_CAPACITY
         // }
         string.buffer[string.length] = currentChar;
         if (cnt%2 == 1){
-            if (currentChar != ' '){
+            if (currentChar != ' ' && (cnt+1)%20!=0){
+                VALID = false;
+            } else if (currentChar != '\n' && (cnt+1)%20==0){
                 VALID = false;
             }
         } else if (cnt%4 == 0){
             if (currentChar != 'R' && currentChar != 'G' && currentChar != 'B'){
                 VALID = false;
+                printf("--- %d\n", cnt);
             }
         } else {
             if (currentChar == ' '){
                 VALID = false;
+                printf("inii --- %d\n", cnt);
             }
         }
         ADV();
@@ -254,6 +258,7 @@ F.S : alokasi memori string diset dengan BIO_CAPACITY
     }
     if (VALID){
         VALID = cnt == 99;
+        printf("Di sini bang\n");
     }
     ADV();
 }
