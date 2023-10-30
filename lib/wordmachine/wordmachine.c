@@ -111,6 +111,7 @@ F.S : alokasi memori string diset dengan PASSWORD_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreNewline();
     while (!EOP && string.length < PASSWORD_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
@@ -132,6 +133,7 @@ F.S : alokasi memori string diset dengan USERNAME_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreNewline();
     while (!EOP && string.length < USERNAME_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
@@ -153,6 +155,7 @@ F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreNewline();
     ignoreBlanks();
     while (string.length < MAX_CAPACITY && currentChar != ' ' && !EOP){
         string.buffer[string.length] = currentChar;
@@ -187,6 +190,7 @@ F.S : alokasi memori string diset dengan BIO_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreNewline();
     while (!EOP && string.length < BIO_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
@@ -206,6 +210,7 @@ F.S : alokasi memori string diset dengan KICAUAN_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreNewline();
     while (!EOP && string.length < KICAUAN_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
@@ -225,6 +230,7 @@ F.S : alokasi memori string diset dengan BIO_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreNewline();
     VALID = true;
     int cnt = 0;
     while (!EOP && string.length < BIO_CAPACITY){
@@ -271,6 +277,7 @@ F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreNewline();
     while (!EOP && string.length < MAX_CAPACITY){
         // if (string.length == string.MaxEl){
         //     expandString(&string);
