@@ -27,5 +27,5 @@ void createDATETIME(DATETIME *datetime);
 DATETIME getCurrentDATETIME();
 
 
-void printDATETIME(DATETIME datetime);
+void displayDATETIME(DATETIME datetime);
 #endif

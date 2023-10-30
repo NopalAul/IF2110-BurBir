@@ -45,7 +45,7 @@ void sukaKicauan(ListKicau *l,int id ){
 
 void ubahKicauan(KICAU *kicau,STRING text){
     TEXT(*kicau) = text;
-    DATETIME(*kicau) = getCurrentDATETIME();
+    
 }
 
 void sortKicauan();
@@ -83,8 +83,32 @@ void shrinkKicauan(ListKicau *l,int num){
     BUFFER(*l) = (KICAU*) realloc(BUFFER(*l),sizeof(KICAU) * CAPACITY(*l));
 }
 
+void displayKicau(KICAU kicau){
 
-int main(){
-    
+    printf("| ID = %d\n",ID(kicau));
+    printf("| ");
+    displayString(USERNAME(USER(kicau)));
+    printf("| ");
+    displayDATETIME(DATETIME(kicau));
+    printf("| ");
+    displayString(TEXT(kicau));
+    printf("| Disukai: %d\n",LIKE(kicau));
 
 }
+
+void displayKicauan(ListKicau l){
+    for (int i = 0; i < NEFF(l); i++){
+        displayKicau(KICAU(l,i));
+    }
+}
+
+// int main(){
+    
+//     KICAU k;
+//     USER user;
+//     ListUser l;
+//     createListUser(&l);
+//     daftarUSER(&l);
+    
+    
+// }

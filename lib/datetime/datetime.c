@@ -22,7 +22,7 @@ DATETIME getCurrentDATETIME(){
     return dt;
 }
 
-void printDATETIME(DATETIME dt){
+void displayDATETIME(DATETIME dt){
     printf("%d/%d/%d %d:%d:%d\n", DAY(dt), MONTH(dt), YEAR(dt), HOUR(dt), MINUTE(dt), SECOND(dt));
 }
 
