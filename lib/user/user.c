@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+STRING listWeton[5];
+boolean notWasCreated = true;
+STRING Accept;
+STRING Reject;
+boolean acceptNotInitialized = true;
+
 void createUSER(USER *user)
 /*Melakukan inisialisasi awal user
 I.S :   user sembarang
@@ -110,7 +116,7 @@ I.S :   user terdefinisi
 F.S :   data umum user ditampilkan ke layar*/
 {
     //printf("\n");
-    printf("| Nama: ");
+    printf("\n| Nama: ");
     displayString(USERNAME(user));
     printf("| Bio Akun: ");
     displayString(BIO(user));
@@ -129,4 +135,86 @@ F.S :   seluruh data user, kecuali password dan jenis akun ditampilkan ke layar*
     displayUser(user);
     printf("Foto profil: \n");
     printPhoto(user);
+}
+
+void gantiProfil(USER *user)
+/*Melakukan prosedur ganti profil sesuai spesifikasi
+I.S :   User terdefinisi
+F.S :   profil user diganti dengan yang baru
+        jika tidak diganti user hanya menginput ; (MARK)*/
+{
+    if (notWasCreated || listWeton[0].length == 0){
+        notWasCreated = false;
+        createString(&listWeton[0], "Pahing");
+        createString(&listWeton[1], "Kliwon");
+        createString(&listWeton[2], "Wage");
+        createString(&listWeton[3], "Pon");
+        createString(&listWeton[4], "Legi");
+    }
+    displayUser(*user);
+    printf("Masukkan Bio Akun:\n");
+    readBio();
+    if (string.length != 0){
+        copyString(&user->bio, string);
+    }
+    printf("\n");
+    do{
+        printf("Masukkan No HP:\n");
+        readString();
+        printf("\n");
+        if (!isNoHPValid(string)){
+            printf("No HP tidak valid. Masukkan lagi yuk!\n\n");
+        }
+    } while (!isNoHPValid(string));
+    if (string.length != 0){
+        copyString(&user->noHP, string);
+    }
+    boolean wetonValid = false;
+    int i;
+    do{
+        printf("Masukkan Weton:\n");
+        readString();
+        printf("\n");
+        i = 0;
+        while (! wetonValid && i < 5){
+            if (isStringSimiliar(listWeton[i], string) || string.length==0){
+                wetonValid = true;
+            }
+            i++;
+        }
+        if (!wetonValid){
+            printf("Weton Anda tidak valid.\n\n");
+        }
+    } while (!wetonValid && string.length != 0);
+    if (string.length != 0){
+        copyString(&user->weton, listWeton[i-1]);
+    }
+    printf("Profil Anda sudah berhasil diperbarui!\n\n");
+}
+
+void aturJenisAkun(USER *user)
+/*Melakukan procedure perngubahan jenis akun
+I.S :   user terdefinisi
+F.S :   jenis akun user diubah sesuai dengan pilihan user*/
+{
+    if (acceptNotInitialized){
+        acceptNotInitialized = false;
+        createString(&Accept, "YA");
+        createString(&Reject, "TIDAK");
+    }
+    printf("Saat ini, akun Anda adalah akun %s. Ingin mengubah ke akun %s?\n", ACCOUNTTYPE(*user) ? "Publik" : "Privat", ACCOUNTTYPE(*user) ? "Privat" : "Publik");
+    do {
+        printf("(YA/TIDAK) ");
+        readString();
+        printf("\n");
+        if (!isStringSimiliar(Accept,string) && !isStringSimiliar(Reject,string)){
+            printf("Input Anda tidak valid. Masukkan lagi yuk!\n\n");
+        }
+    } while (!isStringSimiliar(Accept,string) && !isStringSimiliar(Reject,string));
+    if (isStringSimiliar(Accept, string)){
+        ACCOUNTTYPE(*user) = !ACCOUNTTYPE(*user);
+        printf("Akun Anda sudah diubah menjadi akun %s.\n\n", ACCOUNTTYPE(*user) ? "Publik" : "Privat");
+    } else {
+        printf("Perubahan jenis akun Anda dibatalkan.\n\n");
+    }
 }

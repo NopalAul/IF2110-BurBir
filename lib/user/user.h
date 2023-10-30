@@ -80,4 +80,15 @@ void displayDataUser(USER user);
 I.S :   user terdefinisi
 F.S :   seluruh data user, kecuali password dan jenis akun ditampilkan ke layar*/
 
+void gantiProfil(USER *user);
+/*Melakukan prosedur ganti profil sesuai spesifikasi
+I.S :   User terdefinisi
+F.S :   profil user diganti dengan yang baru
+        jika tidak diganti user hanya menginput ; (MARK)*/
+
+void aturJenisAkun(USER *user);
+/*Melakukan procedure perngubahan jenis akun
+I.S :   user terdefinisi
+F.S :   jenis akun user diubah sesuai dengan pilihan user*/ 
+
 #endif

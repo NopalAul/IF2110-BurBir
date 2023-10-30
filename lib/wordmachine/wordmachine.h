@@ -28,8 +28,8 @@ typedef struct {
 
 extern STRING string;
 extern boolean VALID;
-extern int leftNumber;
-extern int rightNumber;
+extern STRING leftInfo;
+extern STRING rightInfo;
 
 void createEmptyString(STRING *str);
 //void createEmptyString(STRING *str, int MaxCap);
@@ -117,5 +117,15 @@ void displayString(STRING s);
 /*Menampilkan ke layar hasil akuisisi string
 I.S : string terdefinisi
 F.S : isi string s ditampilkan ke layar*/
+
+boolean isStringNumeric(STRING s);
+/*Mengembalikan true jika seluruh elemen s adalah bilangan kecuali elemen pertama dapat bernilai '-'*/
+
+boolean isNoHPValid(STRING s);
+/*Mengembalikan true jika setiap char pada s memenuhi syarat No HP*/
+
+int stringToInteger(STRING s);
+/*Mengubah STRING menjadi integer
+Prekondisi : seluruh char pada STRING s adalah numeric, kecuali char pertama dapat bernilai'-'*/
 
 #endif

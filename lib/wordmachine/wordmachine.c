@@ -4,8 +4,8 @@
 
 STRING string;
 boolean VALID;
-int leftNumber;
-int rightNumber;
+STRING leftInfo;
+STRING rightInfo;
 
 
 void createEmptyString(STRING *str)
@@ -160,39 +160,19 @@ F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
         string.length++;
     }
     ignoreBlankNewline();
-    leftNumber = 0;
-    boolean wasEOP = false;
-    if (EOP){
-        leftNumber = NUMBER_UNDEF;
-        wasEOP = true;
-    }
-    int sign = 1;
-    if (currentChar == '-'){
-        sign = -1;
-        ADV();
-    }
+    leftInfo.length = 0;
     while (!EOP && currentChar != ' ' && currentChar != '\n'){
-        leftNumber = leftNumber*10 + currentChar - '0';
+        leftInfo.buffer[leftInfo.length] = currentChar;
+        leftInfo.length++;
         ADV();
     }
-    if (!wasEOP) leftNumber*=sign;
     ignoreBlankNewline();
-    rightNumber = 0;
-    wasEOP = false;
-    if (EOP){
-        rightNumber = NUMBER_UNDEF;
-        wasEOP = true;
-    }
-    sign = 1;
-    if (currentChar == '-'){
-        sign = -1;
-        ADV();
-    }
+    rightInfo.length = 0;
     while (!EOP && currentChar != ' ' && currentChar != '\n'){
-        rightNumber = rightNumber*10 + currentChar - '0';
+        rightInfo.buffer[rightInfo.length] = currentChar;
+        rightInfo.length++;
         ADV();
     }
-    if (!wasEOP) rightNumber*=sign;
     while (!EOP){
         ADV();
     }
@@ -340,4 +320,44 @@ F.S : isi string s ditampilkan ke layar*/
         printf("%c", s.buffer[i]);
     }
     printf("\n");
+}
+
+boolean isStringNumeric(STRING s)
+/*Mengembalikan true jika seluruh elemen s adalah bilangan kecuali elemen pertama dapat bernilai '-'*/
+{
+    int i = 0;
+    if (s.buffer[0] == '-'){
+        i = 1;
+    }
+    for (int j = i; j < s.length; j++){
+        if (s.buffer[j] < '0' || s.buffer[j]>'9'){
+            return false;
+        }
+    }
+    return true;
+}
+
+boolean isNoHPValid(STRING s){
+    if (s.length == 0){
+        return true;
+    }
+    return isStringNumeric(s) && s.buffer[0] != '-';
+}
+
+int stringToInteger(STRING s)
+/*Mengubah STRING menjadi integer
+Prekondisi : seluruh char pada STRING s adalah numeric, kecuali char pertama dapat bernilai'-'*/
+{
+    int temp = 0;
+    int i = 0;
+    int sign = 1;
+    if (s.buffer[i] == '-'){
+        i++;
+        sign = -1;
+    }
+    while (i < s.length){
+        temp = temp*10 + (s.buffer[i]-'0');
+        i++;
+    }
+    return temp*sign;
 }
