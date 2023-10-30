@@ -28,7 +28,7 @@ typedef struct{
 
 
 #define ID(U) (U).id
-#define USER(U) (U).user
+#define AUTHOR(U) (U).user
 #define TEXT(U) (U).text
 #define LIKE(U) (U).like
 #define DATETIME(U) (U).datetime

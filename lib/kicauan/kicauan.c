@@ -11,7 +11,7 @@ void createListKicau(ListKicau *l, int capacity){
 void createKicau(ListKicau *l, USER user, STRING text){
     KICAU kicau;
     ID(kicau) = getAvailableID(*l);
-    USER(kicau) = user;
+    AUTHOR(kicau) = user;
     TEXT(kicau) = text;
     LIKE(kicau) = 0;
     DATETIME(kicau) = getCurrentDATETIME();
@@ -87,7 +87,7 @@ void displayKicau(KICAU kicau){
 
     printf("| ID = %d\n",ID(kicau));
     printf("| ");
-    displayString(USERNAME(USER(kicau)));
+    displayString(USERNAME(AUTHOR(kicau)));
     printf("| ");
     displayDATETIME(DATETIME(kicau));
     printf("| ");
