@@ -20,4 +20,4 @@ int main(){
     
    
 }
-// gcc -o driver driverkicauan.c ../datetime/datetime.c ../wordmachine/wordmachine.c ../user/user.c ../charmachine/charmachine.c ..\pcolor\pcolor.c kicauan.c
+// gcc -o driver driverkicauan.c ../datetime/datetime.c ../wordmachine/wordmachine.c ../user/user.c ../charmachine/charmachine.c ../pcolor/pcolor.c kicauan.c
