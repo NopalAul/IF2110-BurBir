@@ -231,7 +231,7 @@ F.S :   foto profil user digantikan dengan foto profil baru*/
         readPhoto();
         printf("\n");
         if (!VALID){
-            printf("Wah, foto profil yang ada input tidak valid. Masukkan yang valid ya!\n\n");
+            printf("Wah, foto profil yang Anda input tidak valid. Masukkan yang valid ya!\n\n");
         }
     } while (!VALID);
     copyString(&PHOTO(*user),string);
