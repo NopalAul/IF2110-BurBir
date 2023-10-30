@@ -1,11 +1,14 @@
 #include "kicauan.h"
-
+#include <stdlib.h>
+#include <stdio.h>
 
 void createListKicau(ListKicau *l, int capacity){
-    BUFFER(*l) =  (KICAU*) malloc(sizeof(int) * capacity);
+    BUFFER(*l) =  (KICAU*) malloc(sizeof(KICAU) * capacity);
     NEFF(*l) = 0;
 
     CAPACITY(*l) = capacity;
+
+    
 }
 
 void createKicau(ListKicau *l, USER user, STRING text){

@@ -9,7 +9,7 @@
 
 #define MAX_KICAULENGTH 280
 #define NOT_FOUND -1
-#define BALASAN int
+typedef int BALASAN;
 
 typedef struct{
     int id;
@@ -63,6 +63,8 @@ void addKicauan(ListKicau *l, KICAU *kicau);
 
 void shrinkKicauan(ListKicau *l,int num);
 
+void displayKicau(KICAU kicau);
 
+void displayKicauan(ListKicau l);
 
 #endif

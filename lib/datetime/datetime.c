@@ -26,9 +26,3 @@ void displayDATETIME(DATETIME dt){
     printf("%d/%d/%d %d:%d:%d\n", DAY(dt), MONTH(dt), YEAR(dt), HOUR(dt), MINUTE(dt), SECOND(dt));
 }
 
-int main(){
-    DATETIME dt;
-    getCurrentDATETIME(&dt);
-    printDATETIME(dt);
-    return 0;
-}
