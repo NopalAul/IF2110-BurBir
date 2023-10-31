@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Werror -std=c11
+CFLAGS = -Wall -Werror -std=c17
 
 SRC_DRIVER = main.c
 OBJ_DRIVER = $(SRC_DRIVER:.c=.o)
@@ -16,6 +16,7 @@ TEST_WORD_DIR = lib/wordmachine/test
 TEST_WORD_CASES = $(wildcard $(TEST_WORD_DIR)/*.in)
 TEST_WORD_OUTPUTS = $(TEST_WORD_CASES:.in=.out)
 TEST_WORD_RESULTS = $(TEST_WORD_CASES:.in=.result)
+TEMP_STDOUT_FILES = $(addprefix temp_stdout_,$(notdir $(TEST_WORD_CASES:.in=.txt)))
 
 all : main word_test
 
@@ -25,12 +26,19 @@ word_test : $(OBJ_WORD_TEST) $(OBJ_WORD) $(OBJ_CHARM)
 test_word : word_test $(TEST_WORD_RESULTS)
 	@cat $(TEST_WORD_RESULTS)
 
+#--strip-trailing-cr
+
 $(TEST_WORD_RESULTS): $(TEST_WORD_DIR)/%.result: $(TEST_WORD_DIR)/%.in $(TEST_WORD_DIR)/%.out word_test
-	@if ./word_test < $< | diff -b - $(word 2,$^) > /dev/null; then \
+	@if ./word_test < $< | diff -Z -B - $(word 2,$^) > /dev/null; then \
 		echo "$< $(word 2, $^): TRUE"; \
 	else \
 		echo "$< $(word 2, $^): WRONG"; \
 	fi > $@
+
+create_stdout: $(TEMP_STDOUT_FILES)
+
+$(TEMP_STDOUT_FILES): temp_stdout_%.txt: $(TEST_WORD_DIR)/%.in word_test
+	@./word_test < $(word 1,$^) | tr '\r' '\n' > $@
 
 SRC_USER = lib/user/user.c
 OBJ_USER = $(SRC_USER:.c=.o)

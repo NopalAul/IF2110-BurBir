@@ -41,18 +41,20 @@ int main(){
         case 6:
             readCommand();
             displayString(string);
-            // readCommand();
-            // displayString(string);
-            // displayString(leftInfo);
-            // displayString(rightInfo);
-            // readCommand();
-            // displayString(string);
-            // displayString(leftInfo);
-            // displayString(rightInfo);
-            // readCommand();
-            // displayString(string);
-            // displayString(leftInfo);
-            // displayString(rightInfo);
+            displayString(leftInfo);
+            displayString(rightInfo);
+            readCommand();
+            displayString(string);
+            displayString(leftInfo);
+            displayString(rightInfo);
+            readCommand();
+            displayString(string);
+            displayString(leftInfo);
+            displayString(rightInfo);
+            readCommand();
+            displayString(string);
+            displayString(leftInfo);
+            displayString(rightInfo);
             stopRead();
             break;
         case 7:
@@ -93,21 +95,21 @@ int main(){
             break;
         case 13:
             readString();
-            printf("%s\n", isStringNumeric(string) ? "TRUE" : "FALSE");
-            readString();
+            displayString(string);
+            printf("%d\n", isStringNumeric(string));
             printf("%s\n", isStringNumeric(string) ? "TRUE" : "FALSE");
             stopRead();
             break;
         case 14:
             readString();
-            printf("%s\n", isNoHPValid(string) ? "TRUE" : "FALSE");
-            readString();
+            displayString(string);
             printf("%s\n", isNoHPValid(string) ? "TRUE" : "FALSE");
             stopRead();
             break;
         case 15:
             readString();
-            printf("%d", stringToInteger(string));
+            displayString(string);
+            printf("%d\n", stringToInteger(string));
             stopRead();
             break;
     }   

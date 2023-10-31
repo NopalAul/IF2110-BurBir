@@ -1,1 +1,1 @@
-lib/wordmachine/test/13.in lib/wordmachine/test/13.out: WRONG
+lib/wordmachine/test/13.in lib/wordmachine/test/13.out: TRUE

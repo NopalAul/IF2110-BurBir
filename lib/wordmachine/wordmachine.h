@@ -15,6 +15,7 @@
 
 #define BLANK ' '
 #define NEWLINE '\n'
+#define CARIAGE '\r'
 
 typedef struct {
     char buffer[MAX_CAPACITY]; // menyimpan string 
@@ -55,6 +56,8 @@ void copyString(STRING *str, STRING input);
 /* Melakukan copy string input ke dalam string str
 I.S : str sembarang, input terdefinisi
 F.S : str terdefinisi sebagai hasil copy dari input*/
+void ignoreCarriage();
+/*Melakukan adv jika currentChar adalah CARRIAGE*/
 
 void ignoreBlanks();
 /*Melakukan adv jika currentChar adalah BLANK*/
@@ -64,6 +67,12 @@ void ignoreNewline();
 
 void ignoreBlankNewline();
 /*Melakukan adv jika currentChar adalah NEWLINE atau BLANK*/
+
+void ignoreCarriageNewline();
+/*Melakukan ADV jia currentChar adalah NEWLINE atau CARRIAGE*/
+
+void ignoreBlankCarriageNewline();
+/*Melakukan ADV jika currentChar adalah BLANK, NEWLINE, atau CARRIAGE*/
 
 void readPassword();
 /* Melakukan proses akuisisi string dan menyimpannya ke dalam string

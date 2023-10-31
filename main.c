@@ -13,6 +13,7 @@ int main(){
     displayDataUser(USER(UserList,0));
     ubahFotoProfil(&USER(UserList,0));
     displayDataUser(USER(UserList,0));
+    
     //daftarUSER(&UserList);
     //displayDataUser(USER(UserList,1));
     stopRead();
