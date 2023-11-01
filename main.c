@@ -1,20 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lib/wordmachine/wordmachine.h"
-#include "lib/user/user.h"
 
-
-
+STRING stop;
+STRING now;
 
 int main(){
-    ListUser UserList;
-    createListUser(&UserList);
-    daftarUSER(&UserList);
-    displayDataUser(USER(UserList,0));
-    ubahFotoProfil(&USER(UserList,0));
-    displayDataUser(USER(UserList,0));
-    
-    //daftarUSER(&UserList);
-    //displayDataUser(USER(UserList,1));
+    createString(&stop, "STOP");
+    displayString(stop);
+    readPassword();
+    displayString(string);
+    printf("%s\n", VALID ? "valid mas" : "ga valid mas");
+    readUsername();
+    displayString(string);
+    printf("%s\n", VALID ? "valid mas" : "ga valid mas");
+    // readCommand();
+    // displayString(string);
+    // readBio();
+    // displayString(string);
+    // readPhoto();
+    // printf("%s\n", VALID ? "valid mas" : "ga valid mas");
+    // displayString(string);
+    // readString();
+    // printf("length : %d\n", string.length);
+    // displayString(string);
+    // readString();
+    // displayString(string);
+    // printf("%s\n", isStringSimiliar(string, stop) ?  "sama bang" : "beda mas");
     stopRead();
 }

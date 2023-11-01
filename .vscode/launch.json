@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "//wsl.localhost/Ubuntu/home/nopalaul/IF2110-BurBir",
-      "program": "//wsl.localhost/Ubuntu/home/nopalaul/IF2110-BurBir/build/Debug/outDebug",
+      "cwd": "c:/Users/Naufal/Documents/003. TAHUN KEDUA/SEMESTER 3/ALSTRUKDAT - IF2110/TUBES/IF2110-BurBir",
+      "program": "c:/Users/Naufal/Documents/003. TAHUN KEDUA/SEMESTER 3/ALSTRUKDAT - IF2110/TUBES/IF2110-BurBir/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
