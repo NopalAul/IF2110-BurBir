@@ -4,6 +4,7 @@
 #include "../wordmachine/wordmachine.h"
 #include "../pcolor/pcolor.h"
 #include "../boolean/boolean.h"
+#include "../relation/relation.h"
 
 #define MAX_USER 20
 #define NOT_FOUND -1
@@ -16,6 +17,7 @@ typedef struct{
     STRING noHP;        //menyimpan Nomor HP user
     STRING weton;       //menyimpan jenis weton user
     STRING photo;       //menyimpan photo user
+    ListFriendRequest request; //menyimpan permintaan pertemanan ke user
     boolean accountType;//akun public bernilai TRUE, akun privat FALSE  
 } USER;
 
@@ -26,6 +28,7 @@ typedef struct{
 #define NOHP(U) (U).noHP
 #define WETON(U) (U).weton
 #define PHOTO(U) (U).photo
+#define REQUESTLIST(U) (U).request
 #define ACCOUNTTYPE(U) (U).accountType
 
 typedef struct{
@@ -39,12 +42,12 @@ typedef struct{
 void createUSER(USER *user);
 /*Melakukan inisialisasi awal user
 I.S :   user sembarang
-F.S :   user.username didefinisikan kosong dengan kapasitas USERNAME_CAPACITY
-        user.password didefinisikan kosong dengan kapasitas PASSWORD_CAPACITY
-        user.bio didefinisikan kosong dengan kapasitas BIO_CAPACITY
-        user.noHP didefinisikan kosong dengan kapasitas DEFAULT_CAPACITY
-        user.weton didefinisikan kosong dengan kapasitas DEFAULT_CAPACITY
-        user.photo didefinisikan kosong dengan kapasitas BIO_CAPACITY*/
+F.S :   user.username didefinisikan kosong 
+        user.password didefinisikan kosong 
+        user.bio didefinisikan kosong  
+        user.noHP didefinisikan kosong 
+        user.weton didefinisikan kosong 
+        user.photo didefinisikan kosong */
 
 void createListUser(ListUser *l);
 /*Melakukan inisialisasi ListUser l
@@ -95,5 +98,10 @@ void ubahFotoProfil(USER *user);
 /*Melakukan procedure pengubahan foto profil
 I.S :   user terdefinisi
 F.S :   foto profil user digantikan dengan foto profil baru*/
+
+void daftarTeman(User user, ListUser l, RelationMatrix r);
+void hapusTeman(User user, ListUser l, RelationMatrix *r);
+void tambahTeman(User user, ListUser l, RelationMatrix *r);
+void 
 
 #endif

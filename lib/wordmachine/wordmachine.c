@@ -185,14 +185,18 @@ F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
         ADV();
         string.length++;
     }
-    ignoreBlankNewline();
+    if (! EOP){
+        ignoreBlankNewline();
+    }
     leftInfo.length = 0;
     while (!EOP && currentChar != ' ' && currentChar != '\n'){
         leftInfo.buffer[leftInfo.length] = currentChar;
         leftInfo.length++;
         ADV();
     }
-    ignoreBlankNewline();
+    if (! EOP){
+        ignoreBlankNewline();
+    }
     rightInfo.length = 0;
     while (!EOP && currentChar != ' ' && currentChar != '\n'){
         rightInfo.buffer[rightInfo.length] = currentChar;

@@ -24,6 +24,7 @@ F.S :   user.username didefinisikan kosong
     createEmptyString(&NOHP(*user));
     createEmptyString(&WETON(*user));
     createString(&PHOTO(*user),DEFAULT_PHOTO);
+    createListRequest(&REQUESTLIST(*user));
     ACCOUNTTYPE(*user) = true;
 }
 
