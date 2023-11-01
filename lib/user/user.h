@@ -99,9 +99,11 @@ void ubahFotoProfil(USER *user);
 I.S :   user terdefinisi
 F.S :   foto profil user digantikan dengan foto profil baru*/
 
-void daftarTeman(User user, ListUser l, RelationMatrix r);
-void hapusTeman(User user, ListUser l, RelationMatrix *r);
-void tambahTeman(User user, ListUser l, RelationMatrix *r);
-void 
+void daftarTeman(ListUser l, int currentID, RelationMatrix r);
+void hapusTeman(ListUser l, int currentID, RelationMatrix *r);
+void tambahTeman(ListUser *l, int currentID, RelationMatrix *r);
+void batalTambahTeman(ListUser *l, int currentID, RelationMatrix *r);
+void daftarPermintaanTeman(ListUser l, int currentID);
+void acceptPertemanan(ListUser *l, int currentID, RelationMatrix *r);
 
 #endif

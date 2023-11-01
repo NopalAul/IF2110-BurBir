@@ -52,6 +52,8 @@ typedef struct {
 //selektor
 #define IDUser(l,i) (l).listRequest[i].id
 #define FriendCount(l,i) (l).listRequest[i].friendCount
+#define IDHead(l) (l).listRequest[(l).Head].id
+#define FriendCountHead(l) (l).listRequest[(l).Head].friendCount
 #define infoLRF(l,i) (l).listRequest[i]
 #define HeadLRF(l) (l).Head
 #define CountLRF(l) (l).count
