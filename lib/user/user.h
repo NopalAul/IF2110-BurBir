@@ -55,7 +55,7 @@ I.S :   l sembarang
 F.S :   dibuat sebuah ListUser kosong l, l.length = 0
         semua elemen l dilakukan createUser*/
 
-void daftarUSER(ListUser *l);
+void daftarUSER(ListUser *l, RelationMatrix *r);
 /*Melakukan prosedur DAFTAR untuk pengguna baru
 I.S :   user sembarang
 F.S :   melakukan procedure DAFTAR seperti spek 

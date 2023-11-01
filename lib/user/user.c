@@ -40,7 +40,7 @@ F.S :   dibuat sebuah ListUser kosong l, l.length = 0
     LENGTH(*l) = 0;
 }
 
-void daftarUSER(ListUser *l)
+void daftarUSER(ListUser *l, RelationMatrix *r)
 /*Melakukan prosedur DAFTAR untuk pengguna baru
 I.S :   user sembarang
 F.S :   melakukan procedure DAFTAR seperti spek 
@@ -72,6 +72,7 @@ F.S :   melakukan procedure DAFTAR seperti spek
         copyString(&PASSWORD(USER(*l, LENGTH(*l))), string);
         printf("\nPengguna telah berhasil terdaftar. Masuk untuk menikmati fitur-fitur BurBir.\n\n");
         LENGTH(*l)++;
+        RelationLength(*r)++;
     } else {
         printf("Waduh, Gan, jumlah User sudah maksimal.\n\n");
     }
@@ -245,7 +246,7 @@ void daftarTeman(ListUser l, int currentID, RelationMatrix r)
     STRING listFriend[20];
     for (int i = 0; i < LENGTH(l); i++){
         if (i != currentID && isFriend(r,currentID,i)){
-            copyString(&listFriend[count], USERNAME(USER(l,count)));
+            copyString(&listFriend[count], USERNAME(USER(l,i)));
             count++;
         }
     }
@@ -254,7 +255,9 @@ void daftarTeman(ListUser l, int currentID, RelationMatrix r)
         printf(" belum memiliki teman.\n\n");
     } else {
         displayStringNoNewline(USERNAME(USER(l,currentID)));
-        printf(" memiliki %d teman\nDaftar teman Alice\n", count);
+        printf(" memiliki %d teman\nDaftar teman ", count);
+        displayStringNoNewline(USERNAME(USER(l,currentID)));
+        printf("\n\n");
         for (int i = 0; i < count; i++){
             printf("| ");
             displayString(listFriend[i]);
@@ -277,14 +280,16 @@ void hapusTeman(ListUser l, int currentID, RelationMatrix *r)
         printf("Pengguna dengan nama ");
         displayStringNoNewline(string);
         printf(" tidak ditemukan.\n\n");
-    } else {
+    } else if (idFound == currentID) {
+        printf("\nWah, Anda sangat lucu, nama ini adalah nama Anda sendiri.\n\n");
+    }else {
         if(!isFriend(*r, currentID, idFound)){
             displayStringNoNewline(string);
             printf(" bukan teman Anda.\n\n");
         } else {
             printf("Apakah Anda yakin ingin menghapus ");
             displayStringNoNewline(string);
-            printf(" dari daftar teman Anda?");
+            printf(" dari daftar teman Anda?\n");
             STRING targetName;
             copyString(&targetName, string);
             do {
@@ -319,16 +324,22 @@ void tambahTeman(ListUser *l, int currentID, RelationMatrix *r)
             printf("Pengguna dengan nama ");
             displayStringNoNewline(string);
             printf(" tidak ditemukan.\n\n");
-        } else {
-            if (isFriend(*r, currentID, currentChar)){
+        } else if (idFound == currentID) {
+            printf("\nWah, Anda sangat lucu, nama ini adalah nama Anda sendiri.\n\n");
+        }else {
+            if (isFriend(*r, currentID, idFound)){
                 printf("Anda sudah berteman dengan ");
                 displayStringNoNewline(string);
                 printf(".\n\n");
+            } else if (isRequestedFriend(*r, currentID, idFound)){
+                printf("Wah, Anda sudah mengirim permintaan pertemanan ke ");
+                displayStringNoNewline(string);
+                printf(" sebelumnya. Silahkan tunggu hingga permintaan Anda disetujui.\n\n");
             } else {
-                int jumlahTeman = countFriend(*r, idFound);
-                UserPopularity val = {idFound, jumlahTeman};
+                int jumlahTeman = countFriend(*r, currentID);
+                UserPopularity val = {currentID, jumlahTeman};
                 enqueueListRequest(&REQUESTLIST(USER(*l,idFound)), val);
-                RelationVal(*r, currentID, idFound) = 1;
+                RelationVal(*r, currentID, idFound) = true;
                 printf("Anda sudah mengirimkan permintaan pertemanan kepada ");
                 displayStringNoNewline(string);
                 printf(". Silakan tunggu hingga permintaan Anda disetujui.\n\n");
@@ -346,6 +357,8 @@ void batalTambahTeman(ListUser *l, int currentID, RelationMatrix *r)
         printf("Pengguna dengan nama ");
         displayStringNoNewline(string);
         printf(" tidak ditemukan.\n\n");
+    } else if (idFound == currentID) {
+        printf("\nWah, Anda sangat lucu, nama ini adalah nama Anda sendiri.\n\n");
     } else {
         if (!isRequestedFriend(*r, currentID, idFound)){
             printf("Anda belum mengirimkan permintaan pertemanan ke ");
@@ -374,8 +387,9 @@ void daftarPermintaanTeman(ListUser l, int currentID)
     if (!CountLRF(REQUESTLIST(USER(l,currentID)))){
         printf("\nTidak ada permintaan pertemanan untuk Anda.\n\n");
     } else {
-        printf("\nTerdapat %d permintaan pertemanan untuk Anda.\n\n", CountLRF(REQUESTLIST(USER(l,currentID))));
-        for (int i = 0; i < CountLRF(REQUESTLIST(USER(l,currentID))); i++){
+        int count = CountLRF(REQUESTLIST(USER(l,currentID))); 
+        printf("\nTerdapat %d permintaan pertemanan untuk Anda.\n\n", count);
+        for (int i = 0; i < count; i++){
             UserPopularity temp;
             dequeueListRequest(&REQUESTLIST(USER(l,currentID)), &temp);
             printf("| ");
@@ -404,7 +418,7 @@ void acceptPertemanan(ListUser *l, int currentID, RelationMatrix *r)
         printf("| Jumlah teman: %d\n\n", out.friendCount);
         printf("Apakah Anda ingin menyetujui permintaan pertemanan ini?");
         STRING name;
-        copyString(&name, string);
+        copyString(&name, USERNAME(USER(*l, out.id)));
         do {
             printf("(YA/TIDAK) ");
             readString();
@@ -414,7 +428,7 @@ void acceptPertemanan(ListUser *l, int currentID, RelationMatrix *r)
             }
         } while (!isStringSimiliar(Accept,string) && !isStringSimiliar(Reject,string));
         if (isStringSimiliar(Accept,string)){
-            RelationVal(*r, currentID, out.id) = 1;
+            RelationVal(*r, currentID, out.id) = true;
             printf("\nPermintaan pertemanan dari ");
             displayStringNoNewline(name);
             printf(" telah disetujui. Selamat! Anda telah berteman dengan ");

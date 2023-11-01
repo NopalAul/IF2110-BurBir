@@ -37,6 +37,8 @@ int countFriend(RelationMatrix r, int id);
 /*Mengembalikan jumlah teman yang dimiliki user dengan ID id
 Prekondisi: id valid*/
 
+void printMatrixRelation(RelationMatrix r);
+
 typedef struct {
     int id;         //menyimpan id user yang meminta pertemanan
     int friendCount; //menyimpan jumlah teman user
