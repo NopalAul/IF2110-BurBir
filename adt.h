@@ -8,5 +8,6 @@
 #include "lib/charmachine/charmachine.h"
 #include "lib/datetime/datetime.h"
 #include "lib/pcolor/pcolor.h"
+#include "lib/balasan/balasan.h"
 
 #endif

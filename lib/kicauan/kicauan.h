@@ -5,11 +5,11 @@
 #include "../wordmachine/wordmachine.h"
 #include "../user/user.h"
 #include "../boolean/boolean.h"
-
+#include "../balasan/balasan.h"
 
 #define MAX_KICAULENGTH 280
 #define NOT_FOUND -1
-typedef int BALASAN;
+
 
 typedef struct{
     int id;
