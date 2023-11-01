@@ -4,22 +4,25 @@
 
 STRING string;
 boolean VALID;
+STRING leftInfo;
+STRING rightInfo;
 
-void createEmptyString(STRING *str, int MaxCap)
+
+void createEmptyString(STRING *str)
 /* Melakukan proses alokasi memori buffer
 I.S : string sembarang, dan MaxCap terdefinisi
 F.S : string terdefinisi dengan buffer string dialokasikan 
       sebesar MaxCap dan length diset = 0*/
 {
-    if ((*str).buffer != NULL){
-        free((*str).buffer);
-    }
-    (*str).buffer = (char*)malloc(MaxCap*sizeof(char));
-    int i = 0;
-    while ((*str).buffer == NULL && i < 100){
-        (*str).buffer = (char*)malloc(MaxCap*sizeof(char));
-        i++;
-    }
+    // if ((*str).buffer != NULL){
+    //     free((*str).buffer);
+    // }
+    // (*str).buffer = (char*)malloc(MaxCap*sizeof(char));
+    // int i = 0;
+    // while ((*str).buffer == NULL && i < 100){
+    //     (*str).buffer = (char*)malloc(MaxCap*sizeof(char));
+    //     i++;
+    // }
     (*str).length = 0;
 }
 
@@ -31,49 +34,57 @@ F.S : str disimpan dalam ukuran DEFAULT_CAPACITY
       (*str).buffer maka akan dilakukan ekspansi memori
       sebesar 2 kali ukuran awal*/
 {
-    createEmptyString(str, DEFAULT_CAPACITY);
-    while (input[str->length] != '\0'){
-        if ((*str).length == (*str).MaxEl){
-            expandString(str);
-        }
-        (*str).buffer[str->length] = input[str->length];
-        (*str).length++;
+    createEmptyString(str);
+    while (input[str->length] != '\0' && str->length < MAX_CAPACITY){
+        // if ((*str).length == (*str).MaxEl){
+        //     expandString(str);
+        // }
+        str->buffer[str->length] = input[str->length];
+        str->length++;
     }
 }
 
-void expandString(STRING *str)
-/* Melakukan ekspansi memori (*str).buffer
-I.S : str terdefinisi
-F.S : ukuran memori (*str).buffer terekspansi*/
-{
-    int newMaxEl = (*str).MaxEl * 2;
-    char arr[(*str).length];
-    for (int i = 0; i < (*str).length; i++){
-        arr[i] = (*str).buffer[i];
-    }
-    free((*str).buffer);
-    (*str).buffer = (char*) malloc(newMaxEl*sizeof(char));
-    int i = 0;
-    while ((*str).buffer == NULL && i < 100){
-        (*str).buffer = (char*) malloc(newMaxEl*sizeof(char));
-        i++;
-    }
-    (*str).MaxEl = newMaxEl;
-    for (int i = 0; i < (*str).length; i++){
-        (*str).buffer[i] = arr[i];
-    }
-}
+// void expandString(STRING *str)
+// /* Melakukan ekspansi memori (*str).buffer
+// I.S : str terdefinisi
+// F.S : ukuran memori (*str).buffer terekspansi*/
+// {
+//     int newMaxEl = (*str).MaxEl * 2;
+//     char arr[(*str).length];
+//     for (int i = 0; i < (*str).length; i++){
+//         arr[i] = (*str).buffer[i];
+//     }
+//     free((*str).buffer);
+//     (*str).buffer = (char*) malloc(newMaxEl*sizeof(char));
+//     int i = 0;
+//     while ((*str).buffer == NULL && i < 100){
+//         (*str).buffer = (char*) malloc(newMaxEl*sizeof(char));
+//         i++;
+//     }
+//     (*str).MaxEl = newMaxEl;
+//     for (int i = 0; i < (*str).length; i++){
+//         (*str).buffer[i] = arr[i];
+//     }
+// }
 
 void copyString(STRING *str, STRING input)
 /* Melakukan copy string input ke dalam string str
 I.S : str sembarang, input terdefinisi
 F.S : str terdefinisi sebagai hasil copy dari input*/
 {
-    createEmptyString(str, input.MaxEl);
+    createEmptyString(str);
     for (int i = 0; i < input.length; i++){
         str->buffer[i] = input.buffer[i];
     }
     str->length = input.length;
+}
+
+void ignoreCarriage()
+/*Melakukan adv jika currentChar adalah CARRIAGE*/
+{
+    while (currentChar == CARIAGE){
+        ADV();
+    }
 }
 
 void ignoreBlanks()
@@ -92,14 +103,39 @@ void ignoreNewline()
     }
 }
 
+void ignoreBlankNewline()
+/*Melakukan adv jika currentChar adalah NEWLINE atau BLANK*/
+{
+    while (currentChar == NEWLINE || currentChar == BLANK){
+        ADV();
+    }
+}
+
+void ignoreCarriageNewline()
+/*Melakukan ADV jia currentChar adalah NEWLINE atau CARRIAGE*/
+{
+    while (currentChar == NEWLINE || currentChar == CARIAGE){
+        ADV();
+    }
+}
+
+void ignoreBlankCarriageNewline()
+/*Melakukan ADV jika currentChar adalah BLANK, NEWLINE, atau CARRIAGE*/
+{
+    while (currentChar == BLANK || currentChar == NEWLINE || currentChar == CARIAGE){
+        ADV();
+    }
+}
+
 void readPassword()
 /* Melakukan proses akuisi string dan menyimpannya ke dalam string
 I.S : string sembarang
 F.S : alokasi memori string diset dengan PASSWORD_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
-    createEmptyString(&string, PASSWORD_CAPACITY);
+    createEmptyString(&string);
     START();
+    ignoreNewline();
     while (!EOP && string.length < PASSWORD_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
@@ -119,8 +155,9 @@ I.S : string sembarang
 F.S : alokasi memori string diset dengan USERNAME_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
-    createEmptyString(&string, USERNAME_CAPACITY);
+    createEmptyString(&string);
     START();
+    ignoreNewline();
     while (!EOP && string.length < USERNAME_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
@@ -140,13 +177,34 @@ I.S : string sembarang
 F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
-    createEmptyString(&string, DEFAULT_CAPACITY);
+    createEmptyString(&string);
     START();
-    ignoreBlanks();
-    while (!EOP && string.length < DEFAULT_CAPACITY){
+    ignoreBlankCarriageNewline();
+    while (string.length < MAX_CAPACITY && currentChar != ' ' && !EOP){
         string.buffer[string.length] = currentChar;
         ADV();
         string.length++;
+    }
+    if (! EOP){
+        ignoreBlankNewline();
+    }
+    leftInfo.length = 0;
+    while (!EOP && currentChar != ' ' && currentChar != '\n'){
+        leftInfo.buffer[leftInfo.length] = currentChar;
+        leftInfo.length++;
+        ADV();
+    }
+    if (! EOP){
+        ignoreBlankNewline();
+    }
+    rightInfo.length = 0;
+    while (!EOP && currentChar != ' ' && currentChar != '\n'){
+        rightInfo.buffer[rightInfo.length] = currentChar;
+        rightInfo.length++;
+        ADV();
+    }
+    while (!EOP){
+        ADV();
     }
     ADV();
 }
@@ -157,12 +215,16 @@ I.S : string sembarang
 F.S : alokasi memori string diset dengan BIO_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
-    createEmptyString(&string, BIO_CAPACITY);
+    createEmptyString(&string);
     START();
+    ignoreCarriage();
     while (!EOP && string.length < BIO_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
         string.length++;
+    }
+    while (!EOP){
+        ADV();
     }
     ADV();
 }
@@ -173,12 +235,16 @@ I.S : string sembarang
 F.S : alokasi memori string diset dengan KICAUAN_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
-    createEmptyString(&string, KICAUAN_CAPACITY);
+    createEmptyString(&string);
     START();
+    ignoreCarriage();
     while (!EOP && string.length < KICAUAN_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
         string.length++;
+    }
+    while (!EOP){
+        ADV();
     }
     ADV();
 }
@@ -189,33 +255,44 @@ I.S : string sembarang
 F.S : alokasi memori string diset dengan BIO_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
-    createEmptyString(&string, BIO_CAPACITY);
+    createEmptyString(&string);
     START();
+    ignoreCarriageNewline();
     VALID = true;
     int cnt = 0;
     while (!EOP && string.length < BIO_CAPACITY){
-        if (string.length == string.MaxEl){
-            expandString(&string);
-        }
+        // if (string.length == string.MaxEl){
+        //     expandString(&string);
+        // }
         string.buffer[string.length] = currentChar;
         if (cnt%2 == 1){
-            if (currentChar != ' '){
+            if (currentChar != ' ' && (cnt+1)%20!=0){
+                VALID = false;
+            } else if (currentChar != '\n' && (cnt+1)%20==0){
                 VALID = false;
             }
         } else if (cnt%4 == 0){
             if (currentChar != 'R' && currentChar != 'G' && currentChar != 'B'){
                 VALID = false;
+                printf("--- %d\n", cnt);
             }
         } else {
             if (currentChar == ' '){
                 VALID = false;
+                //printf("inii --- %d\n", cnt);
             }
         }
         ADV();
         string.length++;
         cnt++;
     }
-    VALID = cnt == 99;
+    while (!EOP){
+        ADV();
+    }
+    if (VALID){
+        VALID = cnt == 99;
+        //printf("Di sini bang\n");
+    }
     ADV();
 }
 
@@ -225,15 +302,19 @@ I.S : string sembarang
 F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
-    createEmptyString(&string, DEFAULT_CAPACITY);
+    createEmptyString(&string);
     START();
-    while (!EOP){
-        if (string.length == string.MaxEl){
-            expandString(&string);
-        }
+    ignoreCarriageNewline();
+    while (!EOP && string.length < MAX_CAPACITY){
+        // if (string.length == string.MaxEl){
+        //     expandString(&string);
+        // }
         string.buffer[string.length] = currentChar;
         ADV();
         string.length++;
+    }
+    while (!EOP){
+        ADV();
     }
     ADV();
 }
@@ -278,4 +359,44 @@ F.S : isi string s ditampilkan ke layar*/
         printf("%c", s.buffer[i]);
     }
     printf("\n");
+}
+
+boolean isStringNumeric(STRING s)
+/*Mengembalikan true jika seluruh elemen s adalah bilangan kecuali elemen pertama dapat bernilai '-'*/
+{
+    int i = 0;
+    if (s.buffer[0] == '-'){
+        i = 1;
+    }
+    for (int j = i; j < s.length; j++){
+        if (s.buffer[j] < '0' || s.buffer[j]>'9'){
+            return false;
+        }
+    }
+    return true;
+}
+
+boolean isNoHPValid(STRING s){
+    if (s.length == 0){
+        return true;
+    }
+    return isStringNumeric(s) && s.buffer[0] != '-';
+}
+
+int stringToInteger(STRING s)
+/*Mengubah STRING menjadi integer
+Prekondisi : seluruh char pada STRING s adalah numeric, kecuali char pertama dapat bernilai'-'*/
+{
+    int temp = 0;
+    int i = 0;
+    int sign = 1;
+    if (s.buffer[i] == '-'){
+        i++;
+        sign = -1;
+    }
+    while (i < s.length){
+        temp = temp*10 + (s.buffer[i]-'0');
+        i++;
+    }
+    return temp*sign;
 }
