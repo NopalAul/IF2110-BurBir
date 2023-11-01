@@ -137,4 +137,6 @@ int stringToInteger(STRING s);
 /*Mengubah STRING menjadi integer
 Prekondisi : seluruh char pada STRING s adalah numeric, kecuali char pertama dapat bernilai'-'*/
 
+void displayStringNoNewline(STRING s);
+
 #endif

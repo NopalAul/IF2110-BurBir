@@ -1,31 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lib/wordmachine/wordmachine.h"
+#include "lib/user/user.h"
 
-STRING stop;
-STRING now;
 
 int main(){
-    createString(&stop, "STOP");
-    displayString(stop);
-    readPassword();
-    displayString(string);
-    printf("%s\n", VALID ? "valid mas" : "ga valid mas");
-    readUsername();
-    displayString(string);
-    printf("%s\n", VALID ? "valid mas" : "ga valid mas");
-    // readCommand();
-    // displayString(string);
-    // readBio();
-    // displayString(string);
-    // readPhoto();
-    // printf("%s\n", VALID ? "valid mas" : "ga valid mas");
-    // displayString(string);
-    // readString();
-    // printf("length : %d\n", string.length);
-    // displayString(string);
-    // readString();
-    // displayString(string);
-    // printf("%s\n", isStringSimiliar(string, stop) ?  "sama bang" : "beda mas");
+    ListUser UserList;
+    RelationMatrix pertemanan;
+    createListUser(&UserList);
+    createRelationMatrix(&pertemanan);
+    daftarUSER(&UserList, &pertemanan); //0
+    daftarUSER(&UserList,&pertemanan); //1
+    daftarUSER(&UserList,&pertemanan); //2
+    daftarUSER(&UserList,&pertemanan);//3
+    daftarUSER(&UserList,&pertemanan);//4
+    daftarUSER(&UserList,&pertemanan);//5
+    tambahTeman(&UserList, 0, &pertemanan); //1
+    tambahTeman(&UserList, 0, &pertemanan);//2
+    tambahTeman(&UserList, 0, &pertemanan);//3
+    tambahTeman(&UserList, 0, &pertemanan);//4
+    tambahTeman(&UserList, 0, &pertemanan);//5
+    acceptPertemanan(&UserList, 1, &pertemanan); //0
+    acceptPertemanan(&UserList, 2, &pertemanan);
+    acceptPertemanan(&UserList, 3, &pertemanan);
+    acceptPertemanan(&UserList, 4, &pertemanan);
+    acceptPertemanan(&UserList, 5, &pertemanan);
+    daftarTeman(UserList,0,pertemanan);
+    hapusTeman(UserList,1,&pertemanan); //0
+    daftarTeman(UserList,0,pertemanan);
+    hapusTeman(UserList,0,&pertemanan); //1
+    hapusTeman(UserList,2,&pertemanan); //0
+    daftarTeman(UserList, 0, pertemanan); 
+    printMatrixRelation(pertemanan);
+    //daftarUSER(&UserList);
+    //displayDataUser(USER(UserList,1));
     stopRead();
 }

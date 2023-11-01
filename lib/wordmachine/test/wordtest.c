@@ -19,7 +19,7 @@ int main(){
             break;
         case 3:
             //test copyString
-            createString(&temp, "TEST3");
+            createString(&temp, "12/12/2023 10:10:10");
             copyString(&string, temp);
             displayString(string);
             break;

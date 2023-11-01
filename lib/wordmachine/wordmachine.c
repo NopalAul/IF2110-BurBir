@@ -400,3 +400,10 @@ Prekondisi : seluruh char pada STRING s adalah numeric, kecuali char pertama dap
     }
     return temp*sign;
 }
+
+void displayStringNoNewline(STRING s)
+{
+    for (int i = 0; i < s.length; i++){
+        printf("%c", s.buffer[i]);
+    }
+}

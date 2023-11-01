@@ -1,4 +1,5 @@
 #include "relation.h"
+#include <stdio.h>
 
 void createRelationMatrix(RelationMatrix *r)
 /*Melakukan inisialisasi kosong pada RelatioinMatriks
@@ -39,12 +40,22 @@ int countFriend(RelationMatrix r, int id)
 Prekondisi: id valid*/
 {   
     int counter = 0;
-    for(int i = 0; i < r.length; i++){
-        if (i != id && RelationVal(r,id,i) && RelationVal(r,i,id)){
+    for (int i = 0; i < r.length; i++){
+        if (i != id && isFriend(r,id,i)){
             counter ++;
         }
     }
     return counter;
+}
+
+void printMatrixRelation(RelationMatrix r)
+{
+    for (int i = 0; i < RelationLength(r); i++){
+        for (int j = 0 ; j < RelationLength(r); j++){
+            printf("%d ", RelationVal(r,i,j));
+        }
+        printf("\n");
+    }
 }
 
 //
@@ -84,7 +95,7 @@ F.S :   u ditambahkan ke dalam l dengan aturan tetap terurut mengecil */
         int idx = (HeadLRF(*l)+CountLRF(*l)-1)%19;
         int end = HeadLRF(*l) - 1;
         if (end < 0){
-            end = MAX_USER_COUNT-1;
+            end = MAX_USER_COUNT-2;
         }
         while (idx != end && u.friendCount > FriendCount(*l,idx)){
             infoLRF(*l,(idx+1)%(MAX_USER_COUNT-1)) = infoLRF(*l,idx);
