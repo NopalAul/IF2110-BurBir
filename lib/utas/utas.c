@@ -232,6 +232,7 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
 
         // Pilihan YA, terus lanjutkan utas
         while(isStringSimiliar(Accept, string)) {
+            index = length(l)-1;
             sambungUtas(&l, IDUtas, index);
         }
         printf("Utas selesai!\n\n");
@@ -264,9 +265,9 @@ F.S :   terisi kicauan baru, index Utas bertambah */
         // Kondisi tidak ditemukan IDUtas
         printf("Utas tidak ditemukan!\n\n");
     }
-    else if(true) {
+    else if(index > length(*l)-1) {
         // Kondisi index terlalu tinggi
-        printf("Utas tidak ditemukan!\n\n");
+        printf("Index terlalu tinggi!\n\n");
     }
     else if(true) {
         // Kondisi IDUtas bukan milik pengguna saat ini
@@ -278,15 +279,41 @@ F.S :   terisi kicauan baru, index Utas bertambah */
         readKicauan(); copyString(&CONTENT(p), string);
         printf("\n");
         
-        insertFirst(l, IDUtas, AUTHOR(p), CONTENT(p));
+        insertAt(l, IDUtas, index, AUTHOR(p), CONTENT(p));
     }
 
 }
 
-void hapusUtas(ListUtas *l, int IDUtas, int index);
-/* Menghapus utas sesuai posisi index, tidak dapat menghapus index 0 (ID kicauan utama) 
-I.S :   IDUtas, mungkin bukan milik pengguna saat ini
-F.S :   Utas pada index terhapus, index Utas berkurang?*/
+void hapusUtas(ListUtas *l, int IDUtas, int index)
+{
+    /* Menghapus utas sesuai posisi index, tidak dapat menghapus index 0 (ID kicauan utama) 
+    I.S :   IDUtas, mungkin bukan milik pengguna saat ini
+    F.S :   Utas pada index terhapus, index Utas berkurang?*/
+    if(true) {
+        // Kondisi utas bukan milik pengguna saat ini
+        printf("Anda tidak bisa menghapus kicauan dalam utas ini!\n\n");
+    }
+    else if(true) {
+        // Kondisi utas tidak ditemukan
+        printf("Utas tidak ditemukan!\n\n");
+    }
+    else if(true) {
+        // Kondisi utas milik sendiri
+        if(true) {
+            // Kondisi index utas tidak ditemukan
+            printf("Kicauan sambungan dengan index %d tidak ditemukan pada utas!\n\n",index);
+        }
+        else if(index == 0) {
+            // Kondisi index = 0
+            printf("Anda tidak bisa menghapus kicauan utama!\n\n");
+        }
+        else {
+            // Kondisi valid
+            deleteAt(l,index);
+            printf("Kicauan sambungan berhasil dihapus!\n\n");
+        }
+    }
+}
 
 void cetakUtas(ListUtas l, int IDUtas)
 /* Mencetak seluruh kicauan dalam utas dengan id = IDUtas */
