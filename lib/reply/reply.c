@@ -26,7 +26,7 @@ boolean isEmptyREPLY(REPLY reply)
     return reply == NULL;
 }
 
-void addREPLY(REPLY *r, int id, AddressReply reply, boolean *succeded)
+void addREPLY(REPLY *r, int id, AddressReply reply, boolean *succeed)
 {
     if (id == -1){
         if (isEmptyREPLY(*r)){
@@ -39,7 +39,7 @@ void addREPLY(REPLY *r, int id, AddressReply reply, boolean *succeded)
             SIBLING(p) = reply;
         }
     } else {
-        if (!isEmptyREPLY(*r) && !(*succeded)){
+        if (!isEmptyREPLY(*r) && !(*succeed)){
             if (REPLYID(*r) == id){
                 AddressReply p = CHILD(*r);
                 if (p == NULL){
@@ -50,19 +50,19 @@ void addREPLY(REPLY *r, int id, AddressReply reply, boolean *succeded)
                     }
                     SIBLING(p) = reply;
                 }
-                *succeded = true;
+                *succeed = true;
             }
             else {
-                addREPLY(&CHILD(*r), id, reply, succeded);
-                addREPLY(&SIBLING(*r),id, reply, succeded);
+                addREPLY(&CHILD(*r), id, reply, succeed);
+                addREPLY(&SIBLING(*r),id, reply, succeed);
             }
         }
     }
 }
 
-void deleteREPLY(REPLY *r, int id, boolean *succeded, AddressReply parent, AddressReply leftSibling)
+void deleteREPLY(REPLY *r, int id, boolean *succeed, AddressReply parent, AddressReply leftSibling)
 {
-    if (!isEmptyREPLY(*r) && !(*succeded)){
+    if (!isEmptyREPLY(*r) && !(*succeed)){
         if (REPLYID(*r) == id){
             if (parent == NULL && leftSibling == NULL){
                 AddressReply clear = firstReply(*r);
@@ -77,10 +77,10 @@ void deleteREPLY(REPLY *r, int id, boolean *succeded, AddressReply parent, Addre
                 CHILD(parent) = SIBLING(*r);
                 deleteReplyTree(&clear,0);
             }
-            *succeded = true;
+            *succeed = true;
         } else {
-            deleteREPLY(&CHILD(*r), id, succeded, *r, NULL);
-            deleteREPLY(&SIBLING(*r), id, succeded, NULL, *r);
+            deleteREPLY(&CHILD(*r), id, succeed, *r, NULL);
+            deleteREPLY(&SIBLING(*r), id, succeed, NULL, *r);
         }
     }
 }
