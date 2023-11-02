@@ -55,6 +55,15 @@ OBJ_RELATION = $(SRC_RELATION:.c=.o)
 .PHONY: main clean word_test test_word
 
 main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_RELATION)
+SRC_KICAUAN = lib/kicauan/kicauan.c
+OBJ_KICAUAN = $(SRC_KICAUAN:.c=.o)
+
+SRC_DATETIME = lib/datetime/datetime.c
+OBJ_DATETIME = $(SRC_DATETIME:.c=.o)
+
+.PHONY: main clean
+
+main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_KICAUAN) $(OBJ_DATETIME)
 	$(CC) $(CFLAGS) -o $@ $^
 
 #%.run : %
@@ -64,5 +73,4 @@ main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_RE
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f main $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_WORD_TEST) word_test $(OBJ_RELATION)
-
+	rm -f main $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_WORD_TEST) word_test $(OBJ_RELATION) $(OBJ_KICAUAN) $(OBJ_DATETIME)
