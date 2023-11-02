@@ -5,6 +5,7 @@
 #include "../wordmachine/wordmachine.h"
 #include "../user/user.h"
 #include "../boolean/boolean.h"
+#include "../utas/utas.h"
 
 
 #define MAX_KICAULENGTH 280
@@ -18,6 +19,7 @@ typedef struct{
     int like;
     DATETIME datetime;
     BALASAN balasan;
+    Address utas;
 } KICAU;
 
 typedef struct{
