@@ -49,12 +49,9 @@ OBJ_USER = $(SRC_USER:.c=.o)
 SRC_PCOLOR = lib/pcolor/pcolor.c
 OBJ_PCOLOR = $(SRC_PCOLOR:.c=.o)
 
-SRC_RELATION = lib/relation/relation.c
-OBJ_RELATION = $(SRC_RELATION:.c=.o)
+.PHONY: main clean
 
-.PHONY: main clean word_test test_word
-
-main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_RELATION)
+main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_KICAUAN) $(OBJ_DATETIME)
 	$(CC) $(CFLAGS) -o $@ $^
 
 #%.run : %
@@ -64,5 +61,4 @@ main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_RE
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f main $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_WORD_TEST) word_test $(OBJ_RELATION)
-
+	rm -f main $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_KICAUAN) $(OBJ_DATETIME)

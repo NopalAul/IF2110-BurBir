@@ -2,37 +2,23 @@
 #include <stdlib.h>
 #include "lib/wordmachine/wordmachine.h"
 #include "lib/user/user.h"
+#include "lib/kicauan/kicauan.h"
+#include "lib/boolean/boolean.h"
+#include "lib/charmachine/charmachine.h"
+#include "lib/datetime/datetime.h"
+#include "lib/pcolor/pcolor.h"
 
-
-int main(){
-    ListUser UserList;
-    RelationMatrix pertemanan;
-    createListUser(&UserList);
-    createRelationMatrix(&pertemanan);
-    daftarUSER(&UserList, &pertemanan); //0
-    daftarUSER(&UserList,&pertemanan); //1
-    daftarUSER(&UserList,&pertemanan); //2
-    daftarUSER(&UserList,&pertemanan);//3
-    daftarUSER(&UserList,&pertemanan);//4
-    daftarUSER(&UserList,&pertemanan);//5
-    tambahTeman(&UserList, 0, &pertemanan); //1
-    tambahTeman(&UserList, 0, &pertemanan);//2
-    tambahTeman(&UserList, 0, &pertemanan);//3
-    tambahTeman(&UserList, 0, &pertemanan);//4
-    tambahTeman(&UserList, 0, &pertemanan);//5
-    acceptPertemanan(&UserList, 1, &pertemanan); //0
-    acceptPertemanan(&UserList, 2, &pertemanan);
-    acceptPertemanan(&UserList, 3, &pertemanan);
-    acceptPertemanan(&UserList, 4, &pertemanan);
-    acceptPertemanan(&UserList, 5, &pertemanan);
-    daftarTeman(UserList,0,pertemanan);
-    hapusTeman(UserList,1,&pertemanan); //0
-    daftarTeman(UserList,0,pertemanan);
-    hapusTeman(UserList,0,&pertemanan); //1
-    hapusTeman(UserList,2,&pertemanan); //0
-    daftarTeman(UserList, 0, pertemanan); 
-    printMatrixRelation(pertemanan);
-    //daftarUSER(&UserList);
-    //displayDataUser(USER(UserList,1));
-    stopRead();
+int main()
+{
+    ListKicau l;
+    createListKicau(&l, 10);
+    USER user;
+    ListUser listUser;
+    createListUser(&listUser);
+    daftarUSER(&listUser);
+    user = USER(listUser, 0);
+    STRING text;
+    createString(&text, "Halo Dunia");
+    createKicau(&l, user, text);
+    displayKicauan(l);
 }
