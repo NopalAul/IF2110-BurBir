@@ -18,7 +18,7 @@ void createKicau(ListKicau *l, USER user, STRING text){
     TEXT(kicau) = text;
     LIKE(kicau) = 0;
     DATETIME(kicau) = getCurrentDATETIME();
-    BALASAN(kicau) = NOT_FOUND;
+    BALASANKICAU(kicau) = NULL;
     KICAU(*l, NEFF(*l)) = kicau;
     NEFF(*l)++;
     

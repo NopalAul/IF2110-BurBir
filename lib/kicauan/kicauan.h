@@ -17,7 +17,7 @@ typedef struct{
     STRING text;
     int like;
     DATETIME datetime;
-    BALASAN balasan;
+    tree balasan;
 } KICAU;
 
 typedef struct{
@@ -32,7 +32,7 @@ typedef struct{
 #define TEXT(U) (U).text
 #define LIKE(U) (U).like
 #define DATETIME(U) (U).datetime
-#define BALASAN(U) (U).balasan
+#define BALASANKICAU(U) (U).balasan
 #define NEFF(l) (l).nEFF
 #define CAPACITY(l) (l).capacity
 #define KICAU(l,i)  (l).buffer[i]
