@@ -79,6 +79,14 @@ F.S : str terdefinisi sebagai hasil copy dari input*/
     str->length = input.length;
 }
 
+void ignoreCarriage()
+/*Melakukan adv jika currentChar adalah CARRIAGE*/
+{
+    while (currentChar == CARIAGE){
+        ADV();
+    }
+}
+
 void ignoreBlanks()
 /*Melakukan adv jika currentChar adalah BLANK*/
 {   
@@ -103,6 +111,22 @@ void ignoreBlankNewline()
     }
 }
 
+void ignoreCarriageNewline()
+/*Melakukan ADV jia currentChar adalah NEWLINE atau CARRIAGE*/
+{
+    while (currentChar == NEWLINE || currentChar == CARIAGE){
+        ADV();
+    }
+}
+
+void ignoreBlankCarriageNewline()
+/*Melakukan ADV jika currentChar adalah BLANK, NEWLINE, atau CARRIAGE*/
+{
+    while (currentChar == BLANK || currentChar == NEWLINE || currentChar == CARIAGE){
+        ADV();
+    }
+}
+
 void readPassword()
 /* Melakukan proses akuisi string dan menyimpannya ke dalam string
 I.S : string sembarang
@@ -111,6 +135,7 @@ F.S : alokasi memori string diset dengan PASSWORD_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreNewline();
     while (!EOP && string.length < PASSWORD_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
@@ -132,6 +157,7 @@ F.S : alokasi memori string diset dengan USERNAME_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreNewline();
     while (!EOP && string.length < USERNAME_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
@@ -153,20 +179,24 @@ F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
 {
     createEmptyString(&string);
     START();
-    ignoreBlanks();
+    ignoreBlankCarriageNewline();
     while (string.length < MAX_CAPACITY && currentChar != ' ' && !EOP){
         string.buffer[string.length] = currentChar;
         ADV();
         string.length++;
     }
-    ignoreBlankNewline();
+    if (! EOP){
+        ignoreBlankNewline();
+    }
     leftInfo.length = 0;
     while (!EOP && currentChar != ' ' && currentChar != '\n'){
         leftInfo.buffer[leftInfo.length] = currentChar;
         leftInfo.length++;
         ADV();
     }
-    ignoreBlankNewline();
+    if (! EOP){
+        ignoreBlankNewline();
+    }
     rightInfo.length = 0;
     while (!EOP && currentChar != ' ' && currentChar != '\n'){
         rightInfo.buffer[rightInfo.length] = currentChar;
@@ -187,6 +217,7 @@ F.S : alokasi memori string diset dengan BIO_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreCarriage();
     while (!EOP && string.length < BIO_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
@@ -206,6 +237,7 @@ F.S : alokasi memori string diset dengan KICAUAN_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreCarriage();
     while (!EOP && string.length < KICAUAN_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
@@ -225,6 +257,7 @@ F.S : alokasi memori string diset dengan BIO_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreCarriageNewline();
     VALID = true;
     int cnt = 0;
     while (!EOP && string.length < BIO_CAPACITY){
@@ -246,7 +279,7 @@ F.S : alokasi memori string diset dengan BIO_CAPACITY
         } else {
             if (currentChar == ' '){
                 VALID = false;
-                printf("inii --- %d\n", cnt);
+                //printf("inii --- %d\n", cnt);
             }
         }
         ADV();
@@ -258,7 +291,7 @@ F.S : alokasi memori string diset dengan BIO_CAPACITY
     }
     if (VALID){
         VALID = cnt == 99;
-        printf("Di sini bang\n");
+        //printf("Di sini bang\n");
     }
     ADV();
 }
@@ -271,6 +304,7 @@ F.S : alokasi memori string diset dengan DEFAULT_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreCarriageNewline();
     while (!EOP && string.length < MAX_CAPACITY){
         // if (string.length == string.MaxEl){
         //     expandString(&string);
@@ -365,4 +399,11 @@ Prekondisi : seluruh char pada STRING s adalah numeric, kecuali char pertama dap
         i++;
     }
     return temp*sign;
+}
+
+void displayStringNoNewline(STRING s)
+{
+    for (int i = 0; i < s.length; i++){
+        printf("%c", s.buffer[i]);
+    }
 }
