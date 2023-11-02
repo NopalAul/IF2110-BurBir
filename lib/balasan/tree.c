@@ -20,6 +20,20 @@ void createEmtptyBalasan(BALASAN *b){
     TEXT(*b) = text;
 }
 
+void createTesBalasan(BALASAN *b,int id){
+    ID(*b) = id;
+    USER user;
+    createUSER(&user);
+    USERBAL(*b) = user;
+    DATETIME date;
+    date = getCurrentDATETIME();
+    DATE(*b) = date;
+    STRING text;
+    createEmptyString(&text);
+    createString(&text, "tes");
+    TEXT(*b) = text;
+}
+
 address newNode(BALASAN balasan){
     address P = (address) malloc(sizeof(Node));
     if(P != NULL){
@@ -30,6 +44,26 @@ address newNode(BALASAN balasan){
     return P;
 }
 
+
+// JANGAN LUPA IMPLEMEN KALAU POINTEE = address di KICAU
+
+address getPointee(tree T,address node){
+    if(T!=NULL){
+        if(SIBLING(T)|| CHILD(T) == node){
+            return T;
+        }
+        else{
+            address P = getPointee(CHILD(T),node);
+            if(P == NULL){
+                P = getPointee(SIBLING(T),node);
+            }
+            return P;
+        }
+    }
+    else{
+        return NULL;
+    }
+}
 address getNodeAddress(tree T,int id){
     if(T != NULL){
         if(ID(BALASAN(T)) == id){
@@ -56,50 +90,30 @@ void addRoot(tree *T,BALASAN *b){
     }
 }
 
-void addSibling(address n,BALASAN b){
+void addSibling(address n,BALASAN b,address *val){
     if(n != NULL){
         if(SIBLING(n) == NULL){
             SIBLING(n) = newNode(b);
+            *val = SIBLING(n);
         }
         else{
-            addSibling(SIBLING(n), b);
+            addSibling(SIBLING(n), b, val);
         }
     }
 }
 
-void addChild(address node,BALASAN b){
+void addChild(address node,BALASAN b,address *val){
     if(node != NULL){
         if(CHILD(node) == NULL){
             CHILD(node) = newNode(b);
+            *val = CHILD(node);
         }
         else{
-            addSibling(CHILD(node), b);
+            addSibling(CHILD(node), b, val);
         }
     }
 }
     
-int getDepth(int id, tree T){
-    if(T != NULL){
-        if(ID(BALASAN(T)) == id){
-            return 0;
-        }
-        else{
-            int depth = getDepth(id, CHILD(T));
-            if(depth == -1){
-                depth = getDepth(id, SIBLING(T));
-            }
-            if(depth == -1){
-                return -1;
-            }
-            else{
-                return depth + 1;
-            }
-        }
-    }
-    else{
-        return -1;
-    }
-}
 void deleteNodeCascade(address* node){
     if(*node != NULL){
         deleteNodeCascade(&SIBLING(*node));
@@ -109,58 +123,118 @@ void deleteNodeCascade(address* node){
     }
 }
 
-void displayBalasan(BALASAN b){
-    printf("| ID = %d\n", ID(b));
-    printf("|");
+void addSpaceTab(int depth){
+    for(int i = 0; i < depth; i++){
+        printf("   ");
+    }
+}
+
+
+void displayBalasan(BALASAN b,int depth){
+    addSpaceTab(depth);printf("| ID = %d\n", ID(b));
+    addSpaceTab(depth);printf("|");
     displayString(USERNAME(USERBAL(b)));
-    printf("| ");
+    addSpaceTab(depth);printf("| ");
     displayDATETIME(DATE(b));
-    printf("| ");
+    addSpaceTab(depth);printf("| ");
     displayString(TEXT(b));
 }
 
-displayAllBalasan(tree T){
-    // display all balasan except root, using dfs
+void displayAllBalasan(tree T,int depth){
     address temp = T;
     if(temp==NULL){
         return;
     }
     while(temp){
         printf("\n");
-        if(temp!=ROOT(T)){
-            displayBalasan(BALASAN(temp));
-        }
+        // if(temp!=ROOT(T)){
+            displayBalasan(BALASAN(temp),depth);
+        // }
         
         if(CHILD(temp)){
-            displayAllBalasan(CHILD(temp));
+    
+            displayAllBalasan(CHILD(temp),depth + 1);
         }
+        
         temp = SIBLING(temp);
     }
 }
 
 
-// void traverseTree(tree T){
-//     address temp = T;
-//     if(temp==NULL){
-//         return;
-//     }
-//     while(temp){
-//         printf("\n");
-//         printf("%d",id(temp));
-//         if(CHILD(temp)){
-//             traverseTree(CHILD(temp));
-//         }
-//         temp = SIBLING(temp);
-//     }
-// }
+void deleteAllChild(address node){
+    if((node)==NULL){
+        return;
+    }
+    deleteAllChild(CHILD(node));
+
+    deleteAllChild(SIBLING(node));
+    
+    CHILD(node) = NULL;
+
+}
+
+void cascadeDelete(tree T, address node){
+    address pointee = getPointee(T,node);
+    address newPoint = SIBLING(node);
+    if(SIBLING(pointee)==node){
+        SIBLING(pointee) = newPoint;
+    }
+    else if(CHILD(pointee)==node){
+        CHILD(pointee) = newPoint;
+    }
+    deleteAllChild(node);
+    free(node);
+}
+
+void tambahBalasan(tree *T,BALASAN b,int idbalasan){
+    address target = getNodeAddress((*T),idbalasan);
+    address temp;
+    addChild(target,b,&temp);
+}
+
+void hapusBalasan(tree *T,int idbalasan){
+    address target = getNodeAddress((*T),idbalasan);
+    cascadeDelete(*T,target);
+}
+
 int main(){
     BALASAN b;
-    createEmtptyBalasan(&b);
+    address temp;
+    createTesBalasan(&b,1);
     tree T;
     T = newNode(b);
     BALASAN b1;
-    createEmtptyBalasan(&b1);
-    displayNode(T);
+    createTesBalasan(&b1,2);
+    address a1;
+    a1 = newNode(b1);
+    addSibling(T,b1,&temp);
+    BALASAN b2;
+    createTesBalasan(&b2,3);
+    address a2;
+    a2 = newNode(b2);
+    addChild(T,b2,&temp);
+    BALASAN b3;
+    createTesBalasan(&b3,4);
+    address a3;
+    addChild(temp,b3,&temp);
+    // deleteAllChild(getNodeAddress(T,3));
+    createTesBalasan(&b3,5);
+    addChild(getNodeAddress(T,3),b3,&temp);
+    createTesBalasan(&b3,6);
+    addSibling(getNodeAddress(T,3),b3,&temp);
+    createTesBalasan(&b3,7);
+    addSibling(getNodeAddress(T,3),b3,&temp);
+    address address3 = getNodeAddress(T,3);
+    cascadeDelete(T,address3);
+    
+    // BALASAN b2;
+    // createEmtptyBalasan(&b2);
+    // addChild(T,b2);
+    // BALASAN b3;
+    // createEmtptyBalasan(&b3);
+    // addChild(T,get)
+    displayAllBalasan(T,1);
+    // displayBalasan(BALASAN(a1),1);
 }
 
 // 0
