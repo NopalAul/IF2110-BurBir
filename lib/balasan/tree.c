@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 void createTree(tree *T){
+    (*T) = (tree) malloc(sizeof(Node));
     ROOT(*T) = NULL;
 }
 
@@ -82,7 +83,7 @@ address getNodeAddress(tree T,int id){
     }
 }
 
-// root adalah kicau
+// root adalah kicau MASIH NEED FIX
 void addRoot(tree *T,BALASAN *b){
     if(ROOT(*T) == NULL){
         createEmtptyBalasan(b);
@@ -114,14 +115,7 @@ void addChild(address node,BALASAN b,address *val){
     }
 }
     
-void deleteNodeCascade(address* node){
-    if(*node != NULL){
-        deleteNodeCascade(&SIBLING(*node));
-        deleteNodeCascade(&CHILD(*node));
-        free(*node);
-        *node = NULL;
-    }
-}
+
 
 void addSpaceTab(int depth){
     for(int i = 0; i < depth; i++){
@@ -176,14 +170,17 @@ void deleteAllChild(address node){
 void cascadeDelete(tree T, address node){
     address pointee = getPointee(T,node);
     address newPoint = SIBLING(node);
+
     if(SIBLING(pointee)==node){
         SIBLING(pointee) = newPoint;
     }
     else if(CHILD(pointee)==node){
         CHILD(pointee) = newPoint;
     }
+
+
     deleteAllChild(node);
-    free(node);
+   
 }
 
 void tambahBalasan(tree *T,BALASAN b,int idbalasan){
@@ -194,7 +191,15 @@ void tambahBalasan(tree *T,BALASAN b,int idbalasan){
 
 void hapusBalasan(tree *T,int idbalasan){
     address target = getNodeAddress((*T),idbalasan);
-    cascadeDelete(*T,target);
+    if(target==(*T)){
+        deleteAllChild(target);
+        (*T) = SIBLING(*T);
+
+    }
+    else{
+
+        cascadeDelete(*T,target);
+    }
 }
 
 int main(){
@@ -202,6 +207,7 @@ int main(){
     address temp;
     createTesBalasan(&b,1);
     tree T;
+    createTree(&T);
     T = newNode(b);
     BALASAN b1;
     createTesBalasan(&b1,2);
@@ -224,12 +230,11 @@ int main(){
     addSibling(getNodeAddress(T,3),b3,&temp);
     createTesBalasan(&b3,7);
     addSibling(getNodeAddress(T,3),b3,&temp);
-    address address3 = getNodeAddress(T,3);
-    cascadeDelete(T,address3);
+    hapusBalasan(&T,1);
     
     // BALASAN b2;
     // createEmtptyBalasan(&b2);
-    // addChild(T,b2);
+    // addChild(T,b2,&temp);
     // BALASAN b3;
     // createEmtptyBalasan(&b3);
     // addChild(T,get)

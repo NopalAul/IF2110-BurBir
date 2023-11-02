@@ -19,13 +19,13 @@ typedef struct{
 
 }BALASAN;
 
-typedef struct node *address;
 typedef struct node{
     BALASAN balasan;
     struct node *child;
     struct node *sibling;
 } Node;
 
+typedef struct node *address;
 typedef address tree;
 
 #define ROOT(l) (l)
