@@ -1,6 +1,8 @@
 #ifndef utas_h
 #define utas_h
 
+// #include "../kicauan/kicauan.h"
+#include "../user/user.h"
 #include "../datetime/datetime.h"
 #include "../user/user.h"
 #include "../wordmachine/wordmachine.h"
@@ -23,30 +25,15 @@ typedef struct utas {
 #define DATETIME(p) (p)->datetime
 #define NEXT(p) (p)->next
 
-// typedef Utas ElType;
-// typedef struct node* Address;
-// typedef struct node {
-//     ElType info;
-//     Address next;
-// } Node;
-
-// typedef struct {
-//     int IDUtas;
-//     STRING author;
-//     STRING content;
-//     // DATETIME datetime;
-// } Utas;
-
 Address newNode (int IDUtas, USER user, STRING content);
 
 /* Definisi List : */
 /* List kosong : FIRST(l) = NULL */
-/* Setiap elemen dengan Address p dapat diacu INFO(p), NEXT(p) */
+/* Setiap elemen dengan Address p dapat diacu IDUTAS(p), AUTHOR(p), CONTENT(p), DATETIME(p) dan NEXT(p) */
 /* Elemen terakhir list: jika addressnya Last, maka NEXT(Last)=NULL */
 
 typedef Address ListUtas;
 
-#define NOT_FOUND (-1)
 #define FIRST(l) (l)
 
 /* PROTOTYPE */
