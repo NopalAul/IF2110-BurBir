@@ -1,6 +1,6 @@
 #include "datetime.h"
 #include <stdio.h>
-void createDateTime(DATETIME *dt){
+void createDATETIME(DATETIME *dt){
     DAY(*dt) = 0;
     MONTH(*dt) = 0;
     YEAR(*dt) = 0;

@@ -15,7 +15,6 @@ int main()
     USER user;
     ListUser listUser;
     createListUser(&listUser);
-    daftarUSER(&listUser);
     user = USER(listUser, 0);
     STRING text;
     createString(&text, "Halo Dunia");
