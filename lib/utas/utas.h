@@ -1,27 +1,26 @@
 #ifndef utas_h
 #define utas_h
 
+#include "../datetime/datetime.h"
+#include "../user/user.h"
 #include "../wordmachine/wordmachine.h"
-// #include "../linkedlist/listlinier.h"
 #include "../boolean/boolean.h"
 
 /* Definisi Node : */
 typedef int ElType;
 typedef struct utas* Address;
 typedef struct utas {
-    // ElType info;
-    int index;
     int IDUtas;
-    STRING author;
+    USER user;
     STRING content;
-    // DATETIME datetime;
+    DATETIME datetime;
     Address next;
 } Utas;
 
-#define INDEX(p) (p)->index
 #define IDUTAS(p) (p)->IDUtas
-#define AUTHOR(p) (p)->author
+#define AUTHOR(p) (p)->user
 #define CONTENT(p) (p)->content
+#define DATETIME(p) (p)->datetime
 #define NEXT(p) (p)->next
 
 // typedef Utas ElType;
@@ -38,7 +37,7 @@ typedef struct utas {
 //     // DATETIME datetime;
 // } Utas;
 
-Address newNode (int IDUtas, STRING author, STRING content);
+Address newNode (int IDUtas, USER user, STRING content);
 
 /* Definisi List : */
 /* List kosong : FIRST(l) = NULL */
@@ -56,7 +55,6 @@ void CreateListUtas(ListUtas *l);
 /* I.S. sembarang             */
 /* F.S. Terbentuk list kosong */
 
-/****************** TEST LIST KOSONG ******************/
 boolean isEmpty(ListUtas l);
 /* Mengirim true jika Utas kosong */
 
@@ -66,21 +64,20 @@ int indexOf(ListUtas l, ElType val); //#### belum ganti
 /* Jika ada, mengembalikan indeks elemen pertama l yang bernilai val */
 /* Mengembalikan IDX_UNDEF jika tidak ditemukan */
 
-/****************** PRIMITIF BERDASARKAN NILAI ******************/
 /*** PENAMBAHAN ELEMEN ***/
-void insertFirst(ListUtas *l, int IDUtas, STRING author, STRING content);
+void insertFirst(ListUtas *l, int IDUtas, USER user, STRING content);
 /* I.S. l mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen pertama dengan nilai val jika alokasi berhasil. */
 /* Jika alokasi gagal: I.S.= F.S. */
 
-void insertLast(ListUtas *l, int IDUtas, STRING author, STRING content);
+void insertLast(ListUtas *l, int IDUtas, USER user, STRING content);
 /* I.S. l mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen list di akhir: elemen terakhir yang baru */
 /* bernilai val jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
 
-void insertAt(ListUtas *l, int IDUtas, int index, STRING author, STRING content);
+void insertAt(ListUtas *l, int IDUtas, int index, USER user, STRING content);
 /* I.S. l tidak mungkin kosong, idx indeks yang valid dalam l, yaitu 0..length(l) */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menyisipkan elemen dalam list pada indeks ke-idx (bukan menimpa elemen di i) */
@@ -91,10 +88,6 @@ void deleteFirst(ListUtas *l);
 /* I.S. List l tidak kosong  */
 /* F.S. Elemen pertama list dihapus: nilai info disimpan pada x */
 /*      dan alamat elemen pertama di-dealokasi */
-void deleteLast(ListUtas *l);
-/* I.S. list tidak kosong */
-/* F.S. Elemen terakhir list dihapus: nilai info disimpan pada x */
-/*      dan alamat elemen terakhir di-dealokasi */
 
 void deleteAt(ListUtas *l, int index);
 /* I.S. list tidak kosong, idx indeks yang valid dalam l, yaitu 0..length(l) */
@@ -102,19 +95,12 @@ void deleteAt(ListUtas *l, int index);
 /*      Elemen l pada indeks ke-idx dihapus dari l */
 
 
-/****************** PROSES SEMUA ELEMEN LIST ******************/
-void displayList(ListUtas l);
-// void printInfo(List l);
-/* I.S. List mungkin kosong */
-/* F.S. Jika list tidak kosong, iai list dicetak ke kanan: [e1,e2,...,en] */
-/* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
-/* Jika list kosong : menulis [] */
-/* Tidak ada tambahan karakter apa pun di awal, akhir, atau di tengah */
+/****************** PROSES SEMUA ELEMEN LISTUTAS ******************/
 
 int length(ListUtas l);
 /* Mengirimkan banyaknya elemen list; mengirimkan 0 jika list kosong */
 
-void tulisUtas(ListUtas *l, int IDKicau);
+void tulisUtas(ListUtas *l, USER user, int IDKicau);
 /* Membuat utas baru dari kicauan utama. Utas dapat dilanjutkan 
 I.S :   IDKicau, mungkin bukan milik pengguna saat ini
 F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
