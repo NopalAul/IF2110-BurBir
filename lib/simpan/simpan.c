@@ -5,13 +5,13 @@
 #include "simpan.h"
 #include "../wordmachine/wordmachine.h"
 
-void saveAll()
+void saveAll(ListUser l)
 /*  Melakukan penyimpanan data ke dalam folder config
 I.S : keberadaan folder dan file di dalamnya sembarang
 F.S : folder terbentuk dan berisi file config 
       yang menyimpan data program */
 {
-    char path[113] = "../../config/";     
+    char path[113] = "../../config/";     // path untuk folder config
     int pathLen = 13;  
 
     printf("Masukkan nama folder penyimpanan\n");
@@ -19,7 +19,7 @@ F.S : folder terbentuk dan berisi file config
     stopRead();
     pathLen += string.length;
 
-    for (int j = 0; j < string.length; j++)
+    for (int j = 0; j < string.length; j++) // menambahkan input user ke dalam path
     {
         path[13+j] = string.buffer[j];
     }
@@ -45,7 +45,7 @@ F.S : folder terbentuk dan berisi file config
     printf("1...\n");
     printf("2...\n");
     printf("3...\n");
-    savePengguna(path, pathLen);
+    savePengguna(path, pathLen, l);
     saveKicauan(path, pathLen);
     saveBalasan(path, pathLen);
     saveDraf(path, pathLen);
@@ -54,7 +54,7 @@ F.S : folder terbentuk dan berisi file config
 }
 
 
-void savePengguna(char path[], int len)
+void savePengguna(char path[], int len, ListUser LU)
 /*  Melakukan proses penyimpanan data pengguna ke dalam folder config
 I.S : folder ada dan file pengguna.config di dalamnya sembarang
 F.S : file pengguna.config tersimpan dalam folder config */
@@ -67,7 +67,28 @@ F.S : file pengguna.config tersimpan dalam folder config */
         length++;
     }
     FILE* user = fopen(path, "w");
-    fprintf(user,"ini test pengguna");
+    fprintf(user,"%d\n", LENGTH(LU));
+    for (int i = 0; i < LENGTH(LU); i++)
+    {
+        fprintf(user, "%s\n", USERNAME(USER(LU,i)).buffer);
+        fprintf(user, "%s\n", PASSWORD(USER(LU,i)).buffer);
+        fprintf(user, "%s\n", BIO(USER(LU,i)).buffer);
+        fprintf(user, "%s\n", NOHP(USER(LU,i)).buffer);
+        fprintf(user, "%s\n", WETON(USER(LU,i)).buffer);
+        if (ACCOUNTTYPE(USER(LU,i)))
+        {
+            fprintf(user, "%s\n", "Publik");
+        }
+        else
+        {
+            fprintf(user, "%s\n", "Privat");
+        }
+        fprintf(user, "%s\n", PHOTO(USER(LU,i)).buffer);
+    }
+    // kurang matriks pertemanan
+    // kurang jumlah permintaan berteman
+    // kurang matriks permintaan berteman
+    
     fclose(user);
 }
 

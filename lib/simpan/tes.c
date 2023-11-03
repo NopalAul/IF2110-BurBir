@@ -3,5 +3,11 @@
 
 int main ()
 {
-    saveAll();
+    ListUser L;
+
+    createListUser(&L);
+    daftarUSER(&L);
+    saveAll(L);
+
+    return 0;
 }

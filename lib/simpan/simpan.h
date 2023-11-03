@@ -5,14 +5,15 @@
 #include "../wordmachine/wordmachine.h"
 #include "../charmachine/charmachine.h"
 #include "../boolean/boolean.h"
+#include "../user/user.h"
 
-void saveAll();
+void saveAll(ListUser LU);
 /*  Melakukan penyimpanan data ke dalam folder config
 I.S : keberadaan folder dan file di dalamnya sembarang
 F.S : folder terbentuk dan berisi file config 
       yang menyimpan data program */
 
-void savePengguna(char path[], int len);
+void savePengguna(char path[], int len, ListUser LU );
 /*  Melakukan proses penyimpanan data pengguna ke dalam folder config
 I.S : folder ada dan file pengguna.config di dalamnya sembarang
 F.S : file pengguna.config tersimpan dalam folder config */
