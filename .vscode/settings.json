@@ -1,0 +1,13 @@
+{
+  "files.associations": {
+    "wordmachine.h": "c",
+    "datetime.h": "c"
+  },
+  "makefile.launchConfigurations": [
+    {
+      "cwd": "/home/rayhan/IF2110-BurBir",
+      "binaryPath": "/home/rayhan/IF2110-BurBir/main",
+      "binaryArgs": []
+    }
+  ]
+}
