@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "draft.h"
-
+#include "../datetime/datetime.c"
 
 
 void CreateEmptyDraft(Draft *d, int capacity)
@@ -80,8 +80,33 @@ void PopDraft(Draft * d, STRING* s)
     d->Top--;
 }
 
+void displayDrafts(Draft d)
+/* Menampilkan draft terakhir yang user buat */
+/* I.S. d terdefinisi */
+/* F.S. menampilkan draft top*/
+{
+    DATETIME dt;
+    createDATETIME(&dt);
+    dt=getCurrentDATETIME();
+    if(IsEmpty(d)){
+        printf("Yah, anda belum memiliki draf apapun! Buat dulu ya!:D\n");
+    }else{
+        printf("Ini draft terakhir anda:\n");
+        printf("| ");
+        displayDATETIME(dt);
+        printf("| ");
+        displayString(d.buffer[d.Top]);
+    }
+}
+
+
 /* Plotting Draft,
-1. User memanggil draft di main
-2. User mengetik draft dengan kapasitas yang ditentukan
-3. User memilih untuk save/upload/delete/cancel draft
-4. Draft akan disimpan di list of draft yang menjadi global memory pada main */
+1. User memanggil draft di main.
+2. User dapat memilih untuk melihat draft terbarunya atau ingin membuat draft baru.
+3. User mengetik draft dengan kapasitas yang ditentukan, apabila berlebihan program akan meminta mengedit, user akan cancel/save draft.
+4. User memilih untuk upload/delete draft.
+5. Draft akan disimpan di list of draft di global memory main untuk menampung draft per user.
+6. Mekanisme save :
+    - Setelah mengetik draft, jenis tipe data string akan disimpan (dipush) pada stack draft
+7. Mekanisme upload :
+    - Setelah melakukan save, apabila user ingin mengupload draft paling baru (top) maka draft paling baru akan dipop dan dimasukkan ke fungsi kicau*/

@@ -3,6 +3,7 @@
 #include "lib/wordmachine/wordmachine.h"
 #include "lib/user/user.h"
 #include "lib/kicauan/kicauan.h"
+#include "lib/draft/draft.h"
 #include "lib/boolean/boolean.h"
 #include "lib/charmachine/charmachine.h"
 #include "lib/datetime/datetime.h"

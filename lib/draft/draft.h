@@ -48,6 +48,12 @@ void expandDraft(Draft *d, int num);
 /* I.S. List sudah terdefinisi */
 /* F.S. Ukuran list bertambah sebanyak num */
 
+void displayDrafts(Draft d);
+/* Menampilkan draft terakhir yang user buat */
+/* I.S. d terdefinisi */
+/* F.S. menampilkan draft top*/
+
+
 /* Plotting Draft,
 1. User memanggil draft di main
 2. User mengetik draft dengan kapasitas yang ditentukan

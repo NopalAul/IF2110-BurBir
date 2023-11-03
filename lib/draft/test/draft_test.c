@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "draft.c"
+#include "../draft.c"
 
 int main(){
     Draft d;
@@ -9,7 +9,5 @@ int main(){
     PushDraft(&d, string);
     readString();
     PushDraft(&d, string);
-    PopDraft(&d, &s);
-    displayString(d.buffer[d.Top]);
-    displayString(s);
+    displayDrafts(d);
 }
