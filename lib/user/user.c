@@ -17,13 +17,18 @@ F.S :   user.username didefinisikan kosong
         user.noHP didefinisikan kosong 
         user.weton didefinisikan kosong 
         user.photo didefinisikan kosong */
-{   
+{   PhotoElemen p = {'*', 'R'};
     createEmptyString(&USERNAME(*user));
     createEmptyString(&PASSWORD(*user));
     createEmptyString(&BIO(*user));
     createEmptyString(&NOHP(*user));
     createEmptyString(&WETON(*user));
-    createString(&PHOTO(*user),DEFAULT_PHOTO);
+    PHOTO(*user).length = 5;
+    for (int i = 0; i < 5; i++){
+        for (int j = 0; j < 5; j++){
+            PhotoElmt(PHOTO(*user),i,j) = p;
+        }
+    }
     createListRequest(&REQUESTLIST(*user));
     ACCOUNTTYPE(*user) = true;
 }
@@ -96,20 +101,19 @@ void printPhoto(USER user)
 I.S :   user terdefinisi
 F.S :   foto profil user ditampilkan ke layar*/
 {   
-    for (int i = 0; i < PHOTO(user).length; i++){
-        if ((i-2)%4 == 0 && (i+1)%20 != 0){
-            if (PHOTO(user).buffer[i-2] == 'R'){
-                print_red(PHOTO(user).buffer[i]);
-            } else if (PHOTO(user).buffer[i-2] == 'G'){
-                print_green(PHOTO(user).buffer[i]);
-            } else{
-                print_blue(PHOTO(user).buffer[i]);
+    for (int i = 0; i < Length(PHOTO(user)); i++){
+        for (int j = 0; j < Length(PHOTO(user)); j++){
+            if (ColorPhoto(PhotoElmt(PHOTO(user),i,j)) == 'R'){
+                print_red(InfoPhoto(PhotoElmt(PHOTO(user),i,j)));
+            } else if (ColorPhoto(PhotoElmt(PHOTO(user),i,j)) == 'G') {
+                print_green(InfoPhoto(PhotoElmt(PHOTO(user),i,j)));
+            } else {
+                print_blue(InfoPhoto(PhotoElmt(PHOTO(user),i,j)));
             }
-        } else if ((i+1)%20 == 0){
-            printf("\n");
         }
+        printf("\n");
     }
-    printf("\n\n");
+    printf("\n");
 }
 
 void displayUser(USER user)
@@ -236,7 +240,19 @@ F.S :   foto profil user digantikan dengan foto profil baru*/
             printf("Wah, foto profil yang Anda input tidak valid. Masukkan yang valid ya!\n\n");
         }
     } while (!VALID);
-    copyString(&PHOTO(*user),string);
+    char currInfo;
+    char currColor;
+    int count = 0;
+    for (int i = 0; i < string.length; i++){
+        if (i%4 == 0){
+            currColor = string.buffer[i];
+        } else if ((i-2)%4 == 0) {
+            currInfo = string.buffer[i];
+            PhotoElemen p = {currInfo,currColor};
+            PhotoElmt(PHOTO(*user),count/5,count%5) = p;
+            count++;
+        }
+    }
     printf("Foto profil Anda sudah berhasil diganti!\n\n");
 }
 

@@ -29,7 +29,6 @@ word_test : $(OBJ_WORD_TEST) $(OBJ_WORD) $(OBJ_CHARM) #masukkan semua OBJECT fil
 test_word : word_test $(TEST_WORD_RESULTS)
 	@cat $(TEST_WORD_RESULTS)
 
-#--strip-trailing-cr
 
 $(TEST_WORD_RESULTS): $(TEST_WORD_DIR)/%.result: $(TEST_WORD_DIR)/%.in $(TEST_WORD_DIR)/%.out word_test
 	@if ./word_test < $< | diff -Z -B - $(word 2,$^) > /dev/null; then \
@@ -42,6 +41,35 @@ create_stdout: $(TEMP_STDOUT_FILES)
 
 $(TEMP_STDOUT_FILES): temp_stdout_%.txt: $(TEST_WORD_DIR)/%.in word_test
 	@./word_test < $(word 1,$^) | tr '\r' '\n' > $@
+
+# MATRIKS UNIT TEST
+SRC_MATRIX = lib/matrix/matrix.c
+OBJ_MATRIX = $(SRC_MATRIX:.c=.o)
+
+SRC_MATRIX_TEST = lib/matrix/test/matrix_test.c
+
+TEST_MATRIX_DIR = lib/matrix/test
+TEST_MATRIX_CASES = $(wildcard $(TEST_MATRIX_DIR)/*.in)
+TEST_MATRIX_OUPUTS = $(TEST_MATRIX_CASES:.in=.out)
+TEST_MATRIX_RESULTS = $(TEST_MATRIX_CASES:.in=.result)
+
+
+matrix_test : $(SRC_MATRIX_TEST) $(SRC_MATRIX)
+	$(CC) $(CFLAGS) -o $@ $^
+
+test_matrix : matrix_test $(TEST_MATRIX_RESULTS)
+	@cat $(TEST_MATRIX_RESULTS)
+
+$(TEST_MATRIX_RESULTS) : $(TEST_MATRIX_DIR)/%.result: $(TEST_MATRIX_DIR)/%.in $(TEST_MATRIX_DIR)/%.out matrix_test
+	@if ./matrix_test < $< | diff -Z - $(word 2,$^) > /dev/null; then \
+		echo "$< $(word 2, $^): TRUE"; \
+	else \
+		echo "$< $(word 2, $^): WRONG"; \
+	fi > $@
+
+%.clear : %
+	rm -f $*
+
 
 SRC_USER = lib/user/user.c
 OBJ_USER = $(SRC_USER:.c=.o)
@@ -63,7 +91,7 @@ OBJ_DATETIME = $(SRC_DATETIME:.c=.o)
 
 .PHONY: main clean
 
-main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_KICAUAN) $(OBJ_DATETIME)
+main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_KICAUAN) $(OBJ_DATETIME) $(OBJ_RELATION) $(OBJ_MATRIX)
 	$(CC) $(CFLAGS) -o $@ $^
 
 #%.run : %
@@ -73,4 +101,4 @@ main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_KI
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f main $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_WORD_TEST) word_test $(OBJ_RELATION) $(OBJ_KICAUAN) $(OBJ_DATETIME)
+	rm -f main $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_WORD_TEST) word_test $(OBJ_RELATION) $(OBJ_KICAUAN) $(OBJ_DATETIME) $(OBJ_RELATION) $(OBJ_MATRIX)

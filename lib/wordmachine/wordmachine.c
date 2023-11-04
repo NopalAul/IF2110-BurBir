@@ -282,6 +282,7 @@ F.S : alokasi memori string diset dengan BIO_CAPACITY
                 //printf("inii --- %d\n", cnt);
             }
         }
+        ignoreCarriage();
         ADV();
         string.length++;
         cnt++;
