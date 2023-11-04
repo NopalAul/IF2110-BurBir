@@ -3,15 +3,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../boolean/boolean.h"
+#include "../datetime/datetime.c"
 #include "../wordmachine/wordmachine.c"
 #include "../charmachine/charmachine.c"
 
 typedef int TopLoc;
-typedef struct{
+typedef struct
+{
     STRING *buffer;
     TopLoc Top;
     int nEff;
     int capacity;
+    DATETIME dt;
 } Draft;
 
 /* SELEKTOR */
@@ -27,10 +30,10 @@ void CreateEmptyDraft(Draft *d, int capacity);
 /* jadi indeksnya antara 0.. nEff */
 /* Ciri stack kosong : TOP bernilai Nil */
 
-boolean IsEmpty(Draft d);//harusnya boolean
+boolean IsEmpty(Draft d); // harusnya boolean
 /* Mengirim true jika Stack kosong: lihat definisi di atas */
 
-boolean IsFull(Draft d);//harusnya boolean
+boolean IsFull(Draft d); // harusnya boolean
 /* Mengirim true jika tabel penampung nilai elemen stack penuh */
 
 void PushDraft(Draft *d, STRING s);
@@ -38,8 +41,8 @@ void PushDraft(Draft *d, STRING s);
 /* I.S. S mungkin kosong, tabel penampung elemen stack mungkin penuh */
 /* F.S. X menjadi TOP yang baru,TOP bertambah 1 */
 
-void PopDraft(Draft * d, STRING* s);
-/* Menghapus X dari Stack S. */
+void PopDraft(Draft *d, STRING *s);
+/* Menghapus X dari Stack S dan menyimpan date pembuatan draft. */
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
 
@@ -52,7 +55,6 @@ void displayDrafts(Draft d);
 /* Menampilkan draft terakhir yang user buat */
 /* I.S. d terdefinisi */
 /* F.S. menampilkan draft top*/
-
 
 /* Plotting Draft,
 1. User memanggil draft di main
