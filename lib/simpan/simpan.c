@@ -5,7 +5,7 @@
 #include "simpan.h"
 #include "../wordmachine/wordmachine.h"
 
-void saveAll(ListUser l)
+void saveAll(ListUser l, RelationMatrix m, ListFriendRequest lf)
 /*  Melakukan penyimpanan data ke dalam folder config
 I.S : keberadaan folder dan file di dalamnya sembarang
 F.S : folder terbentuk dan berisi file config 
@@ -45,7 +45,7 @@ F.S : folder terbentuk dan berisi file config
     printf("1...\n");
     printf("2...\n");
     printf("3...\n");
-    savePengguna(path, pathLen, l);
+    savePengguna(path, pathLen, l, m, lf);
     saveKicauan(path, pathLen);
     saveBalasan(path, pathLen);
     saveDraf(path, pathLen);
@@ -54,7 +54,7 @@ F.S : folder terbentuk dan berisi file config
 }
 
 
-void savePengguna(char path[], int len, ListUser LU)
+void savePengguna(char path[], int len, ListUser LU, RelationMatrix m, ListFriendRequest lf)
 /*  Melakukan proses penyimpanan data pengguna ke dalam folder config
 I.S : folder ada dan file pengguna.config di dalamnya sembarang
 F.S : file pengguna.config tersimpan dalam folder config */
@@ -72,9 +72,30 @@ F.S : file pengguna.config tersimpan dalam folder config */
     {
         fprintf(user, "%s\n", USERNAME(USER(LU,i)).buffer);
         fprintf(user, "%s\n", PASSWORD(USER(LU,i)).buffer);
-        fprintf(user, "%s\n", BIO(USER(LU,i)).buffer);
-        fprintf(user, "%s\n", NOHP(USER(LU,i)).buffer);
-        fprintf(user, "%s\n", WETON(USER(LU,i)).buffer);
+        if (LENGTH(BIO(USER(LU,i))) == 0 )
+        {
+            fprintf(user, "\n");
+        }
+        else
+        {
+            fprintf(user, "%s\n", BIO(USER(LU,i)).buffer);
+        }
+        if (LENGTH(NOHP(USER(LU,i))) == 0 )
+        {
+            fprintf(user, "\n");
+        }
+        else
+        {
+            fprintf(user, "%s\n", NOHP(USER(LU,i)).buffer);
+        }
+        if (LENGTH(WETON(USER(LU,i))) == 0 )
+        {
+            fprintf(user, "\n");
+        }
+        else
+        {
+            fprintf(user, "%s\n", WETON(USER(LU,i)).buffer);
+        }
         if (ACCOUNTTYPE(USER(LU,i)))
         {
             fprintf(user, "%s\n", "Publik");
@@ -86,6 +107,29 @@ F.S : file pengguna.config tersimpan dalam folder config */
         fprintf(user, "%s\n", PHOTO(USER(LU,i)).buffer);
     }
     // kurang matriks pertemanan
+    for (int i = 0; i < RelationLength(m); i++)
+    {
+        for (int j = 0; j < RelationLength(m); j++)
+        {
+            if (RelationVal(m, i, j))
+            {
+                fprintf(user, "1");
+            }
+            else
+            {
+                fprintf(user, "0");
+            }
+            if (j != RelationLength(m)-1)
+            {
+                fprintf(user, " ");
+            }
+            else
+            {
+                fprintf(user, "\n");
+            }
+        }
+        
+    }
     // kurang jumlah permintaan berteman
     // kurang matriks permintaan berteman
     

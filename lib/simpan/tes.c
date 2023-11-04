@@ -4,10 +4,15 @@
 int main ()
 {
     ListUser L;
-
+    RelationMatrix m;
+    ListFriendRequest lf;
+    createRelationMatrix(&m);
+    createListRequest(&lf);
     createListUser(&L);
-    daftarUSER(&L);
-    saveAll(L);
+    daftarUSER(&L, &m);
+    daftarUSER(&L, &m);
+    daftarUSER(&L, &m);
+    saveAll(L, m, lf);
 
     return 0;
 }

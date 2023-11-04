@@ -1,3 +1,6 @@
+#ifndef SIMPAN_H
+#define SIMPAN_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
@@ -7,13 +10,13 @@
 #include "../boolean/boolean.h"
 #include "../user/user.h"
 
-void saveAll(ListUser LU);
+void saveAll(ListUser LU, RelationMatrix m, ListFriendRequest lf);
 /*  Melakukan penyimpanan data ke dalam folder config
 I.S : keberadaan folder dan file di dalamnya sembarang
 F.S : folder terbentuk dan berisi file config 
       yang menyimpan data program */
 
-void savePengguna(char path[], int len, ListUser LU );
+void savePengguna(char path[], int len, ListUser LU, RelationMatrix m, ListFriendRequest lf);
 /*  Melakukan proses penyimpanan data pengguna ke dalam folder config
 I.S : folder ada dan file pengguna.config di dalamnya sembarang
 F.S : file pengguna.config tersimpan dalam folder config */
@@ -42,3 +45,5 @@ boolean isDirExist(char dir[]);
 /*  Memeriksa keberadaan sebuah path atau folder
     Mengirimkan true jika folder ada dan false
     folder tidak ada */
+
+#endif

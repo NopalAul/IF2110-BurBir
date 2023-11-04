@@ -3,9 +3,14 @@
 int main ()
 {
     ListUser l;
+    ListFriendRequest lf;
+    RelationMatrix m;
     readString();
     stopRead();
-    loadPengguna(string, &l);
+    createListUser(&l);
+    createRelationMatrix(&m);
+    createListRequest(&lf);
+    loadPengguna(string, &l, &m, &lf);
     displayDataUser(USER(l,0));
     for (int i = 0; i < PASSWORD(USER(l,0)).length; i++)
     {
@@ -24,4 +29,5 @@ int main ()
         printf("%c", PASSWORD(USER(l,2)).buffer[i]);
     }
     printf("\n");
+    printMatrixRelation(m);
 }

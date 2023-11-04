@@ -2,7 +2,7 @@
 
 char path[113] = "../../config/";
 
-void loadPengguna(STRING folder, ListUser *l)
+void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *lf)
 {
     int N;
     STRING text;
@@ -23,10 +23,10 @@ void loadPengguna(STRING folder, ListUser *l)
     N = stringToInteger(text);
     ADV();
     ignoreBlankCarriageNewline();
-    readUserFromFile(&currentUser, N, l);
+    readUserFromFile(&currentUser, N, l, m,lf);
 }
 
-void readUserFromFile(USER *u, int jumlahUser, ListUser *l)
+void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, ListFriendRequest *lf)
 {
     int j;
     STRING processedString;
@@ -41,15 +41,11 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l)
             {
                 for (int count = 0; count < 5; count++)
                 {
-                    while (currentChar != NEWLINE)
+                    for (int x = 0; x < 20; x++)
                     {
                         processedString.buffer[j]= currentChar;
                         processedString.length++;
                         j++;
-                        ADV();
-                    }
-                    if (count!=4)
-                    {
                         ADV();
                     }
                 }
@@ -99,9 +95,29 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l)
             {
                 PHOTO(*u) = processedString;
             }
-            ADV();
+            if (i != 6)
+            {
+                ADV();
+            }
         }
-        printf("%d", k);
-        USER(*l, k) = *u;   
+        USER(*l, k) = *u; 
     }
+    RelationLength(*m) = jumlahUser;
+    for (int i = 0; i < jumlahUser; i++)
+    {
+        for (int j = 0; j < jumlahUser; j++)
+        {
+            if (currentChar == '1')
+            {
+                RelationVal(*m, i, j) = true;
+            }
+            else
+            {
+                RelationVal(*m, i, j) = false;
+            }
+            ADV();
+            ignoreBlankNewline();  
+        }    
+    }
+    
 }
