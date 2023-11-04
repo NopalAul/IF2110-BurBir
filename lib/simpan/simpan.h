@@ -9,8 +9,10 @@
 #include "../charmachine/charmachine.h"
 #include "../boolean/boolean.h"
 #include "../user/user.h"
+#include "../kicauan/kicauan.h"
+#include "../datetime/datetime.h"
 
-void saveAll(ListUser LU, RelationMatrix m, ListFriendRequest lf);
+void saveAll(ListUser LU, RelationMatrix m, ListFriendRequest lf, ListKicau lk);
 /*  Melakukan penyimpanan data ke dalam folder config
 I.S : keberadaan folder dan file di dalamnya sembarang
 F.S : folder terbentuk dan berisi file config 
@@ -21,7 +23,7 @@ void savePengguna(char path[], int len, ListUser LU, RelationMatrix m, ListFrien
 I.S : folder ada dan file pengguna.config di dalamnya sembarang
 F.S : file pengguna.config tersimpan dalam folder config */
 
-void saveKicauan(char path[], int len);
+void saveKicauan(char path[], int len, ListKicau l);
 /*  Melakukan proses penyimpanan data kicauan ke dalam folder config
 I.S : folder ada dan file kicauan.config di dalamnya sembarang
 F.S : file kicauan.config tersimpan dalam folder config */

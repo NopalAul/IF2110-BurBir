@@ -5,7 +5,7 @@
 #include "simpan.h"
 #include "../wordmachine/wordmachine.h"
 
-void saveAll(ListUser l, RelationMatrix m, ListFriendRequest lf)
+void saveAll(ListUser l, RelationMatrix m, ListFriendRequest lf, ListKicau lk)
 /*  Melakukan penyimpanan data ke dalam folder config
 I.S : keberadaan folder dan file di dalamnya sembarang
 F.S : folder terbentuk dan berisi file config 
@@ -46,7 +46,7 @@ F.S : folder terbentuk dan berisi file config
     printf("2...\n");
     printf("3...\n");
     savePengguna(path, pathLen, l, m, lf);
-    saveKicauan(path, pathLen);
+    saveKicauan(path, pathLen, lk);
     saveBalasan(path, pathLen);
     saveDraf(path, pathLen);
     saveUtas(path, pathLen);
@@ -106,7 +106,7 @@ F.S : file pengguna.config tersimpan dalam folder config */
         }
         fprintf(user, "%s\n", PHOTO(USER(LU,i)).buffer);
     }
-    // kurang matriks pertemanan
+    // Save matrix pertemanan
     for (int i = 0; i < RelationLength(m); i++)
     {
         for (int j = 0; j < RelationLength(m); j++)
@@ -136,7 +136,7 @@ F.S : file pengguna.config tersimpan dalam folder config */
     fclose(user);
 }
 
-void saveKicauan(char path[], int len)
+void saveKicauan(char path[], int len, ListKicau l)
 /*  Melakukan proses penyimpanan data kicauan ke dalam folder config
 I.S : folder ada dan file kicauan.config di dalamnya sembarang
 F.S : file kicauan.config tersimpan dalam folder config */
@@ -149,7 +149,21 @@ F.S : file kicauan.config tersimpan dalam folder config */
         length++;
     }
     FILE* kicau = fopen(path, "w");
-    fprintf(kicau,"ini test kicauan");
+    fprintf(kicau,"%d\n", NEFF(l));
+    for (int i = 0; i < NEFF(l); i++)
+    {
+        fprintf(kicau, "%d\n", ID(KICAU(l, i)));
+        fprintf(kicau, "%s\n", TEXT(KICAU(l, i)).buffer);
+        fprintf(kicau, "%d\n", LIKE(KICAU(l, i)));
+        fprintf(kicau, "%s\n", USERNAME(AUTHOR(KICAU(l, i))).buffer);
+        fprintf(kicau, "%d/%d/%d %d:%d:%d", DAY(DATETIME(KICAU(l, i))), MONTH(DATETIME(KICAU(l, i))), YEAR(DATETIME(KICAU(l, i))), HOUR(DATETIME(KICAU(l, i))), MINUTE(DATETIME(KICAU(l, i))), SECOND(DATETIME(KICAU(l, i))));
+        if (i != NEFF(l)-1)
+        {
+            fprintf(kicau, "\n");
+        }
+    }
+    
+    
     fclose(kicau);
 }
 
