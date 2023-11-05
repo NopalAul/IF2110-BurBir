@@ -9,6 +9,7 @@
 #include "../wordmachine/wordmachine.h"
 #include "../user/user.h"
 #include "../relation/relation.h"
+#include "../matrix/matrix.h"
 
 void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *lf);
 

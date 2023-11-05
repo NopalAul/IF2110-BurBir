@@ -104,7 +104,21 @@ F.S : file pengguna.config tersimpan dalam folder config */
         {
             fprintf(user, "%s\n", "Privat");
         }
-        fprintf(user, "%s\n", PHOTO(USER(LU,i)).buffer);
+        // Matrix foto
+        for (int q = 0; q < 5; q++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                fprintf(user, "%c ", PhotoElmt(PHOTO(USER(LU,i)), i, j).color);
+                fprintf(user, "%c", PhotoElmt(PHOTO(USER(LU,i)), i, j).info);
+                if (j != 4)
+                {
+                    fprintf(user, " ");
+                }
+            }
+            fprintf(user, "\n");
+        }
+        
     }
     // Save matrix pertemanan
     for (int i = 0; i < RelationLength(m); i++)
@@ -162,8 +176,6 @@ F.S : file kicauan.config tersimpan dalam folder config */
             fprintf(kicau, "\n");
         }
     }
-    
-    
     fclose(kicau);
 }
 

@@ -23,6 +23,7 @@ void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m, ListFriendReque
     N = stringToInteger(text);
     ADV();
     ignoreBlankCarriageNewline();
+    createUSER(&currentUser);
     readUserFromFile(&currentUser, N, l, m,lf);
 }
 
@@ -39,16 +40,20 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, L
             createEmptyString(&processedString);
             if (i == 6)
             {
+                Length(PHOTO(USER(*l, k))) = 5;
                 for (int count = 0; count < 5; count++)
                 {
-                    for (int x = 0; x < 20; x++)
+                    for (int x = 0; x < 5; x++)
                     {
-                        processedString.buffer[j]= currentChar;
-                        processedString.length++;
-                        j++;
+                        ColorPhoto(PhotoElmt(PHOTO(*u), count, x)) = currentChar;
+                        ADV();
+                        ignoreBlanks();
+                        InfoPhoto(PhotoElmt(PHOTO(*u), count, x)) = currentChar;
+                        ADV();
                         ADV();
                     }
                 }
+                
             }
             else
             {
@@ -90,10 +95,6 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, L
                 {
                     ACCOUNTTYPE(*u) = true;
                 }
-            }
-            else if (i == 6)
-            {
-                PHOTO(*u) = processedString;
             }
             if (i != 6)
             {

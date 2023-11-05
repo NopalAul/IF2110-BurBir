@@ -11,6 +11,7 @@
 #include "../user/user.h"
 #include "../kicauan/kicauan.h"
 #include "../datetime/datetime.h"
+#include "../matrix/matrix.h"
 
 void saveAll(ListUser LU, RelationMatrix m, ListFriendRequest lf, ListKicau lk);
 /*  Melakukan penyimpanan data ke dalam folder config
