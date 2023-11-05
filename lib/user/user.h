@@ -5,10 +5,10 @@
 #include "../pcolor/pcolor.h"
 #include "../boolean/boolean.h"
 #include "../relation/relation.h"
+#include "../matrix/matrix.h"
 
 #define MAX_USER 20
 #define NOT_FOUND -1
-#define DEFAULT_PHOTO "R * R * R * R * R *\nR * R * R * R * R *\nR * R * R * R * R *\nR * R * R * R * R *\nR * R * R * R * R *"
 
 typedef struct{
     STRING username;    //menyimpan username atau nama user
@@ -16,7 +16,7 @@ typedef struct{
     STRING bio;         //menyimpan bio akun user
     STRING noHP;        //menyimpan Nomor HP user
     STRING weton;       //menyimpan jenis weton user
-    STRING photo;       //menyimpan photo user
+    Photo photo;       //menyimpan photo user
     ListFriendRequest request; //menyimpan permintaan pertemanan ke user
     boolean accountType;//akun public bernilai TRUE, akun privat FALSE  
 } USER;

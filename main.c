@@ -10,14 +10,15 @@
 
 int main()
 {
-    ListKicau l;
-    createListKicau(&l, 10);
-    USER user;
-    ListUser listUser;
-    createListUser(&listUser);
-    user = USER(listUser, 0);
-    STRING text;
-    createString(&text, "Halo Dunia");
-    createKicau(&l, user, text);
-    displayKicauan(l);
+    ListUser l;
+    createListUser(&l);
+    RelationMatrix r;
+    createRelationMatrix(&r);
+    daftarUSER(&l, &r);
+    displayDataUser(USER(l,0));
+    gantiProfil(&USER(l,0));
+    displayDataUser(USER(l,0));
+    ubahFotoProfil(&USER(l,0));
+    displayDataUser(USER(l,0));
+    stopRead();
 }
