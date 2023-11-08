@@ -59,6 +59,12 @@ void printMatrixRelation(RelationMatrix r)
 }
 
 //
+void createUserPopularity(UserPopularity *u)
+{
+    u->id = IDX_INIT;
+    u->friendCount = 0;
+}
+
 void createListRequest(ListFriendRequest *l)
 /*Melakukan proses inisialisasi kosong pada l
 I.S :   l sembarang

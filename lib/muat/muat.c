@@ -13,25 +13,35 @@ void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m, ListFriendReque
     {
         path[13+j] = folder.buffer[j];
     }
-    for (int i = 0; i < 16; i++)
+    if (!isDirExist(path))
     {
-        path[13+folder.length+i] = pengguna[i];
+        printf("Tidak ada folder yang dimaksud!");
     }
-    startFile(path);
-    text.buffer[0] = currentChar;
-    text.length = 1;
-    N = stringToInteger(text);
-    ADV();
-    ignoreBlankCarriageNewline();
-    createUSER(&currentUser);
-    readUserFromFile(&currentUser, N, l, m,lf);
+    else
+    {
+        for (int i = 0; i < 16; i++)
+        {
+            path[13+folder.length+i] = pengguna[i];
+        }
+        startFile(path);
+        text.buffer[0] = currentChar;
+        text.length = 1;
+        N = stringToInteger(text);
+        ADV();
+        ignoreBlankCarriageNewline();
+        createUSER(&currentUser);
+        readUserFromFile(&currentUser, N, l, m,lf);
+    }
 }
 
 void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, ListFriendRequest *lf)
 {
-    int j;
+    int i, j, tempIdx, IDsender, IDreceiver, friendCount, count, FriendListCounter;
     STRING processedString;
+    UserPopularity userP;
+    char tempMark;
 
+    // Read user
     for (int k = 0; k < jumlahUser; k++)
     {
         for (int i = 0; i < 7; i++)
@@ -53,7 +63,6 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, L
                         ADV();
                     }
                 }
-                
             }
             else
             {
@@ -103,6 +112,8 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, L
         }
         USER(*l, k) = *u; 
     }
+    
+    // Read matrix pertemanan
     RelationLength(*m) = jumlahUser;
     for (int i = 0; i < jumlahUser; i++)
     {
@@ -120,5 +131,68 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, L
             ignoreBlankNewline();  
         }    
     }
-    
+    createEmptyString(&processedString);
+
+    // Read friend request
+    i = 0;
+    while (currentChar != '\n')
+    {
+        processedString.buffer[i] = currentChar;
+        processedString.length++;
+        i++;
+        ADV();
+    }
+    ignoreBlankNewline();
+    FriendListCounter = stringToInteger(processedString);
+    CountLRF(*lf) = FriendListCounter;
+    for (int i = 0; i < FriendListCounter; i++)
+    {
+        createEmptyString(&processedString);
+        tempIdx = 0;
+        while (currentChar != BLANK)
+        {
+            processedString.buffer[tempIdx] = currentChar;
+            tempIdx++;
+            processedString.length++;
+            ADV();
+        }
+        userP.id = stringToInteger(processedString);
+        ignoreBlanks();
+        createEmptyString(&processedString);
+        tempIdx = 0;
+        while (currentChar != BLANK)
+        {
+            processedString.buffer[tempIdx] = currentChar;
+            tempIdx++;
+            processedString.length++;
+            ADV();
+        }
+        IDreceiver = stringToInteger(processedString);
+        ignoreBlanks();
+        createEmptyString(&processedString);
+        tempIdx = 0;
+        while (currentChar != NEWLINE)
+        {
+            processedString.buffer[tempIdx] = currentChar;
+            tempIdx++;
+            processedString.length++;
+            if (stringToInteger(processedString) > 19)
+            {
+                currentChar = NEWLINE;
+                processedString.length--;
+            }
+            else
+            {
+                ADV();
+            }
+        }
+        userP.friendCount = stringToInteger(processedString);
+        enqueueListRequest(&REQUESTLIST(USER(*l, IDreceiver)), userP);
+    }
+    // tinggal nanganin kasus end of file, perlu ada mark seperti newline atau blank
+}
+
+void loadKicau(STRING folder, ListKicau *l)
+{
+    char kicau[15] = "/kicauan.config";
 }

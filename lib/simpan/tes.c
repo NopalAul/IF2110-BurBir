@@ -17,7 +17,10 @@ int main ()
     daftarUSER(&L, &m);
     daftarUSER(&L, &m);
     daftarUSER(&L, &m);
+    daftarUSER(&L, &m);
     createKicau(&lk, USER(L, 0),text);
+    tambahTeman(&L, 0, &m);
+    tambahTeman(&L, 1, &m);
     saveAll(L, m, lf, lk);
 
     return 0;

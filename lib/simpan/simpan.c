@@ -18,7 +18,7 @@ F.S : folder terbentuk dan berisi file config
     readString();
     stopRead();
     pathLen += string.length;
-
+    
     for (int j = 0; j < string.length; j++) // menambahkan input user ke dalam path
     {
         path[13+j] = string.buffer[j];
@@ -59,15 +59,23 @@ void savePengguna(char path[], int len, ListUser LU, RelationMatrix m, ListFrien
 I.S : folder ada dan file pengguna.config di dalamnya sembarang
 F.S : file pengguna.config tersimpan dalam folder config */
 {
-    int length = len;
+    int length = len, FriendReqCount = 0, count = 1;
+    UserPopularity val;
     char configName[17] = "/pengguna.config";
-    for (int i = 0; i < 17; i++)
+    ListFriendRequest tempReq;
+
+    for (int i = 0; i < 17; i++)    // Mengatur ulang path dari folder yang di-input oleh user
     {
         path[length] = configName[i];
         length++;
     }
+
     FILE* user = fopen(path, "w");
+
+    // Save jumlah pengguna
     fprintf(user,"%d\n", LENGTH(LU));
+
+    // Save data pengguna
     for (int i = 0; i < LENGTH(LU); i++)
     {
         fprintf(user, "%s\n", USERNAME(USER(LU,i)).buffer);
@@ -118,8 +126,8 @@ F.S : file pengguna.config tersimpan dalam folder config */
             }
             fprintf(user, "\n");
         }
-        
     }
+
     // Save matrix pertemanan
     for (int i = 0; i < RelationLength(m); i++)
     {
@@ -144,8 +152,45 @@ F.S : file pengguna.config tersimpan dalam folder config */
         }
         
     }
-    // kurang jumlah permintaan berteman
-    // kurang matriks permintaan berteman
+
+    // Save jumlah permintaan berteman
+    for (int i = 0; i < LENGTH(LU); i++)
+    {
+        FriendReqCount += CountLRF(REQUESTLIST(USER(LU,i)));
+    }
+    if (FriendReqCount == 0)
+    {
+        fprintf(user, "0");
+    }
+    else
+    {
+        fprintf(user, "%d\n", FriendReqCount);
+    }
+
+    // Save permintaan berteman dari seluruh user
+    for (int i = 0; i < LENGTH(LU); i++)
+    {
+        createListRequest(&tempReq);
+        for (int j = 0; j < CountLRF(REQUESTLIST(USER(LU,i))); j++)
+        {
+            dequeueListRequest(&REQUESTLIST(USER(LU,i)), &val);
+            fprintf(user, "%d ", val.id);
+            fprintf(user, "%d ", i);
+            if (count == FriendReqCount)
+            {
+                fprintf(user, "%d", val.friendCount);
+            }
+            else
+            {
+                fprintf(user, "%d\n", val.friendCount);
+                count++;
+            }
+            enqueueListRequest(&tempReq, val);
+        }
+        CountLRF(tempReq) = CountLRF(REQUESTLIST(USER(LU,i)));
+        REQUESTLIST(USER(LU,i)) = tempReq;
+    }
+    
     
     fclose(user);
 }

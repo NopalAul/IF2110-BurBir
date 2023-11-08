@@ -60,6 +60,8 @@ typedef struct {
 #define HeadLRF(l) (l).Head
 #define CountLRF(l) (l).count
 
+void createUserPopularity(UserPopularity *u);
+
 void createListRequest(ListFriendRequest *l);
 /*Melakukan proses inisialisasi kosong pada l
 I.S :   l sembarang

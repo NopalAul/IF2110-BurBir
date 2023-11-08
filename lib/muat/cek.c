@@ -2,7 +2,7 @@
 
 int main ()
 {
-    startFile("../../config/bismillah/pengguna.config");
+    startFile("../../config/gacorkah/pengguna.config");
     int count = 0;
     while (currentChar != 'q')
     {
