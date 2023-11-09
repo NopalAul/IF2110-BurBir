@@ -204,11 +204,7 @@ F.S : file kicauan.config tersimpan dalam folder config */
         fprintf(kicau, "%s\n", TEXT(KICAU(l, i)).buffer);
         fprintf(kicau, "%d\n", LIKE(KICAU(l, i)));
         fprintf(kicau, "%s\n", USERNAME(AUTHOR(KICAU(l, i))).buffer);
-        fprintf(kicau, "%d/%d/%d %d:%d:%d", DAY(DATETIME(KICAU(l, i))), MONTH(DATETIME(KICAU(l, i))), YEAR(DATETIME(KICAU(l, i))), HOUR(DATETIME(KICAU(l, i))), MINUTE(DATETIME(KICAU(l, i))), SECOND(DATETIME(KICAU(l, i))));
-        if (i != NEFF(l)-1)
-        {
-            fprintf(kicau, "\n");
-        }
+        fprintf(kicau, "%d/%d/%d %d:%d:%d\n", DAY(DATETIME(KICAU(l, i))), MONTH(DATETIME(KICAU(l, i))), YEAR(DATETIME(KICAU(l, i))), HOUR(DATETIME(KICAU(l, i))), MINUTE(DATETIME(KICAU(l, i))), SECOND(DATETIME(KICAU(l, i))));
     }
     fclose(kicau);
 }

@@ -11,13 +11,14 @@
 #include "../relation/relation.h"
 #include "../matrix/matrix.h"
 #include "../simpan/simpan.h"
+#include "../kicauan/kicauan.h"
 
-void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *lf);
+void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *lf, ListKicau *lk);
 
 void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *lf);
 
 void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, ListFriendRequest *lf);
 
-void loadKicau(STRING folder, ListKicau *l);
+void loadKicau(STRING folder, ListKicau *l, ListUser lu);
 #endif
 

@@ -1,9 +1,8 @@
 #include "muat.h"
 
-char path[113] = "../../config/";
-
-void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *lf)
+void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *lf, ListKicau *lk)
 {
+    char path[113] = "../../config/";
     for (int j = 0; j < folder.length; j++) // menambahkan input user ke dalam path
     {
         path[13+j] = folder.buffer[j];
@@ -15,11 +14,13 @@ void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *l
     else
     {
         loadPengguna(folder, l, m, lf);
+        loadKicau(folder, lk, *l);
     }
 }
 
 void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *lf)
 {
+    char path[113] = "../../config/";
     int N;
     STRING text;
     USER currentUser;
@@ -29,33 +30,26 @@ void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m, ListFriendReque
     {
         path[13+j] = folder.buffer[j];
     }
-    if (!isDirExist(path))
+    for (int i = 0; i < 16; i++)
     {
-        printf("Tidak ada folder yang dimaksud!");
+        path[13+folder.length+i] = pengguna[i];
     }
-    else
-    {
-        for (int i = 0; i < 16; i++)
-        {
-            path[13+folder.length+i] = pengguna[i];
-        }
-        startFile(path);
-        text.buffer[0] = currentChar;
-        text.length = 1;
-        N = stringToInteger(text);
-        ADV();
-        ignoreBlankCarriageNewline();
-        createUSER(&currentUser);
-        readUserFromFile(&currentUser, N, l, m,lf);
-    }
+    startFile(path);
+    text.buffer[0] = currentChar;
+    text.length = 1;
+    N = stringToInteger(text);
+    LENGTH(*l) = N;
+    ADV();
+    ignoreBlankCarriageNewline();
+    createUSER(&currentUser);
+    readUserFromFile(&currentUser, N, l, m,lf);
 }
 
 void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, ListFriendRequest *lf)
 {
-    int i, j, tempIdx, IDsender, IDreceiver, friendCount, count, FriendListCounter;
+    int i, j, tempIdx, IDreceiver, FriendListCounter;
     STRING processedString;
     UserPopularity userP;
-    char tempMark;
 
     // Read user
     for (int k = 0; k < jumlahUser; k++)
@@ -200,7 +194,147 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, L
     }
 }
 
-void loadKicau(STRING folder, ListKicau *l)
+void loadKicau(STRING folder, ListKicau *l, ListUser lu)
 {
-    char kicau[15] = "/kicauan.config";
+    char path[113] = "../../config/";
+    char kicauan[15] = "/kicauan.config";
+    STRING text;
+    int jumlahKicauan, textIdx, k;
+    KICAU kicau;
+    boolean found;
+    char tempMark;
+
+    for (int j = 0; j < folder.length; j++) // menambahkan input user ke dalam path
+    {
+        path[13+j] = folder.buffer[j];
+    }
+    for (int i = 0; i < 15; i++)
+    {
+        path[13+folder.length+i] = kicauan[i];
+    }
+    createEmptyString(&text);
+    startFile(path);
+    text.buffer[0] = currentChar;
+    text.length = 1;
+    jumlahKicauan = stringToInteger(text);
+    ADV();
+    ignoreBlankCarriageNewline();
+    createEmptyString(&text);
+
+    for (int i = 0; i < jumlahKicauan; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            createEmptyString(&text);
+            textIdx = 0;
+            if (j == 4)
+            {
+                for (int x = 0; x < 2; x++)
+                {
+                    textIdx = 0;
+                    createEmptyString(&text);
+                    while (currentChar != '/')
+                    {
+                        text.buffer[textIdx] = currentChar;
+                        text.length++;
+                        textIdx++;
+                        ADV();
+                    }
+                    if (x == 0)
+                    {
+                        DAY(DATETIME(kicau)) = stringToInteger(text);
+                    }
+                    else
+                    {
+                        MONTH(DATETIME(kicau)) = stringToInteger(text);
+                    }
+                    ADV();
+                }
+                textIdx = 0;
+                createEmptyString(&text);
+                while (currentChar != BLANK)
+                {
+                    text.buffer[textIdx] = currentChar;
+                    text.length++;
+                    textIdx++;
+                    ADV();
+                }
+                YEAR(DATETIME(kicau)) = stringToInteger(text);
+                ignoreBlanks();
+                for (int x = 0; x < 2; x++)
+                {
+                    textIdx = 0;
+                    createEmptyString(&text);
+                    while (currentChar != ':')
+                    {
+                        text.buffer[textIdx] = currentChar;
+                        text.length++;
+                        textIdx++;
+                        ADV();
+                    }
+                    if (x == 0)
+                    {
+                        HOUR(DATETIME(kicau)) = stringToInteger(text);
+                    }
+                    else
+                    {
+                        MINUTE(DATETIME(kicau)) = stringToInteger(text);
+                    }
+                    ADV();
+                }
+                textIdx = 0;
+                createEmptyString(&text);
+                while (currentChar != NEWLINE)
+                {
+                    text.buffer[textIdx] = currentChar;
+                    text.length++;
+                    textIdx++;
+                    ADV();
+                }
+                SECOND(DATETIME(kicau)) = stringToInteger(text);
+                ADV();
+            }
+            else
+            {
+                while (currentChar != NEWLINE)
+                {
+                    text.buffer[textIdx] = currentChar;
+                    text.length++;
+                    textIdx++;
+                    ADV();
+                }
+                if (j == 0)
+                {
+                    ID(kicau) = stringToInteger(text);
+                }
+                if (j == 1)
+                {
+                    TEXT(kicau) = text;
+                }
+                if (j == 2)
+                {
+                    LIKE(kicau) = stringToInteger(text);
+                }
+                if (j == 3)
+                {
+                    k = 0;
+                    found = false;
+                    while (k < LENGTH(lu) && !found)
+                    {
+                        if (isStringEqual(USERNAME(USER(lu, k)), text))
+                        {
+                            AUTHOR(kicau) = USER(lu, k);
+                            found = true;
+                        }
+                        else
+                        {
+                            k++;
+                        }
+                    }
+                }
+                ADV();
+            }
+        }
+        addKicauan(l, &kicau);
+    }
 }

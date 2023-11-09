@@ -5,12 +5,15 @@ int main ()
     ListUser l;
     ListFriendRequest lf;
     RelationMatrix m;
+    ListKicau lk;
+
     readString();
     stopRead();
     createListUser(&l);
     createRelationMatrix(&m);
     createListRequest(&lf);
-    loadPengguna(string, &l, &m, &lf);
+    createListKicau(&lk, 100);
+    loadAll(string, &l, &m, &lf, &lk);
     displayDataUser(USER(l,0));
     for (int i = 0; i < PASSWORD(USER(l,0)).length; i++)
     {
@@ -30,6 +33,8 @@ int main ()
     }
     printf("\n");
     printMatrixRelation(m);
+    printf("\n");
+    displayKicauan(lk);
     if (!isEmptyListRequest(REQUESTLIST(USER(l,3))) && !isEmptyListRequest(REQUESTLIST(USER(l,2))))
     {
         printf("adaan");
