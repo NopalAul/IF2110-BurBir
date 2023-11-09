@@ -13,7 +13,7 @@
 #include "../datetime/datetime.h"
 #include "../matrix/matrix.h"
 
-void saveAll(ListUser LU, RelationMatrix m, ListFriendRequest lf, ListKicau lk);
+void saveAll(STRING folder, ListUser LU, RelationMatrix m, ListFriendRequest lf, ListKicau lk);
 /*  Melakukan penyimpanan data ke dalam folder config
 I.S : keberadaan folder dan file di dalamnya sembarang
 F.S : folder terbentuk dan berisi file config 

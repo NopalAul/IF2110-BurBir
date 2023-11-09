@@ -2,6 +2,22 @@
 
 char path[113] = "../../config/";
 
+void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *lf)
+{
+    for (int j = 0; j < folder.length; j++) // menambahkan input user ke dalam path
+    {
+        path[13+j] = folder.buffer[j];
+    }
+    if (!isDirExist(path))
+    {
+        printf("Tidak ada folder yang dimaksud!");
+    }
+    else
+    {
+        loadPengguna(folder, l, m, lf);
+    }
+}
+
 void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *lf)
 {
     int N;
@@ -147,6 +163,7 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, L
     CountLRF(*lf) = FriendListCounter;
     for (int i = 0; i < FriendListCounter; i++)
     {
+        ignoreBlankNewline();
         createEmptyString(&processedString);
         tempIdx = 0;
         while (currentChar != BLANK)
@@ -176,20 +193,11 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, L
             processedString.buffer[tempIdx] = currentChar;
             tempIdx++;
             processedString.length++;
-            if (stringToInteger(processedString) > 19)
-            {
-                currentChar = NEWLINE;
-                processedString.length--;
-            }
-            else
-            {
-                ADV();
-            }
+            ADV();
         }
         userP.friendCount = stringToInteger(processedString);
         enqueueListRequest(&REQUESTLIST(USER(*l, IDreceiver)), userP);
     }
-    // tinggal nanganin kasus end of file, perlu ada mark seperti newline atau blank
 }
 
 void loadKicau(STRING folder, ListKicau *l)

@@ -21,7 +21,10 @@ int main ()
     createKicau(&lk, USER(L, 0),text);
     tambahTeman(&L, 0, &m);
     tambahTeman(&L, 1, &m);
-    saveAll(L, m, lf, lk);
+    printf("Masukkan nama folder: ");
+    readString();
+    stopRead();
+    saveAll(string, L, m, lf, lk);
 
     return 0;
 }

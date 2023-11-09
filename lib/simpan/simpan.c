@@ -5,7 +5,7 @@
 #include "simpan.h"
 #include "../wordmachine/wordmachine.h"
 
-void saveAll(ListUser l, RelationMatrix m, ListFriendRequest lf, ListKicau lk)
+void saveAll(STRING folder, ListUser l, RelationMatrix m, ListFriendRequest lf, ListKicau lk)
 /*  Melakukan penyimpanan data ke dalam folder config
 I.S : keberadaan folder dan file di dalamnya sembarang
 F.S : folder terbentuk dan berisi file config 
@@ -14,10 +14,7 @@ F.S : folder terbentuk dan berisi file config
     char path[113] = "../../config/";     // path untuk folder config
     int pathLen = 13;  
 
-    printf("Masukkan nama folder penyimpanan\n");
-    readString();
-    stopRead();
-    pathLen += string.length;
+    pathLen += folder.length;
     
     for (int j = 0; j < string.length; j++) // menambahkan input user ke dalam path
     {
@@ -59,7 +56,7 @@ void savePengguna(char path[], int len, ListUser LU, RelationMatrix m, ListFrien
 I.S : folder ada dan file pengguna.config di dalamnya sembarang
 F.S : file pengguna.config tersimpan dalam folder config */
 {
-    int length = len, FriendReqCount = 0, count = 1;
+    int length = len, FriendReqCount = 0;
     UserPopularity val;
     char configName[17] = "/pengguna.config";
     ListFriendRequest tempReq;
@@ -176,15 +173,7 @@ F.S : file pengguna.config tersimpan dalam folder config */
             dequeueListRequest(&REQUESTLIST(USER(LU,i)), &val);
             fprintf(user, "%d ", val.id);
             fprintf(user, "%d ", i);
-            if (count == FriendReqCount)
-            {
-                fprintf(user, "%d", val.friendCount);
-            }
-            else
-            {
-                fprintf(user, "%d\n", val.friendCount);
-                count++;
-            }
+            fprintf(user, "%d\n", val.friendCount);
             enqueueListRequest(&tempReq, val);
         }
         CountLRF(tempReq) = CountLRF(REQUESTLIST(USER(LU,i)));

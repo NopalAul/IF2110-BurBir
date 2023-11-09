@@ -12,6 +12,8 @@
 #include "../matrix/matrix.h"
 #include "../simpan/simpan.h"
 
+void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *lf);
+
 void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m, ListFriendRequest *lf);
 
 void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m, ListFriendRequest *lf);
