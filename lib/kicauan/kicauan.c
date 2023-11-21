@@ -55,7 +55,11 @@ void sukaKicauan(ListKicau *l,int id ){
         i++;
     }
     if(ID(KICAU(*l,i)) == id){
+
         LIKE(KICAU(*l,i))++;
+    }
+    else{
+        printf("Tidak ditemukan kicauan dengan ID = %d\n",id);
     }
 }
 
@@ -111,14 +115,26 @@ void displayKicau(KICAU kicau){
     printf("| Disukai: %d\n",LIKE(kicau));
 
 }
-int getUserIDofKicauan(KICAU k){
-    return ID(USERNAME(AUTHOR(k)));
+boolean isAuthorKicauPublicOrFriend(KICAU k,USER currUser,RelationMatrix R,ListUser l){
+    if (ACCOUNTTYPE(AUTHOR(k))){
+        return true;
+    } 
+    else {
+      if(isFriend(R,userID(l,currUser),userID(l,AUTHOR(k)))){
+            return true;
+      }
+      else{
+        return false;
+      }
+        
+    }
 
 }
 
 void displayKicauan(ListKicau l){
     for (int i = 0; i < NEFF(l); i++){
-        displayKicau(KICAU(l,i));
+        if(!isAuthorKicauPrivate(KICAU(l,i)))
+            displayKicau(KICAU(l,i));
     }
 }
 

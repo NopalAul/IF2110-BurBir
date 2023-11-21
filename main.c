@@ -10,15 +10,25 @@
 
 int main()
 {
+    // masuk
+    USER currentuser;
     ListUser l;
     createListUser(&l);
     RelationMatrix r;
     createRelationMatrix(&r);
     daftarUSER(&l, &r);
-    displayDataUser(USER(l,0));
-    gantiProfil(&USER(l,0));
-    displayDataUser(USER(l,0));
-    ubahFotoProfil(&USER(l,0));
-    displayDataUser(USER(l,0));
-    stopRead();
+    // displayDataUser(USER(l,0));
+    // gantiProfil(&USER(l,0));
+    // displayDataUser(USER(l,0));
+    // ubahFotoProfil(&USER(l,0));
+    // displayDataUser(USER(l,0));
+    // stopRead();
+    printf("Test\n");
+    readCommand();
+    STRING daftar;
+    createEmptyString(&daftar);
+    createString(&daftar, "DAFTAR");
+    if(isStringEqual(string, daftar)){
+        daftarUSER(&l, &r);
+    }
 }
