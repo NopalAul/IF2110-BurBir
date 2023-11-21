@@ -32,7 +32,7 @@ typedef struct{
 #define ACCOUNTTYPE(U) (U).accountType
 
 typedef struct{
-    USER Tab[MAX_USER]; //menyimpan info USER (modifikasi List Statik)
+    USER Tab[MAX_USER]; //menyimpan info USER (modifikasi List dengan array statik)
     int length;         //meyimpan banyak user
 } ListUser;
 
@@ -98,6 +98,8 @@ void ubahFotoProfil(USER *user);
 /*Melakukan procedure pengubahan foto profil
 I.S :   user terdefinisi
 F.S :   foto profil user digantikan dengan foto profil baru*/
+
+int userID(ListUser l, USER user);
 
 void daftarTeman(ListUser l, int currentID, RelationMatrix r);
 void hapusTeman(ListUser l, int currentID, RelationMatrix *r);

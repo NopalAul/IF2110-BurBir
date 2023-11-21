@@ -256,6 +256,14 @@ F.S :   foto profil user digantikan dengan foto profil baru*/
     printf("Foto profil Anda sudah berhasil diganti!\n\n");
 }
 
+int userID(ListUser l, USER user){
+    for (int i = 0 ; i < LENGTH(l); i++){
+        if (isStringEqual(USERNAME(USER(l,i)), USERNAME(user)));
+            return i;
+    }
+    return NOT_FOUND;
+}
+
 void daftarTeman(ListUser l, int currentID, RelationMatrix r)
 {
     int count = 0;
