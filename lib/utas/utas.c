@@ -14,7 +14,6 @@ Address newNode (int IDUtas, USER user, STRING content)
 {
     Address p = (Address)malloc(sizeof(Utas));
     if(p != NULL) {
-        IDUTAS(p) = IDUtas;
         AUTHORUTAS(p) = user;
         CONTENT(p) = content;
         DATETIMEUTAS(p) = getCurrentDATETIME() ;
@@ -23,27 +22,28 @@ Address newNode (int IDUtas, USER user, STRING content)
     return p;   
 }
 
-void CreateListUtas(ListUtas *l)
+void CreateListUtas(UtasList *l)
 /* I.S. sembarang             */
-/* F.S :   terbentuk ListUtas kosong l (length = 0) */
+/* F.S :   terbentuk UtasList kosong l (length = 0) */
 {
-    FIRST(*l) = NULL;
+    FIRSTUTAS(*l) = NULL;
+    IDUTAS(*l) = ID_UNDEF;
 }
 
-boolean isEmpty(ListUtas l)
-/* Mengirim true jika ListUtas kosong */
+boolean isEmpty(UtasList l)
+/* Mengirim true jika UtasList kosong */
 {
-    return (FIRST(l) == NULL);
+    return (FIRSTUTAS(l) == NULL);
 }
 
-int indexOf(ListUtas l, ElType val); //#### belum ganti
+int indexOf(UtasList l, ElType val); //#### belum ganti
 /* I.S. l, val terdefinisi */
 /* F.S. Mencari apakah ada elemen list l yang bernilai val */
 /* Jika ada, mengembalikan indeks elemen pertama l yang bernilai val */
 /* Mengembalikan IDX_UNDEF jika tidak ditemukan */
 
 /*** PENAMBAHAN ELEMEN ***/
-void insertFirst(ListUtas *l, int IDUtas, USER user, STRING content)
+void insertFirst(UtasList *l, int IDUtas, USER user, STRING content)
 /* I.S. l mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen pertama dengan komponen utas jika alokasi berhasil. */
@@ -52,12 +52,12 @@ void insertFirst(ListUtas *l, int IDUtas, USER user, STRING content)
     Address p;
     p = newNode(IDUtas, user, content);
     if(p != NULL) {
-        NEXT(p) = FIRST(*l);
-        FIRST(*l) = p;
+        NEXT(p) = FIRSTUTAS(*l);
+        FIRSTUTAS(*l) = p;
     }
 }
 
-void insertLast(ListUtas *l, int IDUtas, USER user, STRING content)
+void insertLast(UtasList *l, int IDUtas, USER user, STRING content)
 /* I.S. l mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen list di akhir: elemen terakhir yang baru */
@@ -69,7 +69,7 @@ void insertLast(ListUtas *l, int IDUtas, USER user, STRING content)
     else {
         Address p = newNode(IDUtas, user, content);
         if(p != NULL) {
-            Address last = FIRST(*l);
+            Address last = FIRSTUTAS(*l);
             while(NEXT(last) != NULL) {
                 last = NEXT(last);
             }
@@ -78,7 +78,7 @@ void insertLast(ListUtas *l, int IDUtas, USER user, STRING content)
     }
 }
 
-void insertAt(ListUtas *l, int IDUtas, int index, USER user, STRING content)
+void insertAt(UtasList *l, int IDUtas, int index, USER user, STRING content)
 /* I.S. l tidak mungkin kosong, idx indeks yang valid dalam l, yaitu 0..length(l) */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menyisipkan elemen dalam list pada indeks ke-idx (bukan menimpa elemen di i) */
@@ -90,7 +90,7 @@ void insertAt(ListUtas *l, int IDUtas, int index, USER user, STRING content)
     else {
         Address p = newNode(IDUtas, user, content);
         if(p != NULL) {
-            Address at = FIRST(*l);
+            Address at = FIRSTUTAS(*l);
             int i = 0;
             while(i < index-1) {
                 at = NEXT(at);
@@ -103,17 +103,17 @@ void insertAt(ListUtas *l, int IDUtas, int index, USER user, STRING content)
 }
 
 /*** PENGHAPUSAN ELEMEN ***/
-void deleteFirst(ListUtas *l)
+void deleteFirst(UtasList *l)
 /* I.S. List l tidak kosong  */
 /* F.S. Elemen pertama list dihapus: alamat elemen pertama di-dealokasi */
 {
-    Address p = FIRST(*l);
+    Address p = FIRSTUTAS(*l);
     // *val = INFO(p);
-    FIRST(*l) = NEXT(p);
+    FIRSTUTAS(*l) = NEXT(p);
     free(p);
 }
 
-void deleteAt(ListUtas *l, int index)
+void deleteAt(UtasList *l, int index)
 /* I.S. list tidak kosong, idx indeks yang valid dalam l, yaitu 0..length(l) */
 /* F.S. Elemen l pada indeks ke-idx dihapus dari l */
 {
@@ -121,7 +121,7 @@ void deleteAt(ListUtas *l, int index)
         deleteFirst(l);
     }
     else {
-        Address p, at = FIRST(*l);
+        Address p, at = FIRSTUTAS(*l);
         int i = 0;
         while(i < index-1) {
             at = NEXT(at);
@@ -135,12 +135,12 @@ void deleteAt(ListUtas *l, int index)
 }
 
 
-/****************** PROSES SEMUA ELEMEN LISTUTAS ******************/
+/****************** PROSES SEMUA ELEMEN UtasList ******************/
 
-int length(ListUtas l)
+int length(UtasList l)
 {
     /* Mengirimkan banyaknya elemen list; mengirimkan 0 jika list kosong */
-    Address p = FIRST(l);
+    Address p = FIRSTUTAS(l);
     int len = 0;
     while(p != NULL) {
         p = NEXT(p);
@@ -149,10 +149,10 @@ int length(ListUtas l)
     return len;
 }
 
-void tulisUtas(ListUtas *l, USER user, int IDKicau)
+void tulisUtas(UtasList *l, USER user, int IDKicau)
 /* Membuat utas baru dari kicauan utama. Utas dapat dilanjutkan 
 I.S :   IDKicau, mungkin bukan milik pengguna saat ini
-F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
+F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length UtasList bertambah */
 {
     if (belumInisialisasi){
         belumInisialisasi = false;
@@ -161,7 +161,7 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
     }
 
     Address p;
-    p = FIRST(*l);
+    p = FIRSTUTAS(*l);
     int IDUtas = -1; // assign apa?
     int index;
     STRING content;
@@ -208,9 +208,9 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
     }
 }
 
-// int searchIndexUtas(ListUtas l, int index)
+// int searchIndexUtas(UtasList l, int index)
 // {
-//     /* Mengembalikan index sebuah Utas di dalam ListUtas l. Mengembalikan NOT_FOUND jika tidak ditemukan */
+//     /* Mengembalikan index sebuah Utas di dalam UtasList l. Mengembalikan NOT_FOUND jika tidak ditemukan */
 //     Address p;
 //     p = FIRST(l);
 //     boolean found = false;
@@ -222,13 +222,13 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
 
 // }
 
-void sambungUtas(ListUtas *l, int IDUtas, int index) //PERLU PARAMETER USER?
+void sambungUtas(UtasList *l, int IDUtas, int index) //PERLU PARAMETER USER?
 /* Melakukan sambung utas, menambah utas di posisi index yang dituju dari sebuah utas utama.
 I.S :   IDUtas, mungkin bukan milik pengguna saat ini
 F.S :   terisi kicauan baru, index Utas bertambah */
 {   
     Address p;
-    p = FIRST(*l);
+    p = FIRSTUTAS(*l);
     STRING content;
 
     // if(IDUtas == NOT_FOUND) {
@@ -256,7 +256,7 @@ F.S :   terisi kicauan baru, index Utas bertambah */
 
 }
 
-void hapusUtas(ListUtas *l, int IDUtas, int index)
+void hapusUtas(UtasList *l, int IDUtas, int index)
 {
     /* Menghapus utas sesuai posisi index, tidak dapat menghapus index 0 (ID kicauan utama) 
     I.S :   IDUtas, mungkin bukan milik pengguna saat ini
@@ -288,11 +288,11 @@ void hapusUtas(ListUtas *l, int IDUtas, int index)
     }
 }
 
-void cetakUtas(ListUtas l, int IDUtas)
+void cetakUtas(UtasList l, int IDUtas)
 /* Mencetak seluruh kicauan dalam utas dengan id = IDUtas */
 {
     Address p;
-    p = FIRST(l);
+    p = FIRSTUTAS(l);
 
     if(isEmpty(l)) {
         printf("Maaf, belum ada utas untuk ditampilkan.");

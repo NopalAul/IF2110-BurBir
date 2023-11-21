@@ -8,6 +8,7 @@
 #include "lib/datetime/datetime.h"
 #include "lib/pcolor/pcolor.h"
 #include "lib/listRequest/listRequest.h"
+#include "lib/utas/utas.h"
 
 
 void login(USER *currentuser){
@@ -69,7 +70,9 @@ int main()
             int id = stringToInteger(leftInfo);
             ubahKicauan(&listkicauan,currentuser,id);
         }
-        
+        else if(isWordEqual(string,"UTAS")){
+            tulisUtas()
+        }
     }
 }
 
