@@ -4,8 +4,8 @@
 #include "../wordmachine/wordmachine.h"
 #include "../pcolor/pcolor.h"
 #include "../boolean/boolean.h"
-#include "../relation/relation.h"
 #include "../matrix/matrix.h"
+#include "../listRequest/listRequest.h"
 
 #define MAX_USER 20
 #define NOT_FOUND -1
@@ -36,6 +36,8 @@ typedef struct{
     int length;         //meyimpan banyak user
 } ListUser;
 
+extern ListUser UserList;
+
 #define LENGTH(l) (l).length
 #define USER(l,i)  (l).Tab[i]
 
@@ -49,13 +51,13 @@ F.S :   user.username didefinisikan kosong
         user.weton didefinisikan kosong 
         user.photo didefinisikan kosong */
 
-void createListUser(ListUser *l);
+void createListUser();
 /*Melakukan inisialisasi ListUser l
 I.S :   l sembarang
 F.S :   dibuat sebuah ListUser kosong l, l.length = 0
         semua elemen l dilakukan createUser*/
 
-void daftarUSER(ListUser *l, RelationMatrix *r);
+void daftarUSER();
 /*Melakukan prosedur DAFTAR untuk pengguna baru
 I.S :   user sembarang
 F.S :   melakukan procedure DAFTAR seperti spek 
@@ -64,7 +66,7 @@ F.S :   melakukan procedure DAFTAR seperti spek
         mengecek apakah username sudah terdaftar sebelumnya atau tidak
         jika sudah terdaftar akan dilakukan input ulang*/
 
-int searchUser(ListUser l, STRING username);
+int searchUser(STRING username);
 /*Mengembalikan indeks ditemukannya user di dalam l, jika
 user tidak ditemukan maka mengembalikan NOT_FOUND*/
 
@@ -99,13 +101,13 @@ void ubahFotoProfil(USER *user);
 I.S :   user terdefinisi
 F.S :   foto profil user digantikan dengan foto profil baru*/
 
-int userID(ListUser l, USER user);
+int userID(USER user);
 
-void daftarTeman(ListUser l, int currentID, RelationMatrix r);
-void hapusTeman(ListUser l, int currentID, RelationMatrix *r);
-void tambahTeman(ListUser *l, int currentID, RelationMatrix *r);
-void batalTambahTeman(ListUser *l, int currentID, RelationMatrix *r);
-void daftarPermintaanTeman(ListUser l, int currentID);
-void acceptPertemanan(ListUser *l, int currentID, RelationMatrix *r);
+void daftarTeman(int currentID);
+void hapusTeman(int currentID);
+void tambahTeman(int currentID);
+void batalTambahTeman(int currentID);
+void daftarPermintaanTeman(int currentID);
+void acceptPertemanan(int currentID);
 
 #endif
