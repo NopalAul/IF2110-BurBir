@@ -12,7 +12,7 @@ void createEmptyString(STRING *str)
 /* Melakukan proses alokasi memori buffer
 I.S : string sembarang, dan MaxCap terdefinisi
 F.S : string terdefinisi dengan buffer string dialokasikan 
-      sebesar MaxCap dan length diset = 0*/
+        sebesar MaxCap dan length diset = 0*/
 {
     // if ((*str).buffer != NULL){
     //     free((*str).buffer);
@@ -407,4 +407,17 @@ void displayStringNoNewline(STRING s)
     for (int i = 0; i < s.length; i++){
         printf("%c", s.buffer[i]);
     }
+}
+
+boolean isWordEqual(STRING s, char other[])
+{
+    int i = 0;
+    boolean nodiff = true;
+    while (other[i] != '\0' && nodiff){
+        if (other[i] != s.buffer[i]){
+            nodiff = false;
+        }
+        i++;
+    }
+    return nodiff;
 }

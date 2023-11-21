@@ -139,4 +139,6 @@ Prekondisi : seluruh char pada STRING s adalah numeric, kecuali char pertama dap
 
 void displayStringNoNewline(STRING s);
 
+boolean isWordEqual(STRING s, char other[]);
+
 #endif
