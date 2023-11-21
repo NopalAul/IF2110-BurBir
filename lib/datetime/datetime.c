@@ -1,6 +1,6 @@
 #include "datetime.h"
 #include <stdio.h>
-void createDateTime(DATETIME *dt){
+void createDATETIME(DATETIME *dt){
     DAY(*dt) = 0;
     MONTH(*dt) = 0;
     YEAR(*dt) = 0;
@@ -23,6 +23,6 @@ DATETIME getCurrentDATETIME(){
 }
 
 void displayDATETIME(DATETIME dt){
-    printf("%d/%d/%d %d:%d:%d\n", DAY(dt), MONTH(dt), YEAR(dt), HOUR(dt), MINUTE(dt), SECOND(dt));
+    printf("%02d/%02d/%04d %02d:%02d:%02d\n", DAY(dt), MONTH(dt), YEAR(dt), HOUR(dt), MINUTE(dt), SECOND(dt));
 }
 
