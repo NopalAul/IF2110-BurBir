@@ -6,6 +6,7 @@
 #include "../user/user.h"
 #include "../boolean/boolean.h"
 #include "../balasan/balasan.h"
+#include "../relation/relation.h"
 
 #define MAX_KICAULENGTH 280
 #define NOT_FOUND -1

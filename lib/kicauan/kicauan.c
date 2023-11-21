@@ -2,6 +2,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void buatKicau(ListKicau *l,USER user){
+    printf("Masukkan kicauan:\n");
+    readKicauan();
+    createKicau(l,user,string);
+    printf("Selamat! kicauan telah diterbitkan!\n");
+    printf("Detil kicauan:\n");
+    displayKicau(KICAU(*l,NEFF(*l)));
+}
+
+void displayKicauWithCheck(ListKicau *l,USER user,RelationMatrix R){
+
+}
+
 void createListKicau(ListKicau *l, int capacity){
     BUFFER(*l) =  (KICAU*) malloc(sizeof(KICAU) * capacity);
     NEFF(*l) = 0;
@@ -96,6 +109,10 @@ void displayKicau(KICAU kicau){
     printf("| ");
     displayString(TEXT(kicau));
     printf("| Disukai: %d\n",LIKE(kicau));
+
+}
+int getUserIDofKicauan(KICAU k){
+    return ID(USERNAME(AUTHOR(k)));
 
 }
 
