@@ -5,12 +5,12 @@
 #include "../wordmachine/wordmachine.h"
 #include "../user/user.h"
 #include "../boolean/boolean.h"
+#include "../reply/reply.h"
 #include "../utas/utas.h"
-
 
 #define MAX_KICAULENGTH 280
 #define NOT_FOUND -1
-typedef int BALASAN;
+
 
 typedef struct{
     int id;
@@ -18,8 +18,9 @@ typedef struct{
     STRING text;
     int like;
     DATETIME datetime;
-    BALASAN balasan;
+    AddressReply balasan;
     Address utas;
+
 } KICAU;
 
 typedef struct{
@@ -39,6 +40,7 @@ typedef struct{
 #define CAPACITY(l) (l).capacity
 #define KICAU(l,i)  (l).buffer[i]
 #define BUFFER(l) (l).buffer
+#define UTAS(U) (U).utas
 
 void createListKicau(ListKicau *l, int capacity);
 
@@ -51,9 +53,9 @@ boolean isKicauanFull(ListKicau l);
 
 boolean isKicauanEmpty(ListKicau l);
 
-void sukaKicauan(ListKicau *l,int id );
+void sukaKicauan(ListKicau *l,int id,USER currUser );
 
-void ubahKicauan(KICAU *kicau,STRING text);
+// void ubahKicauan(KICAU *kicau,STRING text,USER currUser);
 
 void sortKicauan(ListKicau *l);
 
@@ -67,6 +69,11 @@ void shrinkKicauan(ListKicau *l,int num);
 
 void displayKicau(KICAU kicau);
 
-void displayKicauan(ListKicau l);
+void displayKicauan(ListKicau l,USER currUser);
 
+boolean isAuthorKicauPublicOrFriend(KICAU kicau,USER currUser);
+
+void buatKicau(ListKicau *l,USER currUser);
+
+void ubahKicauan(ListKicau *l,USER currUser,int id);
 #endif

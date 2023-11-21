@@ -7,17 +7,73 @@
 #include "lib/charmachine/charmachine.h"
 #include "lib/datetime/datetime.h"
 #include "lib/pcolor/pcolor.h"
+#include "lib/listRequest/listRequest.h"
+#include "lib/utas/utas.h"
+
+
+void login(USER *currentuser){
+    printf("Masukkan nama:");
+            readString();
+            STRING username = string;
+            if(searchUser(string)!=NOT_FOUND){
+                printf("Masukkan password:");
+                readString();
+                if(isStringEqual(string,PASSWORD(USER(UserList,searchUser(username))))){
+                    *currentuser = USER(UserList,searchUser(username));
+                    printf("Selamat datang !");
+                    displayString(USERNAME(*currentuser));
+                    printf("\n");
+                }
+                else{
+                    displayString(USERNAME(USER(UserList,searchUser(username))));
+                    displayString(string);
+                    displayString(PASSWORD(USER(UserList,searchUser(username))));
+                    printf("Password salah!\n");
+                }
+            }
+            else{
+                printf("Wah, nama yang Anda cari tidak ada. Masukkan nama lain!");
+            }
+}
 
 int main()
 {
-    ListKicau l;
-    createListKicau(&l, 10);
-    USER user;
-    ListUser listUser;
-    createListUser(&listUser);
-    user = USER(listUser, 0);
-    STRING text;
-    createString(&text, "Halo Dunia");
-    createKicau(&l, user, text);
-    displayKicauan(l);
+    USER currentuser;
+    createListUser();
+
+    createRelationMatrix();
+    ListKicau listkicauan;
+    createListKicau(&listkicauan,100);
+
+    printf("WELCOME\n");
+    while(1){
+        printf(">>> ");
+        readCommand();
+        if(isWordEqual(string,"DAFTAR")){
+            daftarUSER();
+            currentuser = USER(UserList,LENGTH(UserList)-1);
+        }
+        else if(isWordEqual(string,"MASUK")){
+            login(&currentuser);
+        }
+        else if(isWordEqual(string,"KICAU")){
+            buatKicau(&listkicauan,currentuser);
+        }
+        else if(isWordEqual(string,"KICAUAN")){
+            displayKicauan(listkicauan,currentuser);
+        }
+        else if(isWordEqual(string,"SUKA_KICAUAN")){
+            int id = stringToInteger(leftInfo);
+            sukaKicauan(&listkicauan,id,currentuser);
+        }
+        else if(isWordEqual(string,"UBAH_KICAUAN")){
+            int id = stringToInteger(leftInfo);
+            ubahKicauan(&listkicauan,currentuser,id);
+        }
+        else if(isWordEqual(string,"UTAS")){
+            tulisUtas()
+        }
+    }
 }
+
+// gcc -o tes main.c lib/wordmachine/wordmachine.c lib/user/user.c lib/kicauan/kicauan.c lib/charmachine/charmachine.c lib/datetime/datetime.c lib/pcolor/pcolor.c lib/listRequest/listRequest.c lib/matrix/matrix.c lib/relation/relation.c lib/reply/reply.c

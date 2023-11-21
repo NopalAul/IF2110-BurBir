@@ -282,6 +282,7 @@ F.S : alokasi memori string diset dengan BIO_CAPACITY
                 //printf("inii --- %d\n", cnt);
             }
         }
+        ignoreCarriage();
         ADV();
         string.length++;
         cnt++;
@@ -406,4 +407,17 @@ void displayStringNoNewline(STRING s)
     for (int i = 0; i < s.length; i++){
         printf("%c", s.buffer[i]);
     }
+}
+
+boolean isWordEqual(STRING s, char other[])
+{
+    int i = 0;
+    boolean nodiff = true;
+    while (other[i] != '\0' && nodiff){
+        if (other[i] != s.buffer[i]){
+            nodiff = false;
+        }
+        i++;
+    }
+    return nodiff;
 }
