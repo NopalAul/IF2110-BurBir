@@ -17,5 +17,9 @@ int main()
     readString();
     PushDraft(&d, string);
     PopDraft(&d, &sd);
+    PopDraft(&d, &sd);
+    PopDraft(&d, &sd);
+    PopDraft(&d, &sd);
     displayTop(d);
+    displayString(sd);
 }

@@ -95,9 +95,17 @@ void displayTop(StackDraft d)
 /* I.S. d terdefinisi */
 /* F.S. menampilkan draft top*/
 {
-    printf("Ini draf terakhir anda:\n");
-    printf("| %d/%d/%d %.02d:%.02d:%.02d\n", d.buffer[d.Top].dt.day, d.buffer[d.Top].dt.month, d.buffer[d.Top].dt.year, d.buffer[d.Top].dt.hour, d.buffer[d.Top].dt.minute, d.buffer[d.Top].dt.second);
-    printf("| ");
-    displayString(d.buffer[d.Top].kicau);
-    printf("\n");
+    if (!IsEmptyDraft(d))
+    {
+        printf("Ini draf terakhir anda:\n");
+        printf("| ");
+        displayDATETIME(d.buffer[d.Top].dt);
+        printf("| ");
+        displayString(d.buffer[d.Top].kicau);
+        printf("\n");
+    }
+    else
+    {
+        printf("Yah, anda belum memiliki draf apapun! Buat dulu ya :DD");
+    }
 }
