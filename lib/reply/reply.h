@@ -1,45 +1,44 @@
-// balasan using tree
+#ifndef REPLY_H
+#define REPLY_H
 
-#ifndef tree_h
-#define tree_h
-
-#define IDX_UNDEF -1
-
+#include "../boolean/boolean.h"
+#include "../wordmachine/wordmachine.h"
 #include "../datetime/datetime.h"
-#include "../charmachine/charmachine.h"
-#include "../user/user.h"
 
 
-
-typedef struct{
-    int id;
-    USER user;
-    DATETIME date;
+typedef struct replyNode* AddressReply;
+typedef struct replyNode {
+    int replyID;
     STRING text;
+    STRING author;
+    DATETIME currTime;
+    AddressReply sibling;
+    AddressReply child;
+} ReplyNode;
 
-}BALASAN;
+#define REPLYID(p) (p)->replyID
+#define REPLYTEXT(p) (p)->text
+#define REPLYAUTHOR(p) (p)->author
+#define REPLYTIME(p) (p)->currTime
+#define SIBLING(p) (p)->sibling
+#define CHILD(p) (p)->child
 
-typedef struct node{
-    BALASAN balasan;
-    struct node *child;
-    struct node *sibling;
-} Node;
+AddressReply newReply(int id, STRING Text, STRING Author, DATETIME time);
 
-typedef struct node *address;
-typedef address tree;
+typedef AddressReply REPLY;
 
-#define ROOT(l) (l)
-#define BALASAN(l) (l)->balasan
-#define CHILD(l) (l)->child
-#define SIBLING(l) (l)->sibling
+#define firstReply(r) (r)
 
-#define ID(l) (l).id
-#define USERBAL(l) (l).user
-#define DATE(l) (l).date
-#define TEXT(l) (l).text
+void CreateREPLY(REPLY* reply);
 
+boolean isEmptyREPLY(REPLY reply);
 
-void createTree(tree *T);
+void addREPLY(REPLY *r, int id, AddressReply reply, boolean *succeed);
+void deleteREPLY(REPLY *r, int id, boolean *succeed, AddressReply parent, AddressReply leftSibling);
+void deleteReplyTree(REPLY *r, int depth);
 
+void displaySpecificReply(AddressReply p, int tab, boolean isPublic);
+
+void displayReply(REPLY p, int depth);
 
 #endif

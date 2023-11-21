@@ -92,10 +92,10 @@ void deleteAt(UtasList *l, int index);
 int length(UtasList l);
 /* Mengirimkan banyaknya elemen list; mengirimkan 0 jika list kosong */
 
-void tulisUtas(UtasList *l, USER user, int IDKicau);
-/* Membuat utas baru dari kicauan utama. Utas dapat dilanjutkan 
-I.S :   IDKicau, mungkin bukan milik pengguna saat ini
-F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
+// void tulisUtas(UtasList *l, USER user, int IDKicau);
+// /* Membuat utas baru dari kicauan utama. Utas dapat dilanjutkan 
+// I.S :   IDKicau, mungkin bukan milik pengguna saat ini
+// F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
 
 int searchIndexUtas(UtasList l, int index);
 /* Mengembalikan index sebuah Utas di dalam UtasList l. Mengembalikan NOT_FOUND jika tidak ditemukan */

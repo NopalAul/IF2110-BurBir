@@ -19,7 +19,8 @@ typedef struct{
     int like;
     DATETIME datetime;
     AddressReply balasan;
-    Address utas;
+    UtasList utas;
+    int NextReplyID;
 
 } KICAU;
 
@@ -27,6 +28,7 @@ typedef struct{
     KICAU *buffer; //menyimpan info KICAU (modifikasi List Statik)
     int nEFF;
     int capacity;         //meyimpan banyak kicauan
+    int NextUtasID;
 } ListKicau;
 
 
@@ -76,4 +78,9 @@ boolean isAuthorKicauPublicOrFriend(KICAU kicau,USER currUser);
 void buatKicau(ListKicau *l,USER currUser);
 
 void ubahKicauan(ListKicau *l,USER currUser,int id);
+
+void tulisUtas(ListKicau *l, USER user, int IDKicau);
+/* Membuat utas baru dari kicauan utama. Utas dapat dilanjutkan 
+I.S :   IDKicau, mungkin bukan milik pengguna saat ini
+F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
 #endif
