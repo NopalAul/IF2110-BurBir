@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "files.associations": {
     "wordmachine.h": "c",
     "datetime.h": "c"
@@ -11,3 +12,10 @@
     }
   ]
 }
+=======
+    "files.associations": {
+        "utas.h": "c",
+        "listrequest.h": "c"
+    }
+}
+>>>>>>> 25974f9a0976b35112fe3027e1f8030f6665d5ab
