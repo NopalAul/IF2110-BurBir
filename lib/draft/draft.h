@@ -7,51 +7,63 @@
 #include "../wordmachine/wordmachine.c"
 #include "../charmachine/charmachine.c"
 
-typedef int TopLoc;
 typedef struct
 {
-    STRING *buffer;
-    TopLoc Top;
-    int nEff;
-    int capacity;
+    STRING kicau;
     DATETIME dt;
 } Draft;
 
+typedef int TopLoc;
+
+typedef struct
+{
+    Draft *buffer; // struktur array dinamis yang berisi komponen draft; STRING, DATETIME
+    TopLoc Top;    // mengembalikan indeks dari TOP
+    int capacity;
+} StackDraft;
+
+/* Tipe stacknya yaitu top berada di last indeks dari array */
+
 /* SELEKTOR */
+#define NIL -1
 #define NEFF(d) (d).nEff
 #define BUFFER(d) (d).buffer
 #define TOP(d) (d).Top
 #define INFOTOP(d) (d).buffer[TOP]
 #define CAPACITY(d) (d).capacity
 
-void CreateEmptyDraft(Draft *d, int capacity);
+void CreateEmptyDraft(StackDraft *d, int capacity);
 /* I.S. sembarang; */
-/* F.S. Membuat sebuah stack draft d kosong */
+/* F.S. Membuat sebuah stack StackDraft d kosong */
 /* jadi indeksnya antara 0.. nEff */
 /* Ciri stack kosong : TOP bernilai Nil */
 
-boolean IsEmpty(Draft d); // harusnya boolean
+boolean IsEmptyDraft(StackDraft d); // harusnya boolean
 /* Mengirim true jika Stack kosong: lihat definisi di atas */
 
-boolean IsFull(Draft d); // harusnya boolean
+boolean IsFullDraft(StackDraft d); // harusnya boolean
 /* Mengirim true jika tabel penampung nilai elemen stack penuh */
 
-void PushDraft(Draft *d, STRING s);
+void PushDraft(StackDraft *d, STRING s);
 /* Menambahkan X sebagai elemen Stack S. */
 /* I.S. S mungkin kosong, tabel penampung elemen stack mungkin penuh */
 /* F.S. X menjadi TOP yang baru,TOP bertambah 1 */
 
-void PopDraft(Draft *d, STRING *s);
-/* Menghapus X dari Stack S dan menyimpan date pembuatan draft. */
+void PopDraft(StackDraft *d, STRING *s);
+/* Menghapus X dari Stack S dan menyimpan date pembuatan StackDraft. */
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
 
-void expandDraft(Draft *d, int num);
+void dealocateStack(StackDraft *d);
+/* I.S. d terdefinisi; */
+/* F.S. (d) dikembalikan ke system, CAPACITY(d)=0;*/
+
+void expandDraft(StackDraft *d, int num);
 /* Proses : Menambahkan capacity l sebanyak num */
 /* I.S. List sudah terdefinisi */
 /* F.S. Ukuran list bertambah sebanyak num */
 
-void displayDrafts(Draft d);
+void displayDrafts(StackDraft d);
 /* Menampilkan draft terakhir yang user buat */
 /* I.S. d terdefinisi */
 /* F.S. menampilkan draft top*/

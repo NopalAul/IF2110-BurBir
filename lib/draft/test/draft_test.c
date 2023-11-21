@@ -3,14 +3,19 @@
 
 int main()
 {
-    Draft d;
-    STRING s;
-    CreateEmptyDraft(&d, 10);
+    StackDraft d;
+    STRING sd;
+    CreateEmptyDraft(&d, 2);
     readString();
     PushDraft(&d, string);
-    // readString();
-    // PushDraft(&d, string);
-    int N;
-    scanf("%d", &N);
-    displayDrafts(d);
+    // // printf("%d\n", IsEmptyDraft(d));
+    readString();
+    PushDraft(&d, string);
+    // // printf("%d\n", IsFullDraft(d));
+    readString();
+    PushDraft(&d, string);
+    readString();
+    PushDraft(&d, string);
+    PopDraft(&d, &sd);
+    displayTop(d);
 }
