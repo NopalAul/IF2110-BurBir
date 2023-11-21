@@ -74,6 +74,9 @@ $(TEST_MATRIX_RESULTS) : $(TEST_MATRIX_DIR)/%.result: $(TEST_MATRIX_DIR)/%.in $(
 SRC_USER = lib/user/user.c
 OBJ_USER = $(SRC_USER:.c=.o)
 
+SRC_LREQ = lib/listRequest/listRequest.c
+OBJ_LREQ = $(SRC_LREQ:.c=.o)
+
 SRC_PCOLOR = lib/pcolor/pcolor.c
 OBJ_PCOLOR = $(SRC_PCOLOR:.c=.o)
 
@@ -89,9 +92,12 @@ OBJ_KICAUAN = $(SRC_KICAUAN:.c=.o)
 SRC_DATETIME = lib/datetime/datetime.c
 OBJ_DATETIME = $(SRC_DATETIME:.c=.o)
 
+SRC_REPLY = lib/reply/reply.c
+OBJ_REPLY = $(SRC_REPLY:.c=.o)
+
 .PHONY: main clean
 
-main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_KICAUAN) $(OBJ_DATETIME) $(OBJ_RELATION) $(OBJ_MATRIX)
+main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_KICAUAN) $(OBJ_DATETIME) $(OBJ_LREQ) $(OBJ_MATRIX) $(OBJ_RELATION)
 	$(CC) $(CFLAGS) -o $@ $^
 
 #%.run : %
@@ -101,4 +107,4 @@ main : $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_KI
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f main $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_WORD_TEST) word_test $(OBJ_RELATION) $(OBJ_KICAUAN) $(OBJ_DATETIME) $(OBJ_RELATION) $(OBJ_MATRIX)
+	rm -f main $(OBJ_DRIVER) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_USER) $(OBJ_PCOLOR) $(OBJ_WORD_TEST) word_test $(OBJ_RELATION) $(OBJ_KICAUAN) $(OBJ_DATETIME) $(OBJ_RELATION) $(OBJ_MATRIX) $(OBJ_LREQ)

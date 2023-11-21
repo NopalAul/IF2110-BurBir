@@ -6,19 +6,17 @@
 #include "lib/boolean/boolean.h"
 #include "lib/charmachine/charmachine.h"
 #include "lib/datetime/datetime.h"
-#include "lib/pcolor/pcolor.h"
+#include "lib/reply/reply.h"
 
 int main()
 {
-    ListUser l;
-    createListUser(&l);
-    RelationMatrix r;
-    createRelationMatrix(&r);
-    daftarUSER(&l, &r);
-    displayDataUser(USER(l,0));
-    gantiProfil(&USER(l,0));
-    displayDataUser(USER(l,0));
-    ubahFotoProfil(&USER(l,0));
-    displayDataUser(USER(l,0));
+    createListUser();
+    createRelationMatrix();
+    daftarUSER(UserList, RelMatrix);
+    displayDataUser(USER(UserList,0));
+    gantiProfil(&USER(UserList,0));
+    displayDataUser(USER(UserList,0));
+    ubahFotoProfil(&USER(UserList,0));
+    displayDataUser(USER(UserList,0));
     stopRead();
 }

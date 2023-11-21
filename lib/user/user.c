@@ -259,8 +259,9 @@ F.S :   foto profil user digantikan dengan foto profil baru*/
 
 int userID(USER user){
     for (int i = 0 ; i < LENGTH(UserList); i++){
-        if (isStringEqual(USERNAME(USER(UserList,i)), USERNAME(user)));
+        if (isStringEqual(USERNAME(USER(UserList,i)), USERNAME(user))){
             return i;
+        }
     }
     return NOT_FOUND;
 }

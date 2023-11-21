@@ -274,7 +274,6 @@ F.S : alokasi memori string diset dengan BIO_CAPACITY
         } else if (cnt%4 == 0){
             if (currentChar != 'R' && currentChar != 'G' && currentChar != 'B'){
                 VALID = false;
-                printf("--- %d\n", cnt);
             }
         } else {
             if (currentChar == ' '){
