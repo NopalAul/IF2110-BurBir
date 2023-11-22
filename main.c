@@ -221,13 +221,13 @@ int main()
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
-                sambungUtas(&listkicauan, stringToInteger(leftInfo), stringToInteger(rightInfo));
+                sambungUtas(&listkicauan, stringToInteger(leftInfo), stringToInteger(rightInfo), USER(UserList, currentID));
             }
         } else if (isWordEqual(string, "HAPUS_UTAS")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
-                hapusUtas(&listkicauan, stringToInteger(leftInfo), stringToInteger(rightInfo));
+                hapusUtas(&listkicauan, stringToInteger(leftInfo), stringToInteger(rightInfo), USER(UserList, currentID));
             }
         } else if (isWordEqual(string, "CETAK_UTAS")){
             if (currentID < 0){
