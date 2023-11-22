@@ -41,4 +41,6 @@ void displaySpecificReply(AddressReply p, int tab, boolean isPublic);
 
 void displayReply(REPLY p, int depth);
 
+void ReplyAuhtor(REPLY r, int id, STRING *Author);
+
 #endif

@@ -19,6 +19,7 @@ typedef struct{
     int like;
     DATETIME datetime;
     AddressReply balasan;
+    int nextReplyID;
     Address utas;
 
 } KICAU;
@@ -34,6 +35,7 @@ typedef struct{
 #define AUTHOR(U) (U).user
 #define TEXT(U) (U).text
 #define LIKE(U) (U).like
+#define NEXTREPLYID(U) (U).nextReplyID
 #define DATETIME(U) (U).datetime
 #define BALASAN(U) (U).balasan
 #define NEFF(l) (l).nEFF
@@ -76,4 +78,9 @@ boolean isAuthorKicauPublicOrFriend(KICAU kicau,USER currUser);
 void buatKicau(ListKicau *l,USER currUser);
 
 void ubahKicauan(ListKicau *l,USER currUser,int id);
+
+void BALAS(ListKicau *lk, int currentID);
+void DISPLAYBALASAN(ListKicau *lk, int currentID);
+void displayBalasanHandler(REPLY r, int currentID, int depth);
+void HAPUSBALASAN(ListKicau *lk, int currentID);
 #endif

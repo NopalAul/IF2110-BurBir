@@ -125,3 +125,16 @@ void displayReply(REPLY p, int depth)
         displayReply(SIBLING(p), depth);
     }
 }
+
+
+void ReplyAuhtor(REPLY r, int id, STRING *Author)
+{
+    if (!isEmptyREPLY(r) && (*Author).length == 0){
+        if (REPLYID(r) == id){
+            copyString(Author, REPLYAUTHOR(r));
+        } else {
+            ReplyAuhtor(CHILD(r), id, Author);
+            ReplyAuhtor(SIBLING(r), id, Author);
+        }
+    }
+}
