@@ -160,12 +160,105 @@ boolean isAuthorKicauPublicOrFriend(KICAU k,USER currUser){
 
 }
 
+/* UTAS */
+
+int getIDKicau(ListKicau l,int IDUtas) {
+    int IDKicau;
+    for (int i = 0; i < NEFF(l); i++){
+        if (IDUTAS(KICAU(l,i).utas) == IDUtas){
+            IDKicau = i;
+            break;
+        }
+    }
+
+    return IDKicau;
+}
+
+boolean isIDUtasExist(ListKicau l, int IDUtas) {
+    boolean exist = false;
+    for (int i = 0; i < NEFF(l); i++){
+        if (IDUTAS(KICAU(l,i).utas) == IDUtas){
+            exist = true;
+            break;
+        }
+    }
+    return exist;
+}
+
+void sambungUtas(ListKicau *l, int IDUtas, int index) //PERLU PARAMETER USER?
+/* Melakukan sambung utas, menambah utas di posisi index yang dituju dari sebuah utas utama.
+I.S :   IDUtas, mungkin bukan milik pengguna saat ini
+F.S :   terisi kicauan baru, index Utas bertambah */
+{   
+    int IDKicau = getIDKicau(*l,IDUtas);
+    Address p;
+    p = FIRSTUTAS(KICAU(*l,IDKicau).utas);
+    STRING content;
+
+    if(isIDUtasExist(*l,IDUtas) == false) {
+        // Kondisi tidak ditemukan IDUtas
+        printf("Utas tidak ditemukan!\n\n");
+    }
+    else if(index > length(KICAU(*l,IDKicau).utas)) {
+        // Kondisi index terlalu tinggi
+        printf("Index terlalu tinggi!\n\n");
+    }
+    // else if(!isStringEqual(USERNAME(user), USERNAME(AUTHOR(KICAU(*l,IDKicau))))) {
+    //     // Kondisi IDUtas bukan milik pengguna saat ini
+    //     printf("Anda tidak bisa menyambung utas ini!\n\n");
+    // }
+    else
+        {
+            // Kondisi valid
+            printf("Masukkan kicauan:\n");
+            readKicauan(); copyString(&content, string);
+            printf("\n");
+            
+
+            insertAt(&KICAU(*l,IDKicau).utas, IDUtas, index, AUTHORUTAS(p), content);
+        }
+}
+
+void hapusUtas(ListKicau *l, int IDUtas, int index)
+{
+    /* Menghapus utas sesuai posisi index, tidak dapat menghapus index 0 (ID kicauan utama) 
+    I.S :   IDUtas, mungkin bukan milik pengguna saat ini
+    F.S :   Utas pada index terhapus, index Utas berkurang?*/
+
+    int IDKicau = getIDKicau(*l,IDUtas);
+    if(isIDUtasExist(*l,IDUtas) == false) {
+        // Kondisi utas tidak ditemukan
+        printf("Utas tidak ditemukan!\n\n");
+    }
+    // else if(true) {
+    //     // Kondisi utas bukan milik pengguna saat ini
+    //     printf("Anda tidak bisa menghapus kicauan dalam utas ini!\n\n");
+    // }
+    else
+    {
+        // Kondisi utas milik sendiri
+        if(index > length(KICAU(*l,IDKicau).utas)-1) {
+            // Kondisi index utas tidak ditemukan
+            printf("Kicauan sambungan dengan index %d tidak ditemukan pada utas!\n\n",index);
+        }
+        else if(index == 0) {
+            // Kondisi index = 0
+            printf("Anda tidak bisa menghapus kicauan utama!\n\n");
+        }
+        else {
+            // Kondisi valid
+            deleteAt(&KICAU(*l,IDKicau).utas,index-1);
+            printf("Kicauan sambungan berhasil dihapus!\n\n");
+        }
+    }
+}
+
 void tulisUtas(ListKicau *l, USER user, int IDKicau)
 /* Membuat utas baru dari kicauan utama. Utas dapat dilanjutkan 
 I.S :   IDKicau, mungkin bukan milik pengguna saat ini
 F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
 {
-    if(IDKicau >= (*l).nEFF) {
+    if(IDKicau > (*l).nEFF) {
         printf("Kicauan tidak ditemukan\n\n");
     }
     else if(!isStringEqual(USERNAME(user), USERNAME(AUTHOR(KICAU(*l,IDKicau))))) {
@@ -178,6 +271,7 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
         Address p;
         p = FIRSTUTAS(KICAU(*l,IDKicau).utas);
         IDUTAS(KICAU(*l,IDKicau).utas) = (*l).NextUtasID;
+        printf("id utas: %d\n",IDUTAS(KICAU(*l,IDKicau).utas)); //delete
         (*l).NextUtasID++;
         int index;
         STRING content;
@@ -190,6 +284,7 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
         printf("\n");
         
         insertFirst(&KICAU(*l,IDKicau).utas, IDUTAS(KICAU(*l,IDKicau).utas), user, content);
+        printf("username:");displayString(USERNAME(user));printf("\n"); //delete
 
         do{
             printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
@@ -203,7 +298,7 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
         while(isWordEqual(string, "YA")) {
             index = length(KICAU(*l,IDKicau).utas);
             printf("len: %d\n",length(KICAU(*l,IDKicau).utas)); // delete
-            sambungUtas(&KICAU(*l,IDKicau).utas, IDUTAS(KICAU(*l,IDKicau).utas), index);
+            sambungUtas(l, IDUTAS(KICAU(*l,IDKicau).utas), index);
             printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
             readString(); printf("\n");
             if(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK")) {
@@ -211,6 +306,35 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
             }
         }
         printf("Utas selesai!\n\n");
+    }
+}
+
+void cetakUtas(ListKicau l, int IDUtas)
+/* Mencetak seluruh kicauan dalam utas dengan id = IDUtas */
+{
+    int IDKicau = getIDKicau(l, IDUtas);
+    printf("idkicau: %d\n",IDKicau);
+    Address p;
+    p = FIRSTUTAS(KICAU(l,IDKicau).utas);
+
+    if(isEmpty(KICAU(l,IDKicau).utas)) {
+        printf("Maaf, belum ada utas untuk ditampilkan.");
+    }
+    else {
+        // Cetak kicauan (utas utama)
+        displayKicau(KICAU(l,IDKicau)); printf("\n");
+
+        // Cetak seluruh utas
+        int index = 1;
+        while((p) != NULL) {
+            printf("   | INDEX = %d\n",index);
+            printf("   | "); displayString(USERNAME(AUTHORUTAS(p)));
+            printf("   | "); displayDATETIME(DATETIMEUTAS(p)); 
+            printf("   | "); displayString(CONTENT(p));printf("\n");
+
+            index++;
+            p = NEXT(p);
+        }
     }
 }
 

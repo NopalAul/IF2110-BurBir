@@ -79,8 +79,23 @@ void buatKicau(ListKicau *l,USER currUser);
 
 void ubahKicauan(ListKicau *l,USER currUser,int id);
 
+int getIDKicau(ListKicau l,int IDUtas);
+
 void tulisUtas(ListKicau *l, USER user, int IDKicau);
 /* Membuat utas baru dari kicauan utama. Utas dapat dilanjutkan 
 I.S :   IDKicau, mungkin bukan milik pengguna saat ini
 F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
+
+void sambungUtas(ListKicau *l, int IDUtas, int index);
+/* Melakukan sambung utas, menambah utas di posisi index yang dituju dari sebuah utas utama.
+I.S :   IDUtas, mungkin bukan milik pengguna saat ini
+F.S :   terisi kicauan baru, index Utas bertambah */
+
+void hapusUtas(ListKicau *l, int IDUtas, int index);
+/* Menghapus utas sesuai posisi index, tidak dapat menghapus index 0 (ID kicauan utama) 
+I.S :   IDUtas, mungkin bukan milik pengguna saat ini
+F.S :   Utas pada index terhapus, index Utas berkurang?*/
+
+void cetakUtas(ListKicau l, int IDUtas);
+/* Mencetak seluruh kicauan dalam utas dengan id = IDUtas */
 #endif
