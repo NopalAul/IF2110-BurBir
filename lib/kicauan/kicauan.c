@@ -111,7 +111,7 @@ void displayKicau(KICAU kicau){
     displayDATETIME(DATETIME(kicau));
     printf("| ");
     displayString(TEXT(kicau));
-    printf("| Disukai: %d\n",LIKE(kicau));
+    printf("| Disukai: %d\n\n",LIKE(kicau));
 
 }
 

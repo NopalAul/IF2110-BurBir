@@ -61,9 +61,10 @@ int main()
     boolean running = true;
 
     while(running){
-        print_red('>');
-        print_red('>');
-        print_red('> ');
+        print_green('>');
+        print_green('>');
+        print_green('>');
+        printf(" ");
         readCommand();
         if (isWordEqual(string, "DAFTAR")){
             if (currentID < 0){
@@ -146,25 +147,35 @@ int main()
             if (currentID < 0){
                 printf("Walawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
-                //do KICAU procedure
+                buatKicau(&listkicauan, USER(UserList, currentID));
             }
         } else if (isWordEqual(string, "KICAUAN")){
             if (currentID < 0){
                 printf("Walawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
-                //do KICAUAN procedure
+                displayKicauan(listkicauan, USER(UserList, currentID));
             }
         } else if (isWordEqual(string, "SUKA_KICAUAN")){
             if (currentID < 0){
                 printf("Walawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
-                //do procedure
+                if (!isStringNumeric(leftInfo)){
+                    printf("\nCommand yang Anda masukkan tidak sesuai. Masukkan command yang sesuai!\n\n");
+                } else {
+                    int target = stringToInteger(leftInfo);
+                    sukaKicauan(&listkicauan, target, USER(UserList, currentID));
+                }
             }
         } else if (isWordEqual(string, "UBAH_KICAUAN")){
             if (currentID < 0){
                 printf("Walawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
-                //do procedure
+                if (!isStringNumeric(leftInfo)){
+                    printf("\nCommand yang Anda masukkan tidak sesuai. Masukkan command yang sesuai!\n\n");
+                } else {
+                    int target = stringToInteger(leftInfo);
+                    ubahKicauan(&listkicauan, USER(UserList, currentID), target);
+                }
             }
         } else if (isWordEqual(string, "BALAS")){
             if (currentID < 0){
