@@ -5,34 +5,38 @@
 void createListKicau(ListKicau *l, int capacity){
     BUFFER(*l) =  (KICAU*) malloc(sizeof(KICAU) * capacity);
     NEFF(*l) = 0;
-
     CAPACITY(*l) = capacity;
-    
 }
 
 void createKicau(ListKicau *l, USER user, STRING text){
-    KICAU kicau;
-    ID(kicau) = getAvailableID(*l);
-    printf("ID = %d\n",ID(kicau));
-    AUTHOR(kicau) = user;
-    TEXT(kicau) = text;
-    LIKE(kicau) = 0;
-    NEXTREPLYID(kicau) = 1;
-    DATETIME(kicau) = getCurrentDATETIME();
-    BALASAN(kicau) = NULL;
-    CreateListUtas(&UTAS(kicau));
-    KICAU(*l, NEFF(*l)) = kicau;
+    if (isKicauanFull(*l)){
+        expandKicauan(l, CAPACITY(*l));
+    }
+    int idxNow = NEFF(*l);
+    ID(KICAU(*l, idxNow)) = idxNow+1;
+    AUTHOR(KICAU(*l, idxNow)) = user;
+    copyString(&TEXT(KICAU(*l, idxNow)), text);
+    LIKE(KICAU(*l, idxNow)) = 0;
+    DATETIME(KICAU(*l, idxNow)) = getCurrentDATETIME();
+    CreateREPLY(&BALASAN(KICAU(*l, idxNow)));
+    CreateListUtas(&UTAS(KICAU(*l, idxNow)));
+    NEXTREPLYID(KICAU(*l, idxNow)) = 1;
     NEFF(*l)++;
-
 }
 
 void buatKicau(ListKicau *l,USER user){
-    printf("Masukkan kicauan:\n");
-    readKicauan();
+    do {
+        printf("Masukkan kicauan:\n");
+        readKicauan();
+        if (!VALID){
+            printf("\nWalawe, draf Anda tidak sesuai. Isi draf tidak boleh berisi karakter spasi atau newline saja.\n\n");
+        }
+    }while (!VALID);
     createKicau(l,user,string);
     printf("Selamat! kicauan telah diterbitkan!\n");
     printf("Detil kicauan:\n");
     displayKicau(KICAU(*l,NEFF(*l)-1));
+    printf("\n");
 }
 
 int getBanyakKicauan(ListKicau l){
@@ -111,18 +115,6 @@ void expandKicauan (ListKicau *l,int num){
     BUFFER(*l) = (KICAU*) realloc(BUFFER(*l),sizeof(KICAU) * CAPACITY(*l));
 }
 
-void addKicauan(ListKicau *l, KICAU *kicau){
-    if (isKicauanFull(*l)){
-        expandKicauan(l,1);
-    }
-    KICAU(*l, NEFF(*l)) = *kicau;
-    NEFF(*l)++;
-}
-
-void shrinkKicauan(ListKicau *l,int num){
-    CAPACITY(*l) -= num;
-    BUFFER(*l) = (KICAU*) realloc(BUFFER(*l),sizeof(KICAU) * CAPACITY(*l));
-}
 
 void displayKicau(KICAU kicau){
 
@@ -150,12 +142,12 @@ boolean isAuthorKicauPublicOrFriend(KICAU k,USER currUser){
         return true;
     } 
     else {
-      if(isFriend(userID(currUser),userID(AUTHOR(k)))){
+        if(isFriend(userID(currUser),userID(AUTHOR(k)))){
             return true;
-      }
-      else{
+        }
+        else{
         return false;
-      }
+        }
         
     }
 
@@ -221,15 +213,15 @@ void BALAS(ListKicau *lk, int currentID)
         return;
     }
     int idKicau = stringToInteger(leftInfo);
-    if (idKicau >= (*lk).nEFF || idKicau <= 0){
+    if (idKicau > (*lk).nEFF || idKicau <= 0){
         printf("Wah, tidak terdapat kicauan dengan id tersebut!\n\n");
         return;
     }
     int idReply = stringToInteger(rightInfo);
     STRING author;;
     createEmptyString(&author);
-    if (idReply == -1) copyString(&author, USERNAME(AUTHOR(KICAU(*lk, idKicau))));
-    else ReplyAuhtor(BALASAN(KICAU(*lk,idKicau)), idReply, &author);
+    if (idReply == -1) copyString(&author, USERNAME(AUTHOR(KICAU(*lk, idKicau-1))));
+    else ReplyAuhtor(BALASAN(KICAU(*lk,idKicau-1)), idReply, &author);
     if (author.length == 0){
         printf("Wah, tidak terdapat balasan yang ingin Anda balas!\n\n");
         return;
@@ -240,19 +232,19 @@ void BALAS(ListKicau *lk, int currentID)
     }
     printf("\nMasukkan balasan:\n");
     readString();
-    AddressReply p = newReply(NEXTREPLYID(KICAU(*lk,idKicau)), string, USERNAME(USER(UserList, currentID)), getCurrentDATETIME());
+    AddressReply p = newReply(NEXTREPLYID(KICAU(*lk,idKicau-1)), string, USERNAME(USER(UserList, currentID)), getCurrentDATETIME());
     if (p == NULL){
         printf("Error: Gagal membuat balasan.\n\n");
         return;
     }
     boolean succeed = false;
-    addREPLY(&BALASAN(KICAU(*lk,idKicau)), idReply, p, &succeed);
+    addREPLY(&BALASAN(KICAU(*lk,idKicau-1)), idReply, p, &succeed);
     if (!succeed) {
         printf("Error: Gagal menerbitkan balasan.\n\n");
         free(p);
         return;
     } 
-    NEXTREPLYID(KICAU(*lk,idKicau))++;
+    NEXTREPLYID(KICAU(*lk,idKicau-1))++;
     printf("Selamat! Balasan telah diterbitkan!\nDetil balasan:\n");
     displaySpecificReply(p, 0, true);
     printf("\n");
@@ -265,16 +257,16 @@ void DISPLAYBALASAN(ListKicau *lk, int currentID)
         return;
     }
     int idKicau = stringToInteger(leftInfo);
-    if (idKicau <= 0 || idKicau >= (*lk).nEFF){
+    if (idKicau <= 0 || idKicau > (*lk).nEFF){
         printf("Wah, tidak terdapat kicauan dengan id tersebut!\n\n");
         return;
     }
-    if (isEmptyREPLY(BALASAN(KICAU(*lk, idKicau)))){
+    if (isEmptyREPLY(BALASAN(KICAU(*lk, idKicau-1)))){
         printf("Belum terdapat balasan apapun pada kicauan tersebut. Yuk, balas kicauan tersebut!\n\n");
         return;
     }
     printf("\n");
-    displayBalasanHandler(BALASAN(KICAU(*lk, idKicau)), currentID, 0);
+    displayBalasanHandler(BALASAN(KICAU(*lk, idKicau-1)), currentID, 0);
     printf("\n");
 }
 
@@ -295,14 +287,14 @@ void HAPUSBALASAN(ListKicau *lk, int currentID)
         return;
     }
     int idKicau = stringToInteger(leftInfo);
-    if (idKicau <= 0 || idKicau >= (*lk).nEFF){
+    if (idKicau <= 0 || idKicau > (*lk).nEFF){
         printf("Walawe, tidak ada kicauan dengan id tersebut!\n\n");
         return;
     }
     int idReply = stringToInteger(rightInfo);
     STRING author;
     createEmptyString(&author);
-    ReplyAuhtor(BALASAN(KICAU(*lk, idKicau)), idReply, &author);
+    ReplyAuhtor(BALASAN(KICAU(*lk, idKicau-1)), idReply, &author);
     if (author.length == 0){
         printf("Walawe, tidak ada balasan dengan id tersebut.\n\n");
         return;
@@ -311,7 +303,7 @@ void HAPUSBALASAN(ListKicau *lk, int currentID)
         printf("Ara-ara, ini balasan punya siapa? Jangan dihapus ya.\n\n");
     }
     boolean succeed = false;
-    deleteREPLY(&BALASAN(KICAU(*lk, idKicau)), idReply, &succeed, NULL, NULL);
+    deleteREPLY(&BALASAN(KICAU(*lk, idKicau-1)), idReply, &succeed, NULL, NULL);
     if (!succeed) {
         printf("Error: Sepertinya ada masalah dalam proses penghapusan.\n\n");
         return;

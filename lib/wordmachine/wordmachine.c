@@ -246,6 +246,7 @@ F.S : alokasi memori string diset dengan KICAUAN_CAPACITY
     while (!EOP){
         ADV();
     }
+    VALID = isKicauValid();
     ADV();
 }
 
@@ -423,4 +424,15 @@ boolean isWordEqual(STRING s, char other[])
         i++;
     }
     return nodiff;
+}
+
+boolean isKicauValid()
+{
+    int count = 0;
+    for (int i = 0; i < string.length; i++){
+        if (string.buffer[i] != ' ' && string.buffer[i] != '\n' && string.buffer[i] != '\r'){
+            count++;
+        }
+    }
+    return count > 0;
 }

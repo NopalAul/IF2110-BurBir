@@ -46,8 +46,7 @@ typedef struct{
 
 void createListKicau(ListKicau *l, int capacity);
 
-void createKicau(ListKicau *l,USER user, STRING text);
-
+void createKicau(ListKicau *l, USER user, STRING text);
 
 int getBanyakKicauan(ListKicau l);
 

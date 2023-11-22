@@ -141,4 +141,6 @@ void displayStringNoNewline(STRING s);
 
 boolean isWordEqual(STRING s, char other[]);
 
+boolean isKicauValid();
+
 #endif
