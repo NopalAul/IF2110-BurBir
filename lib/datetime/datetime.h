@@ -3,7 +3,7 @@
 
 #include "../boolean/boolean.h"
 
-#include "time.h"
+#include <time.h>
 
 typedef struct{
     int day;
@@ -21,11 +21,11 @@ typedef struct{
 #define MINUTE(D) (D).minute
 #define HOUR(D) (D).hour
 
-void createDATETIME(DATETIME *datetime);
+void createDATETIME(DATETIME *dt);
 
 
 DATETIME getCurrentDATETIME();
 
 
-void displayDATETIME(DATETIME datetime);
+void displayDATETIME(DATETIME dt);
 #endif

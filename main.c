@@ -7,19 +7,17 @@
 #include "lib/boolean/boolean.h"
 #include "lib/charmachine/charmachine.h"
 #include "lib/datetime/datetime.h"
-#include "lib/pcolor/pcolor.h"
+#include "lib/reply/reply.h"
 
 int main()
 {
-    ListKicau l;
-    createListKicau(&l, 10);
-    USER user;
-    ListUser listUser;
-    createListUser(&listUser);
-    daftarUSER(&listUser);
-    user = USER(listUser, 0);
-    STRING text;
-    createString(&text, "Halo Dunia");
-    createKicau(&l, user, text);
-    displayKicauan(l);
+    createListUser();
+    createRelationMatrix();
+    daftarUSER(UserList, RelMatrix);
+    displayDataUser(USER(UserList, 0));
+    gantiProfil(&USER(UserList, 0));
+    displayDataUser(USER(UserList, 0));
+    ubahFotoProfil(&USER(UserList, 0));
+    displayDataUser(USER(UserList, 0));
+    stopRead();
 }
