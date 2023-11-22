@@ -92,25 +92,25 @@ void deleteAt(UtasList *l, int index);
 int length(UtasList l);
 /* Mengirimkan banyaknya elemen list; mengirimkan 0 jika list kosong */
 
-void tulisUtas(UtasList *l, USER user, int IDKicau);
-/* Membuat utas baru dari kicauan utama. Utas dapat dilanjutkan 
-I.S :   IDKicau, mungkin bukan milik pengguna saat ini
-F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
+// void tulisUtas(UtasList *l, USER user, int IDKicau);
+// /* Membuat utas baru dari kicauan utama. Utas dapat dilanjutkan 
+// I.S :   IDKicau, mungkin bukan milik pengguna saat ini
+// F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
 
 int searchIndexUtas(UtasList l, int index);
 /* Mengembalikan index sebuah Utas di dalam UtasList l. Mengembalikan NOT_FOUND jika tidak ditemukan */
 
-void sambungUtas(UtasList *l, int IDUtas, int index);
-/* Melakukan sambung utas, menambah utas di posisi index yang dituju dari sebuah utas utama.
-I.S :   IDUtas, mungkin bukan milik pengguna saat ini
-F.S :   terisi kicauan baru, index Utas bertambah */
+// void sambungUtas(UtasList *l, int IDUtas, int index);
+// /* Melakukan sambung utas, menambah utas di posisi index yang dituju dari sebuah utas utama.
+// I.S :   IDUtas, mungkin bukan milik pengguna saat ini
+// F.S :   terisi kicauan baru, index Utas bertambah */
 
-void hapusUtas(UtasList *l, int IDUtas, int index);
-/* Menghapus utas sesuai posisi index, tidak dapat menghapus index 0 (ID kicauan utama) 
-I.S :   IDUtas, mungkin bukan milik pengguna saat ini
-F.S :   Utas pada index terhapus, index Utas berkurang?*/
+// void hapusUtas(UtasList *l, int IDUtas, int index);
+// /* Menghapus utas sesuai posisi index, tidak dapat menghapus index 0 (ID kicauan utama) 
+// I.S :   IDUtas, mungkin bukan milik pengguna saat ini
+// F.S :   Utas pada index terhapus, index Utas berkurang?*/
 
-void cetakUtas(UtasList l, int IDUtas);
-/* Mencetak seluruh kicauan dalam utas dengan id = IDUtas */
+// void cetakUtas(UtasList l, int IDUtas);
+// /* Mencetak seluruh kicauan dalam utas dengan id = IDUtas */
 
 #endif

@@ -38,6 +38,7 @@ void addREPLY(REPLY *r, int id, AddressReply reply, boolean *succeed)
             }
             SIBLING(p) = reply;
         }
+        *succeed = true;
     } else {
         if (!isEmptyREPLY(*r) && !(*succeed)){
             if (REPLYID(*r) == id){

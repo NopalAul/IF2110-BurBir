@@ -415,7 +415,16 @@ void displayStringNoNewline(STRING s)
 
 boolean isWordEqual(STRING s, char other[])
 {
+    int len = 0;
     int i = 0;
+    while (other[i] != '\0'){
+        len++;
+        i++;
+    }
+    if (len != s.length){
+        return false;
+    }
+    i = 0;
     boolean nodiff = true;
     while (other[i] != '\0' && nodiff){
         if (other[i] != s.buffer[i]){

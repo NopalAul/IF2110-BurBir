@@ -103,6 +103,8 @@ F.S :   foto profil user digantikan dengan foto profil baru*/
 
 int userID(USER user);
 
+int userID(USER user);
+
 void daftarTeman(int currentID);
 void hapusTeman(int currentID);
 void tambahTeman(int currentID);

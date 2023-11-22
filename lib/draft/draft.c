@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "draft.h"
 
 Draft ContainerDraft[20];
@@ -58,18 +59,18 @@ void BUAT_DRAFT(int currentID, ListKicau *lk)
 {
     STRING content;
     do {
-        printf("Masukkan draf:\n");
+        printf("\nMasukkan draf:\n");
         readKicauan();
         if (!VALID) {
             printf("\nWalawe, draf Anda tidak sesuai. Isi draf tidak boleh berisi karakter spasi atau newline saja.\n\n");
         }
     } while (!VALID);
     copyString(&content, string);
-    printf("Apakah Anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
+    printf("\nApakah Anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
     do {
         readString();
         if (!isWordEqual(string, "HAPUS") && !isWordEqual(string, "SIMPAN") && !isWordEqual(string, "TERBIT")){
-            printf("Input Anda tidak sesuai. Masukkan input yang sesuai, ya.\n");
+            printf("\nInput Anda tidak sesuai. Masukkan input yang sesuai, ya.\n");
         }
     }while (!isWordEqual(string, "HAPUS") && !isWordEqual(string, "SIMPAN") && !isWordEqual(string, "TERBIT"));
     if (isWordEqual(string, "HAPUS")){
@@ -79,47 +80,47 @@ void BUAT_DRAFT(int currentID, ListKicau *lk)
         printf("\nDraf telah berhasil disimpan!\n\n");
     } else {
         createKicau(lk, USER(UserList, currentID), content);
-        printf("Selamat! Draf kicauan telah berhasil diterbitkan!\nDetil kicauan:\n");
-        displayKicau(KICAU(*lk, NEFF(*lk)-1));
+        printf("\nSelamat! Draf kicauan telah berhasil diterbitkan!\nDetil kicauan:\n");
         printf("\n");
+        displayKicau(KICAU(*lk, NEFF(*lk)-1));
     }
 
 }
 void LIHAT_DRAFT(int currentID, ListKicau *lk)
 {
     if (isEmptyDraft(ContainerDraft[currentID])){
-        printf("Walawe, Anda belum memiliki draf apapun! Buat dulu ya :D\n\n");
+        printf("\nWalawe, Anda belum memiliki draf apapun! Buat dulu ya :D\n\n");
         return;
     }
     AddressDraft d = TOPDRAFT(ContainerDraft[currentID]);
-    printf("Ini draft terakhir Anda:\n");
+    printf("\nIni draft terakhir Anda:\n");
     displayDraft(d);
     do{
-        printf("Apakah Anda ingin mengubah, menghapus, atau menerbitkan draft ini? (KEMBALI jika ingin kembali)\n");
+        printf("\nApakah Anda ingin mengubah, menghapus, atau menerbitkan draft ini? (KEMBALI jika ingin kembali)\n");
         readString();
         if (!isWordEqual(string, "HAPUS") && !isWordEqual(string, "UBAH") && !isWordEqual(string, "TERBIT") && !isWordEqual(string, "KEMBALI")){
-            printf("Command yang Anda masukkan tidak sesuai. Masukkan command yang sesuai.\n\n");
+            printf("\nCommand yang Anda masukkan tidak sesuai. Masukkan command yang sesuai.\n");
         }
     } while (!isWordEqual(string, "HAPUS") && !isWordEqual(string, "UBAH") && !isWordEqual(string, "TERBIT") && !isWordEqual(string, "KEMBALI"));
     if (isWordEqual(string, "HAPUS")){
         AddressDraft temp;
         popDraft(&ContainerDraft[currentID], &temp);
         free(temp);
-        printf("Draft telah berhasil dihapus!\n\n");
+        printf("\nDraft telah berhasil dihapus!\n\n");
     } else if (isWordEqual(string, "UBAH")){
         AddressDraft temp;
         popDraft(&ContainerDraft[currentID], &temp);
         free(temp);
         STRING content;
         do {
-            printf("Masukkan draf yang baru:\n");
+            printf("\nMasukkan draf yang baru:\n");
             readKicauan();
             if (!VALID) {
-                printf("\nWalawe, draf Anda tidak sesuai. Isi draf tidak boleh berisi karakter spasi atau newline saja.\n\n");
+                printf("\nWalawe, draf Anda tidak sesuai. Isi draf tidak boleh berisi karakter spasi atau newline saja.\n");
             }
         } while (!VALID);
         copyString(&content, string);
-        printf("Apakah Anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
+        printf("\nApakah Anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
         do {
             readString();
             if (!isWordEqual(string, "HAPUS") && !isWordEqual(string, "SIMPAN") && !isWordEqual(string, "TERBIT")){
@@ -133,9 +134,9 @@ void LIHAT_DRAFT(int currentID, ListKicau *lk)
             printf("\nDraf telah berhasil disimpan!\n\n");
         } else {
             createKicau(lk, USER(UserList, currentID), content);
-            printf("Selamat! Draf kicauan telah berhasil diterbitkan!\nDetil kicauan:\n");
-            displayKicau(KICAU(*lk, NEFF(*lk)-1));
+            printf("\nSelamat! Draf kicauan telah berhasil diterbitkan!\nDetil kicauan:\n");
             printf("\n");
+            displayKicau(KICAU(*lk, NEFF(*lk)-1));
         }
     } else if (isWordEqual(string, "TERBIT")){
         AddressDraft temp;
@@ -144,8 +145,10 @@ void LIHAT_DRAFT(int currentID, ListKicau *lk)
         copyString(&content, CONTENTDRAFT(temp));
         free(temp);
         createKicau(lk, USER(UserList, currentID), content);
-        printf("Selamat! Draf kicauan telah berhasil diterbitkan!\nDetil kicauan:\n");
+        printf("\nSelamat! Draf kicauan telah berhasil diterbitkan!\nDetil kicauan:\n");
+        printf("\n");
         displayKicau(KICAU(*lk, NEFF(*lk)-1));
+    } else {
         printf("\n");
     }
 }

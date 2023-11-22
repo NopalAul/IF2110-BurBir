@@ -57,13 +57,13 @@ F.S :   melakukan procedure DAFTAR seperti spek
 {   
     if (LENGTH(UserList) < 20){
         do {
-            printf("Masukkan nama:\n");
+            printf("\nMasukkan nama:\n");
             readUsername();
             printf("\n");
             if (!VALID){
-                printf("Wah, username masukan tidak sesuai! Masukkan username lain yang sesuai.\n\n");
+                printf("Wah, username masukan tidak sesuai! Masukkan username lain yang sesuai.\n");
             } else if (searchUser(string) != NOT_FOUND){
-                printf("Wah, sayang sekali nama tersebut telah diambil.\n\n");
+                printf("Wah, sayang sekali nama tersebut telah diambil.\n");
             }
         } while (!VALID || searchUser(string) != NOT_FOUND);
         copyString(&USERNAME(USER(UserList,LENGTH(UserList))), string);
@@ -72,11 +72,11 @@ F.S :   melakukan procedure DAFTAR seperti spek
             readPassword();
             printf("\n");
             if (!VALID){
-                printf("Wah, password tidak sesuai.\n\n");
+                printf("Wah, password tidak sesuai.\n");
             }
         } while (!VALID);
         copyString(&PASSWORD(USER(UserList, LENGTH(UserList))), string);
-        printf("\nPengguna telah berhasil terdaftar. Masuk untuk menikmati fitur-fitur BurBir.\n\n");
+        printf("Pengguna telah berhasil terdaftar. Masuk untuk menikmati fitur-fitur BurBir.\n\n");
         LENGTH(UserList)++;
         RelationLength(RelMatrix)++;
     } else {
@@ -414,13 +414,18 @@ void daftarPermintaanTeman(int currentID)
         printf("\nTidak ada permintaan pertemanan untuk Anda.\n\n");
     } else {
         int count = CountLRF(REQUESTLIST(USER(UserList,currentID))); 
+        UserPopularity tempCont[count];
         printf("\nTerdapat %d permintaan pertemanan untuk Anda.\n\n", count);
         for (int i = 0; i < count; i++){
             UserPopularity temp;
+            tempCont[i] = temp;
             dequeueListRequest(&REQUESTLIST(USER(UserList,currentID)), &temp);
             printf("| ");
             displayString(USERNAME(USER(UserList,temp.id)));
             printf("| Jumlah teman: %d\n\n", temp.friendCount);
+        }
+        for (int i = 0; i < count ; i ++){
+            enqueueListRequest(&REQUESTLIST(USER(UserList, currentID)), tempCont[i]);
         }
     }
 }
@@ -472,7 +477,7 @@ void LIHAT_PROFIL(int currentID)
 {
     int id2 = searchUser(leftInfo);
     if (id2 == NOT_FOUND){
-        printf("Walawe, tidak ada pengguna dengan nama tersebut!n\n\n");
+        printf("Walawe, tidak ada pengguna dengan nama tersebut!\n\n");
         return;
     }
     boolean canLook = ACCOUNTTYPE(USER(UserList, id2)) || isFriend(currentID, id2);
