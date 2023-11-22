@@ -8,7 +8,7 @@ void createTree(tree *T){
 }
 
 void createEmtptyBalasan(BALASAN *b){
-    ID(*b) = IDX_UNDEF;
+    IDBALASAN(*b) = IDX_UNDEF;
     USER user;
     createUSER(&user);
     USERBAL(*b) = user;
@@ -18,11 +18,11 @@ void createEmtptyBalasan(BALASAN *b){
     STRING text;
     createEmptyString(&text);
     createString(&text, "tes");
-    TEXT(*b) = text;
+    TEXTBALASAN(*b) = text;
 }
 
 void createTesBalasan(BALASAN *b,int id){
-    ID(*b) = id;
+    IDBALASAN(*b) = id;
     USER user;
     createUSER(&user);
     USERBAL(*b) = user;
@@ -32,13 +32,13 @@ void createTesBalasan(BALASAN *b,int id){
     STRING text;
     createEmptyString(&text);
     createString(&text, "tes");
-    TEXT(*b) = text;
+    TEXTBALASAN(*b) = text;
 }
 
 address newNode(BALASAN balasan){
     address P = (address) malloc(sizeof(Node));
     if(P != NULL){
-        BALASAN(P) = balasan;
+        BALASANBALASAN(P) = balasan;
         CHILD(P) = NULL;
         SIBLING(P) = NULL;
     }
@@ -67,7 +67,7 @@ address getPointee(tree T,address node){
 }
 address getNodeAddress(tree T,int id){
     if(T != NULL){
-        if(ID(BALASAN(T)) == id){
+        if(IDBALASAN(BALASANBALASAN(T)) == id){
             return T;
         }
         else{
@@ -125,13 +125,13 @@ void addSpaceTab(int depth){
 
 
 void displayBalasan(BALASAN b,int depth){
-    addSpaceTab(depth);printf("| ID = %d\n", ID(b));
+    addSpaceTab(depth);printf("| ID = %d\n", IDBALASAN(b));
     addSpaceTab(depth);printf("|");
     displayString(USERNAME(USERBAL(b)));
     addSpaceTab(depth);printf("| ");
     displayDATETIME(DATE(b));
     addSpaceTab(depth);printf("| ");
-    displayString(TEXT(b));
+    displayString(TEXTBALASAN(b));
 }
 
 void displayAllBalasan(tree T,int depth){
@@ -142,7 +142,7 @@ void displayAllBalasan(tree T,int depth){
     while(temp){
         printf("\n");
         // if(temp!=ROOT(T)){
-            displayBalasan(BALASAN(temp),depth);
+            displayBalasan(BALASANBALASAN(temp),depth);
         // }
         
         if(CHILD(temp)){

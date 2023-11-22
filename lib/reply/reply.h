@@ -29,14 +29,14 @@ typedef struct node *address;
 typedef address tree;
 
 #define ROOT(l) (l)
-#define BALASAN(l) (l)->balasan
+#define BALASANBALASAN(l) (l)->balasan
 #define CHILD(l) (l)->child
 #define SIBLING(l) (l)->sibling
 
-#define ID(l) (l).id
+#define IDBALASAN(l) (l).id
 #define USERBAL(l) (l).user
 #define DATE(l) (l).date
-#define TEXT(l) (l).text
+#define TEXTBALASAN(l) (l).text
 
 
 void createTree(tree *T);

@@ -18,7 +18,8 @@ F.S :   user.username didefinisikan kosong
         user.noHP didefinisikan kosong 
         user.weton didefinisikan kosong 
         user.photo didefinisikan kosong */
-{   PhotoElemen p = {'*', 'R'};
+{   
+    PhotoElemen p = {'*', 'R'};
     createEmptyString(&USERNAME(*user));
     createEmptyString(&PASSWORD(*user));
     createEmptyString(&BIO(*user));

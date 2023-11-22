@@ -18,7 +18,7 @@ typedef struct{
     STRING text;
     int like;
     DATETIME datetime;
-    AddressReply balasan;
+    tree balasan;
     Address utas;
 
 } KICAU;
@@ -30,13 +30,13 @@ typedef struct{
 } ListKicau;
 
 
-#define ID(U) (U).id
+#define IDKICAUAN(U) (U).id
 #define AUTHOR(U) (U).user
-#define TEXT(U) (U).text
+#define TEXTKICAUAN(U) (U).text
 #define LIKE(U) (U).like
 #define DATETIME(U) (U).datetime
-#define BALASAN(U) (U).balasan
-#define NEFF(l) (l).nEFF
+#define BALASANKICAUAN(U) (U).balasan
+#define NEFFLISTKICAU(l) (l).nEFF
 #define CAPACITY(l) (l).capacity
 #define KICAU(l,i)  (l).buffer[i]
 #define BUFFER(l) (l).buffer
