@@ -210,25 +210,25 @@ int main()
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
-                //do procedure
+                tulisUtas(&listkicauan, USER(UserList, currentID), stringToInteger(leftInfo));
             }
         } else if (isWordEqual(string, "SAMBUNG_UTAS")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
-                //do procedure
+                sambungUtas(&listkicauan, stringToInteger(leftInfo), stringToInteger(rightInfo));
             }
         } else if (isWordEqual(string, "HAPUS_UTAS")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
-                //do procedure
+                hapusUtas(&listkicauan, stringToInteger(leftInfo), stringToInteger(rightInfo));
             }
         } else if (isWordEqual(string, "CETAK_UTAS")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
-                //do procedure
+                cetakUtas(listkicauan, stringToInteger(leftInfo));
             }
         } else if (isWordEqual(string, "SIMPAN")){
             //do procedure

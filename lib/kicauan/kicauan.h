@@ -35,14 +35,15 @@ typedef struct{
 #define AUTHOR(U) (U).user
 #define TEXT(U) (U).text
 #define LIKE(U) (U).like
-#define NEXTREPLYID(U) (U).nextReplyID
 #define DATETIME(U) (U).datetime
 #define BALASAN(U) (U).balasan
+#define NEXTREPLYID(U) (U).nextReplyID
 #define NEFF(l) (l).nEFF
 #define CAPACITY(l) (l).capacity
 #define KICAU(l,i)  (l).buffer[i]
 #define BUFFER(l) (l).buffer
 #define UTAS(U) (U).utas
+#define NEXTUTASID(U) (U).NextUtasID
 
 void createListKicau(ListKicau *l, int capacity);
 
