@@ -167,7 +167,7 @@ I.S :   IDKicau, mungkin bukan milik pengguna saat ini
 F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
 {
     Address p;
-    p = FIRST(*l);
+    p = FIRSTUTAS(*l);
     int IDUtas = -1; // assign apa?
     int index;
     STRING content;
@@ -217,7 +217,7 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
 void BALAS(ListKicau *lk, int currentID)
 {
     if (!isStringNumeric(leftInfo) || !isStringNumeric(rightInfo)){
-        printf('Command yang Anda masukkan tidak sesuai!\n\n');
+        printf("Command yang Anda masukkan tidak sesuai!\n\n");
         return;
     }
     int idKicau = stringToInteger(leftInfo);
@@ -235,7 +235,7 @@ void BALAS(ListKicau *lk, int currentID)
         return;
     }
     if (!isFriend(currentID, searchUser(author))){
-        prnintf("Wah, Anda tidak bisa membalas kicauan atau balasan dari akun privat yang bukan teman Anda!\n\n");
+        printf("Wah, Anda tidak bisa membalas kicauan atau balasan dari akun privat yang bukan teman Anda!\n\n");
         return;
     }
     printf("\nMasukkan balasan:\n");
