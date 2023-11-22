@@ -10,6 +10,10 @@
 #include "lib/utas/utas.h"
 #include "lib/draft/draft.h"
 
+#define nl printf("\n")
+
+void DisplayHeader();
+
 int currentID;   // GLOBAL VARIABEL
 
 void login(){
@@ -57,8 +61,9 @@ int main()
 
     createContainerDraft();
 
-    printf("WELCOME\n");
     boolean running = true;
+
+    DisplayHeader();
 
     while(running){
         print_red('>');
@@ -247,3 +252,20 @@ int main()
 }
 
 // gcc -o tes main.c lib/wordmachine/wordmachine.c lib/user/user.c lib/kicauan/kicauan.c lib/charmachine/charmachine.c lib/datetime/datetime.c lib/pcolor/pcolor.c lib/listRequest/listRequest.c lib/matrix/matrix.c lib/relation/relation.c lib/reply/reply.c
+
+
+void DisplayHeader(){
+    printf(".______    __    __  .______      .______    __  .______");
+    nl;
+    printf("|   _  \\  |  |  |  | |   _  \\     |   _  \\  |  | |   _  \\    ");
+    nl;
+    printf("|  |_)  | |  |  |  | |  |_)  |    |  |_)  | |  | |  |_)  |    ");
+    nl;
+    printf("|   _  <  |  |  |  | |      /     |   _  <  |  | |      /     ");
+    nl;
+    printf("|  |_)  | |  `--'  | |  |\\  \\----.|  |_)  | |  | |  |\\  \\----. ");
+    nl;
+    printf("|______/   \\______/  | _| `._____||______/  |__| | _| `._____| ");
+    nl;
+    nl;
+}
