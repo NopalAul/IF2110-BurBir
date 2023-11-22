@@ -110,4 +110,6 @@ void batalTambahTeman(int currentID);
 void daftarPermintaanTeman(int currentID);
 void acceptPertemanan(int currentID);
 
+void LIHAT_PROFIL(int currentID);
+
 #endif
