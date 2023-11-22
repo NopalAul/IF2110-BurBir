@@ -28,7 +28,7 @@ void CreateListUtas(UtasList *l)
 {
     FIRSTUTAS(*l) = NULL;
     IDUTAS(*l) = ID_UNDEF;
-    printf("utasid awal: %d\n",IDUTAS(*l)); //delete
+    // printf("utasid awal: %d\n",IDUTAS(*l)); //delete
 }
 
 boolean isEmpty(UtasList l)

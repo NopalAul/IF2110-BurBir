@@ -143,19 +143,25 @@ int main()
             } else {
                 acceptPertemanan(currentID);
             }
-        } else if (isWordEqual(string, "KICAU")){
+        } 
+        
+        else if (isWordEqual(string, "KICAUAN")){
+            if (currentID < 0){
+                printf("Walawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
+            } else {
+                printf("tes");
+                displayKicauan(listkicauan, USER(UserList,currentID));
+            }
+        }
+        
+        else if (isWordEqual(string, "KICAU")){
             if (currentID < 0){
                 printf("Walawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 buatKicau(&listkicauan, USER(UserList,currentID));
             }
-        } else if (isWordEqual(string, "KICAUAN")){
-            if (currentID < 0){
-                printf("Walawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
-            } else {
-                displayKicauan(listkicauan, USER(UserList,currentID));
-            }
-        } else if (isWordEqual(string, "SUKA_KICAUAN")){
+        } 
+         else if (isWordEqual(string, "SUKA_KICAUAN")){
             if (currentID < 0){
                 printf("Walawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
