@@ -25,9 +25,9 @@ int main(){
     tulisUtas(&l,user,1);
     cetakUtas(l,1);
     // printf("idutas :",1);printf("\n"); //delete
-    hapusUtas(&l,2,1);
+    hapusUtas(&l,user,1,1);
     cetakUtas(l,1);
-    sambungUtas(&l,1,1);
+    sambungUtas(&l,user,1,1);
     cetakUtas(l,1);
     return 0;
     
