@@ -422,8 +422,8 @@ void daftarPermintaanTeman(int currentID)
         printf("\nTerdapat %d permintaan pertemanan untuk Anda.\n\n", count);
         for (int i = 0; i < count; i++){
             UserPopularity temp;
-            tempCont[i] = temp;
             dequeueListRequest(&REQUESTLIST(USER(UserList,currentID)), &temp);
+            tempCont[i] = temp;
             printf("| ");
             displayString(USERNAME(USER(UserList,temp.id)));
             printf("| Jumlah teman: %d\n\n", temp.friendCount);
@@ -473,6 +473,7 @@ void acceptPertemanan(int currentID)
             printf("\nPermintaan pertemanan dari ");
             displayStringNoNewline(name);
             printf(" telah ditolak.\n\n");
+            RelationVal(RelMatrix, out.id, currentID) = false;
         }
     }
 }
