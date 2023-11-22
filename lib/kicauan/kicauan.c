@@ -63,11 +63,11 @@ void sukaKicauan(ListKicau *l,int id,USER currUser ){
             displayKicau(KICAU(*l,i));
         }
         else{
-            printf("Wah, kicauan tersebut dibuat oleh akun privat! Ikuti akun itu dulu ya\n");
+            printf("Wah, kicauan tersebut dibuat oleh akun privat! Ikuti akun itu dulu ya\n\n");
         }
     }
     else{
-        printf("Tidak ditemukan kicauan dengan ID %d\n",id);
+        printf("Tidak ditemukan kicauan dengan ID %d\n\n",id);
     }
 }
 
@@ -78,9 +78,12 @@ void ubahKicauan(ListKicau *l,USER currUser,int id){
     }
     if(ID(KICAU(*l,i)) == id){
         if(isUserEqual(currUser,AUTHOR(KICAU(*l,i)))){
-            printf("Masukkan kicauan baru:\n");
-            readKicauan();
-            TEXT(KICAU(*l,i)) = string;
+            do {
+                printf("Masukkan kicauan baru:\n");
+                readKicauan();
+                if (!VALID) printf("\nWalawe, draf Anda tidak sesuai. Isi draf tidak boleh berisi karakter spasi atau newline saja.\n\n");
+            } while (!VALID);
+            copyString(&(KICAU(*l,i)), string);
             printf("Selamat! kicauan telah diterbitkan!\n Detil kicauan:\n");
             displayKicau(KICAU(*l,i));
         }
@@ -90,23 +93,6 @@ void ubahKicauan(ListKicau *l,USER currUser,int id){
     }
     else{
         printf("Tidak ditemukan kicauan dengan ID = %d\n",id);
-    }
-}
-
-
-
-int getAvailableID(ListKicau l){
-    
-    if (isKicauanEmpty(l)){
-        return 1;
-    } else {
-        int max = 0;
-        for (int i = 0; i < NEFF(l); i++){
-            if (ID(KICAU(l,i)) > max){
-                max = ID(KICAU(l,i));
-            }
-        }
-        return max+1;
     }
 }
 

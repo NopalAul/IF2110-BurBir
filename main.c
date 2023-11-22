@@ -8,6 +8,7 @@
 #include "lib/datetime/datetime.h"
 #include "lib/pcolor/pcolor.h"
 #include "lib/utas/utas.h"
+#include "lib/draft/draft.h"
 
 int currentID;   // GLOBAL VARIABEL
 
@@ -53,6 +54,8 @@ int main()
     createRelationMatrix();
     ListKicau listkicauan;
     createListKicau(&listkicauan,100);
+
+    createContainerDraft();
 
     printf("WELCOME\n");
     boolean running = true;
@@ -185,13 +188,13 @@ int main()
             if (currentID < 0){
                 printf("Walawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
-                //do procedure
+                BUAT_DRAFT(currentID, &listkicauan);
             }
         } else if (isWordEqual(string, "LIHAT_DRAFT")){
             if (currentID < 0){
                 printf("Walawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
-                //do procedure
+                LIHAT_DRAFT(currentID, &listkicauan);
             }
         } else if (isWordEqual(string, "UTAS")){
             if (currentID < 0){
