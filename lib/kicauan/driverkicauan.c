@@ -17,18 +17,18 @@ int main(){
     STRING text;
     createString(&text, "Halo Dunia");
     createKicau(&l, user,text );
-    displayKicau(KICAU(l,0));
+    displayKicau(KICAU(l,0)); // index 0 untuk IDKicau 1
     printf("neff: %d\n",l.nEFF);
 
     printf("idutas: %d\n",IDUTAS(KICAU(l,0).utas));
     printf("username driver:");displayString(USERNAME(user));printf("\n"); //delete
-    tulisUtas(&l,user,0);
-    cetakUtas(l,IDUTAS(KICAU(l,0).utas));
-    // printf("idutas :",IDUTAS(KICAU(l,0).utas));printf("\n"); //delete
-    hapusUtas(&l,1,1);
-    cetakUtas(l,IDUTAS(KICAU(l,0).utas));
+    tulisUtas(&l,user,1);
+    cetakUtas(l,1);
+    // printf("idutas :",1);printf("\n"); //delete
+    hapusUtas(&l,2,1);
+    cetakUtas(l,1);
     sambungUtas(&l,1,1);
-    cetakUtas(l,IDUTAS(KICAU(l,0).utas));
+    cetakUtas(l,1);
     return 0;
     
 }

@@ -185,7 +185,7 @@ boolean isIDUtasExist(ListKicau l, int IDUtas) {
     return exist;
 }
 
-void sambungUtas(ListKicau *l, int IDUtas, int index) //PERLU PARAMETER USER?
+void insertUtas(ListKicau *l, int IDUtas, int index) //PERLU PARAMETER USER?
 /* Melakukan sambung utas, menambah utas di posisi index yang dituju dari sebuah utas utama.
 I.S :   IDUtas, mungkin bukan milik pengguna saat ini
 F.S :   terisi kicauan baru, index Utas bertambah */
@@ -253,6 +253,11 @@ void hapusUtas(ListKicau *l, int IDUtas, int index)
     }
 }
 
+void sambungUtas(ListKicau *l, int IDUtas, int index)
+{
+    insertUtas(l,IDUtas,index-1);
+}
+
 void tulisUtas(ListKicau *l, USER user, int IDKicau)
 /* Membuat utas baru dari kicauan utama. Utas dapat dilanjutkan 
 I.S :   IDKicau, mungkin bukan milik pengguna saat ini
@@ -261,17 +266,17 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
     if(IDKicau > (*l).nEFF) {
         printf("Kicauan tidak ditemukan\n\n");
     }
-    else if(!isStringEqual(USERNAME(user), USERNAME(AUTHOR(KICAU(*l,IDKicau))))) {
+    else if(!isStringEqual(USERNAME(user), USERNAME(AUTHOR(KICAU(*l,IDKicau-1))))) {
         printf("Utas ini bukan milik anda!\n\n");
     }
-    else if(IDUTAS(KICAU(*l,IDKicau).utas) != ID_UNDEF){
+    else if(IDUTAS(KICAU(*l,IDKicau-1).utas) != ID_UNDEF){
         printf("ID Kicau ini sudah mempunyai utas!\n\n");
     }
     else {
         Address p;
-        p = FIRSTUTAS(KICAU(*l,IDKicau).utas);
-        IDUTAS(KICAU(*l,IDKicau).utas) = (*l).NextUtasID;
-        printf("id utas: %d\n",IDUTAS(KICAU(*l,IDKicau).utas)); //delete
+        p = FIRSTUTAS(KICAU(*l,IDKicau-1).utas);
+        IDUTAS(KICAU(*l,IDKicau-1).utas) = (*l).NextUtasID;
+        printf("id utas: %d\n",IDUTAS(KICAU(*l,IDKicau-1).utas)); //delete
         (*l).NextUtasID++;
         int index;
         STRING content;
@@ -283,7 +288,7 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
         copyString(&content, string); 
         printf("\n");
         
-        insertFirst(&KICAU(*l,IDKicau).utas, IDUTAS(KICAU(*l,IDKicau).utas), user, content);
+        insertFirst(&KICAU(*l,IDKicau-1-1).utas, IDUTAS(KICAU(*l,IDKicau-1-1).utas), user, content);
         printf("username:");displayString(USERNAME(user));printf("\n"); //delete
 
         do{
@@ -296,14 +301,16 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
 
         // Pilihan YA, terus lanjutkan utas
         while(isWordEqual(string, "YA")) {
-            index = length(KICAU(*l,IDKicau).utas);
-            printf("len: %d\n",length(KICAU(*l,IDKicau).utas)); // delete
-            sambungUtas(l, IDUTAS(KICAU(*l,IDKicau).utas), index);
-            printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
-            readString(); printf("\n");
-            if(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK")) {
-                printf("Input Anda tidak valid. Masukkan lagi yuk!\n\n");
-            }
+            index = length(KICAU(*l,IDKicau-1).utas);
+            printf("len: %d\n",length(KICAU(*l,IDKicau-1).utas)); // delete
+            insertUtas(l, IDUTAS(KICAU(*l,IDKicau-1).utas), index);
+            do{
+                printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
+                readString(); printf("\n");
+                if(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK")) {
+                    printf("Input Anda tidak valid. Masukkan lagi yuk!\n\n");
+                }
+            } while(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK"));
         }
         printf("Utas selesai!\n\n");
     }
