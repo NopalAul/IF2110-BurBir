@@ -31,11 +31,13 @@ boolean isEmptyDraft(Draft draft);
 void pushDraft(Draft *draft,  STRING content);
 void popDraft(Draft *draft, AddressDraft *outDraft);
 
+void displayDraft(Draft draft);
+
 extern Draft ContainerDraft[20];
 
 void createContainerDraft();
 
 void BUAT_DRAFT(int currentID, ListKicau *lk);
-void LIHAT_DRAFT(int currentID);
+void LIHAT_DRAFT(int currentID, ListKicau *lk);
 
 #endif
