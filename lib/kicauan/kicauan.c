@@ -289,7 +289,6 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
         printf("\n");
         
         insertFirst(&KICAU(*l,IDKicau-1).utas, IDUTAS(KICAU(*l,IDKicau-1).utas), user, content);
-        printf("username:");displayString(USERNAME(user));printf("\n"); //delete
 
         do{
             printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
@@ -302,7 +301,6 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
         // Pilihan YA, terus lanjutkan utas
         while(isWordEqual(string, "YA")) {
             index = length(KICAU(*l,IDKicau-1).utas);
-            printf("len: %d\n",length(KICAU(*l,IDKicau-1).utas)); // delete
             insertUtas(l,user,IDUTAS(KICAU(*l,IDKicau-1).utas), index);
             do{
                 printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
