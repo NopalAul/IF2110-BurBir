@@ -9,6 +9,8 @@
 #define INFOTOP(d) (d).buffer[TOP]
 #define CAPACITY(d) (d).capacity
 
+StackDraft listofdraf[20];
+
 void CreateEmptyDraft(StackDraft *d, int capacity)
 /* I.S. sembarang; */
 /* F.S. Membuat sebuah stack StackDraft d kosong */
@@ -107,5 +109,105 @@ void displayTop(StackDraft d)
     else
     {
         printf("Yah, anda belum memiliki draf apapun! Buat dulu ya :DD");
+    }
+}
+
+/* USER SECTION */
+
+void intializeDrafts()
+/* Menginisialisasi draft kosong untuk setiap user */
+/* I.S. list of drafts dengan length 20 terdefinisi */
+/* F.S. mengisi keseluruhan list of drafts dengan empty stack draft */
+{
+    for (int i = 0; i < 20; i++)
+    {
+        CreateEmptyDraft(&listofdraf[i], 10);
+    }
+}
+
+boolean isBuatDrafCommandValid(STRING s)
+{
+    if (isWordEqual(s, "HAPUS") || isWordEqual(s, "SIMPAN") || isWordEqual(s, "TERBIT"))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+boolean isLihatDrafCommandValid(STRING s)
+{
+    if (isWordEqual(s, "HAPUS") || isWordEqual(s, "UBAH") || isWordEqual(s, "TERBIT") || isWordEqual(s, "KEMBALI"))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void BuatDraf(USER Author)
+/* Membuat draft baru untuk current user */
+/* I.S. empty stack draft untuk index ID terdefinisi */
+/* F.S. membuat draft baru berdasarkan input user  */
+{
+    STRING draf;
+    printf("Masukkan draf:\n");
+    readKicauan();
+    copyString(&draf, string);
+    readCommand();
+    while (!isBuatDrafCommandValid(string))
+    {
+        printf("Maaf input tidak valid, silahkan input ulang:D\n");
+        readCommand();
+    }
+    printf("Apakah anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
+    if (isWordEqual(string, "SIMPAN"))
+    {
+        PushDraft(&listofdraf[userID(Author)], draf);
+        printf("Draf berhasil disimpan\n");
+    }
+    else if (isWordEqual(string, "TERBIT"))
+    {
+        // createKicau
+        printf("Draf berhasil diterbitkan\n"); // sementara
+    }
+    else
+    {
+        printf("Draf berhasil dihapus\n");
+    }
+}
+
+void LihatDraf(USER Author)
+{
+    displayTop(listofdraf[userID(Author)]);
+    printf("Apakah anda ingin mengubah, menghapus, atau menerbitkan draf ini? (KEMBALI jika ingin kembali)");
+    readCommand();
+    while (!isLihatDrafCommandValid(string))
+    {
+        printf("Maaf input tidak valid, silahkan input ulang:D\n");
+        readCommand();
+    }
+    if (isWordEqual(string, "UBAH"))
+    {
+        STRING sd;
+        printf("Masukkan draf baru:\n");
+        readKicauan();
+        PopDraft(&listofdraf[userID(Author)], &sd);
+        PushDraft(&listofdraf[userID(Author)], string);
+        printf("Draf berhasil disimpan\n");
+    }
+    else if (isWordEqual(string, "TERBIT"))
+    {
+        // createKicau
+    }
+    else
+    {
+        STRING sd;
+        PopDraft(&listofdraf[0], &sd);
+        printf("Draf berhasil dihapus\n");
     }
 }

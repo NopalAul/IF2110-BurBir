@@ -3,9 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../boolean/boolean.h"
-#include "../datetime/datetime.c"
-#include "../wordmachine/wordmachine.c"
-#include "../charmachine/charmachine.c"
+#include "../datetime/datetime.h"
+#include "../wordmachine/wordmachine.h"
+#include "../charmachine/charmachine.h"
+#include "../user/user.h"
+#include "../kicauan/kicauan.h"
 
 typedef struct
 {
@@ -31,6 +33,8 @@ typedef struct
 #define TOP(d) (d).Top
 #define INFOTOP(d) (d).buffer[TOP]
 #define CAPACITY(d) (d).capacity
+
+extern StackDraft listofdraf[20];
 
 void CreateEmptyDraft(StackDraft *d, int capacity);
 /* I.S. sembarang; */
@@ -67,6 +71,24 @@ void displayDrafts(StackDraft d);
 /* Menampilkan draft terakhir yang user buat */
 /* I.S. d terdefinisi */
 /* F.S. menampilkan draft top*/
+
+/* USER SECTION */
+
+void intializeDrafts();
+/* Menginisialisasi draft kosong untuk setiap user */
+/* I.S. list of drafts dengan length 20 terdefinisi */
+/* F.S. mengisi keseluruhan list of drafts dengan empty stack draft */
+
+boolean isBuatDrafCommandValid(STRING s);
+
+boolean isLihatDrafCommandValid(STRING s);
+
+void BuatDraf();
+/* Membuat draft baru untuk current user */
+/* I.S. empty stack draft untuk index ID terdefinisi */
+/* F.S. membuat draft baru berdasarkan input user  */
+
+void LihatDraf();
 
 /* Plotting Draft,
 1. User memanggil draft di main
