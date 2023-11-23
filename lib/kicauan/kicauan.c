@@ -53,7 +53,7 @@ boolean isKicauanEmpty(ListKicau l){
 
 void addKicauan(ListKicau *l, KICAU *kicau){
     if (isKicauanFull(*l)){
-        expandKicauan(l,1);
+        expandKicauan(l,CAPACITY(*l));
     }
     KICAU(*l, NEFF(*l)) = *kicau;
     NEFF(*l)++;
