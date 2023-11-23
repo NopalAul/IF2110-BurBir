@@ -31,6 +31,8 @@ boolean isEmptyDraft(Draft draft);
 void pushDraft(Draft *draft,  STRING content);
 void popDraft(Draft *draft, AddressDraft *outDraft);
 
+int lengthDraft(Draft d);
+
 void displayDraft(Draft draft);
 
 extern Draft ContainerDraft[20];

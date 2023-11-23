@@ -31,9 +31,9 @@ typedef struct{
 } ListKicau;
 
 
-#define ID(U) (U).id
+#define IDKICAUAN(U) (U).id
 #define AUTHOR(U) (U).user
-#define TEXT(U) (U).text
+#define TEXTKICAUAN(U) (U).text
 #define LIKE(U) (U).like
 #define DATETIME(U) (U).datetime
 #define BALASAN(U) (U).balasan
@@ -54,6 +54,8 @@ int getBanyakKicauan(ListKicau l);
 boolean isKicauanFull(ListKicau l);
 
 boolean isKicauanEmpty(ListKicau l);
+
+void addKicauan(ListKicau *l, KICAU *kicau);
 
 void sukaKicauan(ListKicau *l,int id,USER currUser );
 

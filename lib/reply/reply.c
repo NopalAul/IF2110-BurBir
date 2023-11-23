@@ -26,6 +26,20 @@ boolean isEmptyREPLY(REPLY reply)
     return reply == NULL;
 }
 
+int lengthReply(REPLY r)
+{
+
+    if (isEmptyREPLY(r))
+    {
+        return 0;
+    }
+    else
+    {
+        return 1+lengthReply(SIBLING(r))+lengthReply(CHILD(r));
+    }
+    
+}
+
 void addREPLY(REPLY *r, int id, AddressReply reply, boolean *succeed)
 {
     if (id == -1){

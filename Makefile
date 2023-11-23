@@ -54,6 +54,8 @@ $(TEST_WORD_RESULTS): $(TEST_WORD_DIR)/%.result: $(TEST_WORD_DIR)/%.in $(TEST_WO
 		echo "$< $(word 2, $^): WRONG"; \
 	fi > $@
 
+clean_word:
+	rm -f word_test $(OBJ_WORD_TEST) $(OBJ_WORD)
 
 # MATRIKS UNIT TEST
 SRC_MATRIX = lib/matrix/matrix.c
@@ -80,6 +82,8 @@ $(TEST_MATRIX_RESULTS) : $(TEST_MATRIX_DIR)/%.result: $(TEST_MATRIX_DIR)/%.in $(
 		echo "$< $(word 2, $^): WRONG"; \
 	fi > $@
 
+clean_matrix:
+	rm -f matrix_test $(OBJ_MATRIX_TEST) $(OBJ_MATRIX)
 
 #KICAUAN UNIT TEST
 SRC_KICAUAN = lib/kicauan/kicauan.c
@@ -141,6 +145,9 @@ $(TEST_KICAUAN_RESULTS): $(TEST_KICAUAN_DIR)/%.result: $(TEST_KICAUAN_DIR)/%.in 
 		echo "$< $(word 2, $^): WRONG"; \
 	fi > $@
 
+clean_kicauan:
+	rm -f kicauan_test $(OBJ_KICAUAN_TEST) $(OBJ_KICAUAN)
+
 # BALASAN UNIT TEST
 
 TEST_BALASAN_DIR = lib/reply/test
@@ -164,6 +171,8 @@ $(TEST_BALASAN_RESULTS): $(TEST_BALASAN_DIR)/%.result: $(TEST_BALASAN_DIR)/%.in 
 		echo "$< $(word 2, $^): WRONG"; \
 	fi > $@
 
+clean_balasan:
+	rm -f balasan_test $(OBJ_BALASAN_TEST) $(OBJ_BALASAN)
 
 # UTAS UNIT TEST
 TEST_UTAS_DIR = lib/utas/test
@@ -187,16 +196,19 @@ $(TEST_UTAS_RESULTS): $(TEST_UTAS_DIR)/%.result: $(TEST_UTAS_DIR)/%.in $(TEST_UT
 		echo "$< $(word 2, $^): WRONG"; \
 	fi > $@
 
+clean_utas:
+	rm -f utas_test $(OBJ_UTAS_TEST) $(OBJ_UTAS)
+
 # DRAFT UNIT TEST
 TEST_DRAFT_DIR = lib/draft/test
 TEST_DRAFT_CASES = $(wildcard $(TEST_DRAFT_DIR)/*.in)
 TEST_DRAFT_OUTPUTS = $(TEST_DRAFT_CASES:.in=.out)
 TEST_DRAFT_RESULTS = $(TEST_DRAFT_CASES:.in=.result)
 
-SRC_DRAFT_TEST = lib/draft/test/drafttest.c
+SRC_DRAFT_TEST = lib/draft/test/draft_test.c
 OBJ_DRAFT_TEST = $(SRC_DRAFT_TEST:.c=.o)
 
-draft_test : $(OBJ_DRAFT_TEST) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_KICAUAN) $(OBJ_UTAS) $(OBJ_BALASAN) $(OBJ_RELATION) $(OBJ_DATETIME) $(OBJ_USER) $(OBJ_REQUEST) $(OBJ_PCOLOR)
+draft_test : $(OBJ_DRAFT_TEST) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_KICAUAN) $(OBJ_UTAS) $(OBJ_BALASAN) $(OBJ_RELATION) $(OBJ_DATETIME) $(OBJ_USER) $(OBJ_REQUEST) $(OBJ_PCOLOR) $(OBJ_DRAFT)
 	$(CC) $(CFLAGS) -o $@ $^
 
 test_draft : draft_test $(TEST_DRAFT_RESULTS)
@@ -209,6 +221,34 @@ $(TEST_DRAFT_RESULTS): $(TEST_DRAFT_DIR)/%.result: $(TEST_DRAFT_DIR)/%.in $(TEST
 		echo "$< $(word 2, $^): WRONG"; \
 	fi > $@
 
+clean_draft:
+	rm -f draft_test $(OBJ_DRAFT_TEST) $(OBJ_DRAFT)
+
+# DATETIME UNIT TEST
+
+TEST_DATETIME_DIR = lib/datetime/test
+TEST_DATETIME_CASES = $(wildcard $(TEST_DATETIME_DIR)/*.in)
+TEST_DATETIME_OUTPUTS = $(TEST_DATETIME_CASES:.in=.out)
+TEST_DATETIME_RESULTS = $(TEST_DATETIME_CASES:.in=.result)
+
+SRC_DATETIME_TEST = lib/datetime/test/datetime_test.c
+OBJ_DATETIME_TEST = $(SRC_DATETIME_TEST:.c=.o)
+
+datetime_test : $(OBJ_DATETIME_TEST) $(OBJ_DATETIME)
+	$(CC) $(CFLAGS) -o $@ $^
+
+test_datetime : datetime_test $(TEST_DATETIME_RESULTS)
+	@cat $(TEST_DATETIME_RESULTS)
+
+$(TEST_DATETIME_RESULTS): $(TEST_DATETIME_DIR)/%.result: $(TEST_DATETIME_DIR)/%.in $(TEST_DATETIME_DIR)/%.out datetime_test
+	@if ./datetime_test < $< | diff -Z -B - $(word 2,$^) > /dev/null; then \
+		echo "$< $(word 2, $^): TRUE"; \
+	else \
+		echo "$< $(word 2, $^): WRONG"; \
+	fi > $@
+
+clean_datetime:
+	rm -f datetime_test $(OBJ_DATETIME_TEST) $(OBJ_DATETIME)
 
 #CHARMACHINE UNIT TEST
 SRC_CHARM_TEST = lib/charmachine/test/char_test.c

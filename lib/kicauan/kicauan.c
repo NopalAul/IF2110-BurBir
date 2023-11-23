@@ -14,9 +14,9 @@ void createKicau(ListKicau *l, USER user, STRING text){
         expandKicauan(l, CAPACITY(*l));
     }
     int idxNow = NEFF(*l);
-    ID(KICAU(*l, idxNow)) = idxNow+1;
+    IDKICAUAN(KICAU(*l, idxNow)) = idxNow+1;
     AUTHOR(KICAU(*l, idxNow)) = user;
-    copyString(&TEXT(KICAU(*l, idxNow)), text);
+    copyString(&TEXTKICAUAN(KICAU(*l, idxNow)), text);
     LIKE(KICAU(*l, idxNow)) = 0;
     DATETIME(KICAU(*l, idxNow)) = getCurrentDATETIME();
     CreateREPLY(&BALASAN(KICAU(*l, idxNow)));
@@ -51,12 +51,20 @@ boolean isKicauanEmpty(ListKicau l){
     return NEFF(l) == 0;
 }
 
+void addKicauan(ListKicau *l, KICAU *kicau){
+    if (isKicauanFull(*l)){
+        expandKicauan(l,1);
+    }
+    KICAU(*l, NEFF(*l)) = *kicau;
+    NEFF(*l)++;
+}
+
 void sukaKicauan(ListKicau *l,int id,USER currUser ){
     int i = 0;
-    while (i < NEFF(*l) && ID(KICAU(*l,i)) != id){
+    while (i < NEFF(*l) && IDKICAUAN(KICAU(*l,i)) != id){
         i++;
     }
-    if(ID(KICAU(*l,i)) == id){
+    if(IDKICAUAN(KICAU(*l,i)) == id){
         if(ACCOUNTTYPE(USER(UserList, searchUser(USERNAME(AUTHOR(KICAU(*l, i)))))) || isFriend(searchUser(USERNAME(currUser)), searchUser(USERNAME(AUTHOR(KICAU(*l, i)))))){
             LIKE(KICAU(*l,i))++;
             printf("\nSelamat! kicauan telah disukai! Detil kicauan:\n\n");
@@ -73,17 +81,17 @@ void sukaKicauan(ListKicau *l,int id,USER currUser ){
 
 void ubahKicauan(ListKicau *l,USER currUser,int id){
     int i = 0;
-    while (i < NEFF(*l) && ID(KICAU(*l,i)) != id){
+    while (i < NEFF(*l) && IDKICAUAN(KICAU(*l,i)) != id){
         i++;
     }
-    if(ID(KICAU(*l,i)) == id){
+    if(IDKICAUAN(KICAU(*l,i)) == id){
         if(isStringEqual(USERNAME(currUser), USERNAME(AUTHOR(KICAU(*l, i))))){
             do {
                 printf("\nMasukkan kicauan baru:\n");
                 readKicauan();
                 if (!VALID) printf("\nWalawe, kicauan Anda tidak sesuai. Isi kicauan tidak boleh berisi karakter spasi atau newline saja.\n\n");
             } while (!VALID);
-            copyString(&TEXT(KICAU(*l,i)), string);
+            copyString(&TEXTKICAUAN(KICAU(*l,i)), string);
             printf("\nSelamat! kicauan telah diterbitkan!\n Detil kicauan:\n");
             displayKicau(KICAU(*l,i));
         }
@@ -104,13 +112,13 @@ void expandKicauan (ListKicau *l,int num){
 
 void displayKicau(KICAU kicau){
 
-    printf("| ID = %d\n",ID(kicau));
+    printf("| ID = %d\n",IDKICAUAN(kicau));
     printf("| ");
     displayString(USERNAME(AUTHOR(kicau)));
     printf("| ");
     displayDATETIME(DATETIME(kicau));
     printf("| ");
-    displayString(TEXT(kicau));
+    displayString(TEXTKICAUAN(kicau));
     printf("| Disukai: %d\n\n",LIKE(kicau));
 
 }
