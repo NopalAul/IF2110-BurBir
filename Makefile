@@ -88,6 +88,9 @@ OBJ_KICAUAN = $(SRC_KICAUAN:.c=.o)
 SRC_CHARM = lib/charmachine/charmachine.c
 OBJ_CHARM = $(SRC_CHARM:.c=.o)
 
+SRC_DRAFT = lib/draft/draft.c
+OBJ_DRAFT = $(SRC_DRAFT:.c=.o)
+
 SRC_BALASAN = lib/reply/reply.c
 OBJ_BALASAN = $(SRC_BALASAN:.c=.o)
 
@@ -187,11 +190,26 @@ $(TEST_UTAS_RESULTS): $(TEST_UTAS_DIR)/%.result: $(TEST_UTAS_DIR)/%.in $(TEST_UT
 
 
 #CHARMACHINE UNIT TEST
-SRC_WORD_TEST = lib/charmachine/test/.c
-OBJ_WORD_TEST = $(SRC_WORD_TEST:.c=.o)
+SRC_CHARM_TEST = lib/charmachine/test/char_test.c
+OBJ_CHARM_TEST = $(SRC_CHARM_TEST:.c=.o)
 
-TEST_WORD_DIR = lib/wordmachine/test
-TEST_WORD_CASES = $(wildcard $(TEST_WORD_DIR)/*.in)
-TEST_WORD_OUTPUTS = $(TEST_WORD_CASES:.in=.out)
-TEST_WORD_RESULTS = $(TEST_WORD_CASES:.in=.result)
-TEMP_STDOUT_FILES = $(addprefix temp_stdout_,$(notdir $(TEST_WORD_CASES:.in=.txt)))
+TEST_CHARM_DIR = lib/charmachine/test
+TEST_CHARM_CASES = $(wildcard $(TEST_CHARM_DIR)/*.in)
+TEST_CHARM_OUTPUTS = $(TEST_CHARM_CASES:.in=.out)
+TEST_CHARM_RESULTS = $(TEST_CHARM_CASES:.in=.result)
+
+clean_charm:
+	rm -f charm_test $(OBJ_CHARM_TEST) $(OBJ_CHARM)
+
+charm_test: $(OBJ_CHARM_TEST) $(OBJ_CHARM)
+	$(CC) $(CFLAGS) -o $@ $^
+
+test_charm: charm_test $(TEST_CHARM_RESULTS)
+	@cat $(TEST_CHARM_RESULTS)
+
+$(TEST_CHARM_RESULTS): $(TEST_CHARM_DIR)/%.result: $(TEST_CHARM_DIR)/%.in $(TEST_CHARM_DIR)/%.out charm_test
+	@if ./charm_test < $< | diff -Z -B - $(word 2,$^) > /dev/null; then \
+		echo "$< $(word 2, $^): TRUE"; \
+	else \
+		echo "$< $(word 2, $^): WRONG"; \
+	fi > $@

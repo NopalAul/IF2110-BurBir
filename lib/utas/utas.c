@@ -16,7 +16,7 @@ Address newNode (int IDUtas, USER user, STRING content)
     if(p != NULL) {
         AUTHORUTAS(p) = user;
         CONTENT(p) = content;
-        DATETIMEUTAS(p) = getCurrentDATETIME() ;
+        DATETIMEUTAS(p) = getCurrentDATETIME();
         NEXT(p) = NULL;
     }
     return p;   
