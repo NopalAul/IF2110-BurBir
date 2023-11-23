@@ -117,5 +117,26 @@ int main(){
             printf("%s\n", isWordEqual(string, "case16") ? "SAMA" : "BEDA");
             stopRead();
             break;
-    }   
+        case 17:
+            readString();
+            printf("%d\n", isWordSimiliar(string, "casE17"));
+            readString();
+            printf("%d\n", isWordSimiliar(string, "casE17"));
+            stopRead();
+            break;
+        case 18:
+            do {
+                readKicauan();
+            } while (!isKicauValid());
+            displayString(string);
+            stopRead();
+            break;
+        case 19:
+            do {
+                readString();
+            } while (!isInputValid());
+            displayString(string);
+            stopRead();
+            break;
+    }       
 }

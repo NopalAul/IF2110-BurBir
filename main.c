@@ -9,7 +9,8 @@
 #include "lib/pcolor/pcolor.h"
 #include "lib/utas/utas.h"
 #include "lib/draft/draft.h"
-
+#include "lib/muat/muat.h"
+#include "lib/simpan/simpan.h"
 #define nl printf("\n")
 
 void DisplayHeader();
@@ -62,9 +63,24 @@ int main()
     createContainerDraft();
 
     boolean running = true;
-
     DisplayHeader();
 
+    printf("Apakah anda ingin melakukan load folder?\n");
+    do {
+        printf("(YA/TIDAK) ");
+        readString();
+        printf("\n");
+        if (!isWordSimiliar(string, "YA") && !isWordSimiliar(string, "TIDAK")){
+            printf("Walawe, input tidak sesuai!\n\n");
+        }
+    } while (!isWordSimiliar(string, "YA") && !isWordSimiliar(string, "TIDAK"));
+    if(isWordSimiliar(string,"YA")){
+        printf("Masukkan folder load : ");
+        readString();
+        printf("\n");
+        loadAll(string,&UserList,&RelMatrix,&listkicauan);
+        printf("\n\n");
+    }
     while(running){
         print_red('>');
         print_red('>');
@@ -245,7 +261,9 @@ int main()
                 } 
             }
         } else if (isWordSimiliar(string, "SIMPAN")){
-            //do procedure
+            printf("Masukkan folder penyimpanan: ");
+            readString();
+            saveAll(string, UserList, RelMatrix, listkicauan);
         } else if (isWordSimiliar(string, "MUAT")){
             if (currentID < 0){
                 //do procedure

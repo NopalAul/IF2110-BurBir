@@ -33,6 +33,8 @@ void CreateREPLY(REPLY* reply);
 
 boolean isEmptyREPLY(REPLY reply);
 
+int lengthReply(REPLY r);
+
 void addREPLY(REPLY *r, int id, AddressReply reply, boolean *succeed);
 void deleteREPLY(REPLY *r, int id, boolean *succeed, AddressReply parent, AddressReply leftSibling);
 void deleteReplyTree(REPLY *r, int depth);

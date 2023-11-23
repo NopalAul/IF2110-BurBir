@@ -68,6 +68,8 @@ void insertAt(UtasList *l, int IDUtas, int index, USER user, STRING content);
 /* menyisipkan elemen dalam list pada indeks ke-idx (bukan menimpa elemen di i) */
 /* yang bernilai val jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
 
+Address getLast(UtasList l);
+
 /*** PENGHAPUSAN ELEMEN ***/
 void deleteFirst(UtasList *l);
 /* I.S. List l tidak kosong  */
@@ -85,9 +87,8 @@ void deleteAt(UtasList *l, int index);
 int length(UtasList l);
 /* Mengirimkan banyaknya elemen list; mengirimkan 0 jika list kosong */
 
-// void tulisUtas(UtasList *l, USER user, int IDKicau);
-// /* Membuat utas baru dari kicauan utama. Utas dapat dilanjutkan 
-// I.S :   IDKicau, mungkin bukan milik pengguna saat ini
-// F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
+int searchIndexUtas(UtasList l, int index);
+/* Mengembalikan index sebuah Utas di dalam UtasList l. Mengembalikan NOT_FOUND jika tidak ditemukan */
+
 
 #endif

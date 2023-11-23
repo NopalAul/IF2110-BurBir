@@ -47,3 +47,17 @@ void stopRead()
     fclose(pita);
 }
 
+
+void startFile(char path[])
+{
+    pita = fopen(path, "r");
+    if (pita == NULL)
+    {
+        printf("File tidak ada.");
+    }
+    else
+    {
+        ADV();
+    }
+}
+

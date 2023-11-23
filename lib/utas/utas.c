@@ -16,7 +16,7 @@ Address newNode (int IDUtas, USER user, STRING content)
     if(p != NULL) {
         AUTHORUTAS(p) = user;
         CONTENT(p) = content;
-        DATETIMEUTAS(p) = getCurrentDATETIME() ;
+        DATETIMEUTAS(p) = getCurrentDATETIME();
         NEXT(p) = NULL;
     }
     return p;   
@@ -35,6 +35,7 @@ boolean isEmpty(UtasList l)
 {
     return (FIRSTUTAS(l) == NULL);
 }
+
 
 /*** PENAMBAHAN ELEMEN ***/
 void insertFirst(UtasList *l, int IDUtas, USER user, STRING content)
@@ -96,6 +97,15 @@ void insertAt(UtasList *l, int IDUtas, int index, USER user, STRING content)
     }
 }
 
+Address getLast(UtasList l)
+{
+    Address p = FIRSTUTAS(l);
+    while (NEXT(p) != NULL)
+    {
+        p = NEXT(p);
+    }
+    return p;
+}
 /*** PENGHAPUSAN ELEMEN ***/
 void deleteFirst(UtasList *l)
 /* I.S. List l tidak kosong  */

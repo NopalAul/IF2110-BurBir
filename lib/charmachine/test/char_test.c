@@ -6,7 +6,7 @@ int main(){
     scanf("%d", &type);
     switch (type){
         case 1:
-            //Test untuk PhotoElemen
+            //
             START();
             char temp[100];
             int i = 0;
@@ -15,6 +15,7 @@ int main(){
                 ADV();
                 i++;
             }
+            temp[i] = '\0';
             printf("%s\n", temp);
             stopRead();
             break;
