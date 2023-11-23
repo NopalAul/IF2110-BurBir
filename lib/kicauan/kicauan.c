@@ -249,7 +249,7 @@ void HAPUSBALASAN(ListKicau *lk, int currentID)
 
 
 int getIDKicau(ListKicau l,int IDUtas) {
-    int IDKicau;
+    int IDKicau = NOT_FOUND;
     for (int i = 0; i < NEFF(l); i++){
         if (IDUTAS(KICAU(l,i).utas) == IDUtas){
             IDKicau = i;
@@ -277,6 +277,10 @@ I.S :   IDUtas, mungkin bukan milik pengguna saat ini
 F.S :   terisi kicauan baru, index Utas bertambah */
 {   
     int IDKicau = getIDKicau(*l,IDUtas);
+    if (IDKicau == NOT_FOUND){
+        printf("\nWalawe, kicauan dengan ID utas tersebut tidak ada.\n\n");
+        return;
+    }
     Address p;
     p = FIRSTUTAS(KICAU(*l,IDKicau).utas);
     STRING content;
@@ -301,7 +305,7 @@ F.S :   terisi kicauan baru, index Utas bertambah */
                 readKicauan();
                 printf("\n");
                 if(!VALID){
-                    printf("\nKicauan tidak valid. Masukkan lagi yuk!\n");
+                    printf("Kicauan tidak valid. Masukkan lagi yuk!\n\n");
                 }
 
             }while(!VALID);
@@ -394,7 +398,7 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
             printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
             readString(); printf("\n");
             if(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK")) {
-                printf("\nInput Anda tidak valid. Masukkan lagi yuk!\n");
+                printf("Input Anda tidak valid. Masukkan lagi yuk!\n\n");
             }
         } while(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK"));
 
@@ -406,7 +410,7 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
                 printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
                 readString(); printf("\n");
                 if(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK")) {
-                    printf("\nInput Anda tidak valid. Masukkan lagi yuk!\n");
+                    printf("Input Anda tidak valid. Masukkan lagi yuk!\n\n");
                 }
             } while(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK"));
         }
