@@ -70,6 +70,7 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m)
     {
         for (int i = 0; i < 7; i++)
         {
+
             j = 0;
             createEmptyString(&processedString);
             if (i == 6)
@@ -157,6 +158,10 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m)
                 RelationVal(*m, i, j) = false;
             }
             ADV();
+            if (currentChar == CARIAGE)
+            {
+                ignoreCarriage();
+            }
             ignoreBlanks();  
         }
         ignoreBlankCarriageNewline();    
@@ -176,7 +181,7 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m)
         }
     }
     FriendListCounter = stringToInteger(processedString);
-    ignoreNewline();
+    ADV();
 
     for (int i = 0; i < FriendListCounter; i++)
     {
@@ -223,7 +228,7 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m)
 
 void loadKicau(STRING folder, ListKicau *l, ListUser lu)
 {
-    char path[113] = "../../config/";
+    char path[113] = "config/";
     char kicauan[15] = "/kicauan.config";
     STRING text;
     int jumlahKicauan, textIdx, k;
@@ -244,7 +249,7 @@ void loadKicau(STRING folder, ListKicau *l, ListUser lu)
     text.length = 1;
     jumlahKicauan = stringToInteger(text);
     ADV();
-    ignoreBlankCarriageNewline();
+    ignoreCarriage();
     createEmptyString(&text);
 
     for (int i = 0; i < jumlahKicauan; i++)
@@ -367,7 +372,7 @@ void loadKicau(STRING folder, ListKicau *l, ListUser lu)
 
 void loadBalasan(STRING folder, ListUser *lu, ListKicau *lk)
 {
-    char path[113] = "../../config/";
+    char path[113] = "config/";
     char balasan[15] = "/balasan.config";
     STRING text, textBalasan, authorReply;
     int jumlahBalasan, idxText, IDKicau, jumlahReply, IDParent, IDReply;
@@ -399,7 +404,7 @@ void loadBalasan(STRING folder, ListUser *lu, ListKicau *lk)
     }
     jumlahBalasan = stringToInteger(text);
     ADV();
-    ignoreBlankCarriageNewline();
+    ignoreCarriage();
     
     for (int i = 0; i < jumlahBalasan; i++)
     {
@@ -571,7 +576,7 @@ void loadBalasan(STRING folder, ListUser *lu, ListKicau *lk)
 
 void loadDraf(STRING folder, ListUser *lu)
 {
-    char path[113] = "../../config/";
+    char path[113] = "config/";
     char draf[12] = "/draf.config";
     STRING text, ownerUsername, drafCount, isiDraft;
     int  idxText, draftOwner, idxCount, banyakDraftperUser, userIdx, len;
@@ -737,7 +742,7 @@ void loadDraf(STRING folder, ListUser *lu)
 
 void loadUtas(STRING folder, ListKicau *lk)
 {
-    char path[113] = "../../config/";
+    char path[113] = "config/";
     char utas[12] = "/utas.config";
     STRING text;
     int idxText, jumlahUtas, idxKicau, jumlahUtasperKicauan, idUtas = 1;
