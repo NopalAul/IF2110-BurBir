@@ -222,7 +222,6 @@ OBJ_RELATION_TEST = $(SRC_RELATION_TEST:.c=.o)
 
 TEST_RELATION_DIR = lib/relation/test
 TEST_RELATION_CASES = $(wildcard $(TEST_RELATION_DIR)/*.in)
-TEST_RALATION_OUTPUTS = $(TEST_RELATION_CASES:.in=.out)
 TEST_RELATION_RESULTS = $(TEST_RELATION_CASES:.in=.result)
 
 clean_relation:
@@ -236,6 +235,31 @@ test_relation: relation_test $(TEST_RELATION_RESULTS)
 
 $(TEST_RELATION_RESULTS): $(TEST_RELATION_DIR)/%.result: $(TEST_RELATION_DIR)/%.in $(TEST_RELATION_DIR)/%.out relation_test
 	@if ./relation_test < $< | diff -Z -B - $(word 2,$^) > /dev/null; then \
+		echo "$< $(word 2, $^): TRUE"; \
+	else \
+		echo "$< $(word 2, $^): WRONG"; \
+	fi > $@
+
+
+#ListRequest UNIT TEST
+SRC_REQ_TEST = lib/listRequest/test/req_test.c
+OBJ_REQ_TEST = $(SRC_REQ_TEST:.c=.o)
+
+TEST_REQ_DIR = lib/listRequest/test
+TEST_REQ_CASES = $(wildcard $(TEST_REQ_DIR)/*.in)
+TEST_REQ_RESULTS = $(TEST_REQ_CASES:.in=.result)
+
+clean_req:
+	rm -f req_test $(OBJ_REQ_TEST) $(OBJ_REQUEST) $(OBJ_RELATION)
+
+req_test: $(OBJ_REQ_TEST) $(OBJ_REQUEST) $(OBJ_RELATION)
+	$(CC) $(CFLAGS) -o $@ $^
+
+test_req: req_test $(TEST_REQ_RESULTS)
+	@cat $(TEST_REQ_RESULTS)
+
+$(TEST_REQ_RESULTS): $(TEST_REQ_DIR)/%.result: $(TEST_REQ_DIR)/%.in $(TEST_REQ_DIR)/%.out req_test
+	@if ./req_test < $< | diff -Z -B - $(word 2,$^) > /dev/null; then \
 		echo "$< $(word 2, $^): TRUE"; \
 	else \
 		echo "$< $(word 2, $^): WRONG"; \
