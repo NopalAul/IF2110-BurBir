@@ -224,7 +224,7 @@ F.S : alokasi memori string diset dengan BIO_CAPACITY
 {
     createEmptyString(&string);
     START();
-    ignoreCarriage();
+    ignoreCarriageNewline();
     while (!EOP && string.length < BIO_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
