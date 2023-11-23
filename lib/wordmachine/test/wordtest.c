@@ -112,5 +112,10 @@ int main(){
             printf("%d\n", stringToInteger(string));
             stopRead();
             break;
+        case 16:
+            readString(); //input is "case16"
+            printf("%s\n", isWordEqual(string, "case16") ? "SAMA" : "BEDA");
+            stopRead();
+            break;
     }   
 }

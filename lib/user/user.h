@@ -103,6 +103,8 @@ F.S :   foto profil user digantikan dengan foto profil baru*/
 
 int userID(USER user);
 
+int userID(USER user);
+
 void daftarTeman(int currentID);
 void hapusTeman(int currentID);
 void tambahTeman(int currentID);
@@ -110,5 +112,6 @@ void batalTambahTeman(int currentID);
 void daftarPermintaanTeman(int currentID);
 void acceptPertemanan(int currentID);
 
-boolean isUserEqual(USER user1, USER user2);
+void LIHAT_PROFIL(int currentID);
+
 #endif

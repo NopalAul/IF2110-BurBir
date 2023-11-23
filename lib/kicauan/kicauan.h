@@ -19,16 +19,15 @@ typedef struct{
     int like;
     DATETIME datetime;
     AddressReply balasan;
+    int nextReplyID;
     UtasList utas;
-    int NextReplyID;
-
 } KICAU;
 
 typedef struct{
     KICAU *buffer; //menyimpan info KICAU (modifikasi List Statik)
     int nEFF;
-    int capacity;         //meyimpan banyak kicauan
-    int NextUtasID;
+    int capacity;   
+    int NextUtasID;      //meyimpan banyak kicauan
 } ListKicau;
 
 
@@ -38,16 +37,17 @@ typedef struct{
 #define LIKE(U) (U).like
 #define DATETIME(U) (U).datetime
 #define BALASAN(U) (U).balasan
+#define NEXTREPLYID(U) (U).nextReplyID
 #define NEFF(l) (l).nEFF
 #define CAPACITY(l) (l).capacity
 #define KICAU(l,i)  (l).buffer[i]
 #define BUFFER(l) (l).buffer
 #define UTAS(U) (U).utas
+#define NEXTUTASID(U) (U).NextUtasID
 
 void createListKicau(ListKicau *l, int capacity);
 
-void createKicau(ListKicau *l,USER user, STRING text);
-
+void createKicau(ListKicau *l, USER user, STRING text);
 
 int getBanyakKicauan(ListKicau l);
 
@@ -57,17 +57,7 @@ boolean isKicauanEmpty(ListKicau l);
 
 void sukaKicauan(ListKicau *l,int id,USER currUser );
 
-// void ubahKicauan(KICAU *kicau,STRING text,USER currUser);
-
-void sortKicauan(ListKicau *l);
-
-int getAvailableID(ListKicau l);
-
 void expandKicauan(ListKicau *l,int num);
-
-void addKicauan(ListKicau *l, KICAU *kicau);
-
-void shrinkKicauan(ListKicau *l,int num);
 
 void displayKicau(KICAU kicau);
 
@@ -79,26 +69,27 @@ void buatKicau(ListKicau *l,USER currUser);
 
 void ubahKicauan(ListKicau *l,USER currUser,int id);
 
-int getIDKicau(ListKicau l,int IDUtas);
-
-boolean isIDUtasExist(ListKicau l, int IDUtas);
+void BALAS(ListKicau *lk, int currentID);
+void DISPLAYBALASAN(ListKicau *lk, int currentID);
+void displayBalasanHandler(REPLY r, int currentID, int depth);
+void HAPUSBALASAN(ListKicau *lk, int currentID);
 
 void tulisUtas(ListKicau *l, USER user, int IDKicau);
 /* Membuat utas baru dari kicauan utama. Utas dapat dilanjutkan 
 I.S :   IDKicau, mungkin bukan milik pengguna saat ini
 F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
 
-void insertUtas(ListKicau *l, USER user, int IDUtas, int index);
+void insertUtas(ListKicau *l, int IDUtas, int index,USER currentuser);
 /* Melakukan sambung utas, menambah utas di posisi index yang dituju dari sebuah utas utama.
 I.S :   IDUtas, mungkin bukan milik pengguna saat ini
 F.S :   terisi kicauan baru, index Utas bertambah */
 
-void hapusUtas(ListKicau *l, USER user, int IDUtas, int index);
+void hapusUtas(ListKicau *l, int IDUtas, int index, USER currentuser);
 /* Menghapus utas sesuai posisi index, tidak dapat menghapus index 0 (ID kicauan utama) 
 I.S :   IDUtas, mungkin bukan milik pengguna saat ini
 F.S :   Utas pada index terhapus, index Utas berkurang?*/
 
-void sambungUtas(ListKicau *l, USER user, int IDUtas, int index);
+void sambungUtas(ListKicau *l, int IDUtas, int index, USER currentuser);
 
 void cetakUtas(ListKicau l, int IDUtas);
 /* Mencetak seluruh kicauan dalam utas dengan id = IDUtas */

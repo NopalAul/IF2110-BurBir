@@ -57,13 +57,13 @@ F.S :   melakukan procedure DAFTAR seperti spek
 {   
     if (LENGTH(UserList) < 20){
         do {
-            printf("Masukkan nama:\n");
+            printf("\nMasukkan nama:\n");
             readUsername();
             printf("\n");
             if (!VALID){
-                printf("Wah, username masukan tidak sesuai! Masukkan username lain yang sesuai.\n\n");
+                printf("Wah, username masukan tidak sesuai! Masukkan username lain yang sesuai.\n");
             } else if (searchUser(string) != NOT_FOUND){
-                printf("Wah, sayang sekali nama tersebut telah diambil.\n\n");
+                printf("Wah, sayang sekali nama tersebut telah diambil.\n");
             }
         } while (!VALID || searchUser(string) != NOT_FOUND);
         copyString(&USERNAME(USER(UserList,LENGTH(UserList))), string);
@@ -72,15 +72,15 @@ F.S :   melakukan procedure DAFTAR seperti spek
             readPassword();
             printf("\n");
             if (!VALID){
-                printf("Wah, password tidak sesuai.\n\n");
+                printf("Wah, password tidak sesuai.\n");
             }
         } while (!VALID);
         copyString(&PASSWORD(USER(UserList, LENGTH(UserList))), string);
-        printf("\nPengguna telah berhasil terdaftar. Masuk untuk menikmati fitur-fitur BurBir.\n\n");
+        printf("Pengguna telah berhasil terdaftar. Masuk untuk menikmati fitur-fitur BurBir.\n\n");
         LENGTH(UserList)++;
         RelationLength(RelMatrix)++;
     } else {
-        printf("Waduh, Gan, jumlah User sudah maksimal.\n\n");
+        printf("\nWaduh, Gan, jumlah User sudah maksimal.\n\n");
     }
 
 }
@@ -215,7 +215,7 @@ F.S :   jenis akun user diubah sesuai dengan pilihan user*/
         readString();
         printf("\n");
         if (!isStringSimiliar(Accept,string) && !isStringSimiliar(Reject,string)){
-            printf("Input Anda tidak valid. Masukkan lagi yuk!\n\n");
+            printf("\nInput Anda tidak valid. Masukkan lagi yuk!\n");
         }
     } while (!isStringSimiliar(Accept,string) && !isStringSimiliar(Reject,string));
     if (isStringSimiliar(Accept, string)){
@@ -238,7 +238,7 @@ F.S :   foto profil user digantikan dengan foto profil baru*/
         readPhoto();
         printf("\n");
         if (!VALID){
-            printf("Wah, foto profil yang Anda input tidak valid. Masukkan yang valid ya!\n\n");
+            printf("\nWah, foto profil yang Anda input tidak valid. Masukkan yang valid ya!\n");
         }
     } while (!VALID);
     char currInfo;
@@ -277,9 +277,11 @@ void daftarTeman(int currentID)
         }
     }
     if (!count) {
+        printf("\n");
         displayStringNoNewline(USERNAME(USER(UserList,currentID)));
         printf(" belum memiliki teman.\n\n");
     } else {
+        printf("\n");
         displayStringNoNewline(USERNAME(USER(UserList,currentID)));
         printf(" memiliki %d teman\nDaftar teman ", count);
         displayStringNoNewline(USERNAME(USER(UserList,currentID)));
@@ -303,17 +305,18 @@ void hapusTeman(int currentID)
     printf("\n");
     int idFound = searchUser(string);
     if (idFound == NOT_FOUND){
-        printf("Pengguna dengan nama ");
+        printf("\nPengguna dengan nama ");
         displayStringNoNewline(string);
         printf(" tidak ditemukan.\n\n");
     } else if (idFound == currentID) {
         printf("\nWah, Anda sangat lucu, nama ini adalah nama Anda sendiri.\n\n");
     }else {
         if(!isFriend(currentID, idFound)){
+            printf("\n");
             displayStringNoNewline(string);
             printf(" bukan teman Anda.\n\n");
         } else {
-            printf("Apakah Anda yakin ingin menghapus ");
+            printf("\nApakah Anda yakin ingin menghapus ");
             displayStringNoNewline(string);
             printf(" dari daftar teman Anda?\n");
             STRING targetName;
@@ -323,12 +326,13 @@ void hapusTeman(int currentID)
                 readString();
                 printf("\n");
                 if (!isStringSimiliar(Accept,string) && !isStringSimiliar(Reject,string)){
-                    printf("Input Anda tidak valid. Masukkan lagi yuk!\n\n");
+                    printf("\nInput Anda tidak valid. Masukkan lagi yuk!\n");
                 }
             } while (!isStringSimiliar(Accept,string) && !isStringSimiliar(Reject,string));
             if (isStringSimiliar(Accept,string)){
                 RelationVal(RelMatrix,idFound,currentID) = 0;
                 RelationVal(RelMatrix,currentID,idFound) = 0;
+                printf("\n");
                 displayStringNoNewline(targetName);
                 printf(" berhasil dihapus dari daftar teman Anda.\n\n");
             } else {
@@ -347,14 +351,14 @@ void tambahTeman(int currentID)
         printf("\n");
         int idFound = searchUser(string);
         if (idFound == NOT_FOUND){
-            printf("Pengguna dengan nama ");
+            printf("\nPengguna dengan nama ");
             displayStringNoNewline(string);
             printf(" tidak ditemukan.\n\n");
         } else if (idFound == currentID) {
             printf("\nWah, Anda sangat lucu, nama ini adalah nama Anda sendiri.\n\n");
         }else {
             if (isFriend(currentID, idFound)){
-                printf("Anda sudah berteman dengan ");
+                printf("\nAnda sudah berteman dengan ");
                 displayStringNoNewline(string);
                 printf(".\n\n");
             } else if (isRequestedFriend(currentID, idFound)){
@@ -380,14 +384,14 @@ void batalTambahTeman(int currentID)
     printf("\n");
     int idFound = searchUser(string);
     if (idFound == NOT_FOUND){
-        printf("Pengguna dengan nama ");
+        printf("\nPengguna dengan nama ");
         displayStringNoNewline(string);
         printf(" tidak ditemukan.\n\n");
     } else if (idFound == currentID) {
         printf("\nWah, Anda sangat lucu, nama ini adalah nama Anda sendiri.\n\n");
     } else {
         if (!isRequestedFriend(currentID, idFound)){
-            printf("Anda belum mengirimkan permintaan pertemanan ke ");
+            printf("\nAnda belum mengirimkan permintaan pertemanan ke ");
             displayStringNoNewline(string);
             printf(".\n\n");
         } else {
@@ -402,7 +406,7 @@ void batalTambahTeman(int currentID)
                 enqueueListRequest(&REQUESTLIST(USER(UserList,idFound)), listReq[i]);
             }
             RelationVal(RelMatrix, currentID, idFound) = false;
-            printf("Permintaan pertemanan kepada ");
+            printf("\nPermintaan pertemanan kepada ");
             displayStringNoNewline(string);
             printf(" telah dibatalkan.\n\n");
         }
@@ -414,13 +418,18 @@ void daftarPermintaanTeman(int currentID)
         printf("\nTidak ada permintaan pertemanan untuk Anda.\n\n");
     } else {
         int count = CountLRF(REQUESTLIST(USER(UserList,currentID))); 
+        UserPopularity tempCont[count];
         printf("\nTerdapat %d permintaan pertemanan untuk Anda.\n\n", count);
         for (int i = 0; i < count; i++){
             UserPopularity temp;
             dequeueListRequest(&REQUESTLIST(USER(UserList,currentID)), &temp);
+            tempCont[i] = temp;
             printf("| ");
             displayString(USERNAME(USER(UserList,temp.id)));
             printf("| Jumlah teman: %d\n\n", temp.friendCount);
+        }
+        for (int i = 0; i < count ; i ++){
+            enqueueListRequest(&REQUESTLIST(USER(UserList, currentID)), tempCont[i]);
         }
     }
 }
@@ -450,12 +459,12 @@ void acceptPertemanan(int currentID)
             readString();
             printf("\n");
             if (!isStringSimiliar(Accept,string) && !isStringSimiliar(Reject,string)){
-                printf("Input Anda tidak valid. Masukkan lagi yuk!\n\n");
+                printf("\nInput Anda tidak valid. Masukkan lagi yuk!\n");
             }
         } while (!isStringSimiliar(Accept,string) && !isStringSimiliar(Reject,string));
         if (isStringSimiliar(Accept,string)){
             RelationVal(RelMatrix, currentID, out.id) = true;
-            printf("\nPermintaan pertemanan dari ");
+            printf("Permintaan pertemanan dari ");
             displayStringNoNewline(name);
             printf(" telah disetujui. Selamat! Anda telah berteman dengan ");
             displayStringNoNewline(name);
@@ -464,10 +473,26 @@ void acceptPertemanan(int currentID)
             printf("Permintaan pertemanan dari ");
             displayStringNoNewline(name);
             printf(" telah ditolak.\n\n");
+            RelationVal(RelMatrix, out.id, currentID) = false;
         }
     }
 }
 
-boolean isUserEqual(USER user1, USER user2){
-    return isStringEqual(USERNAME(user1), USERNAME(user2));
+void LIHAT_PROFIL(int currentID)
+{
+    int id2 = searchUser(leftInfo);
+    if (id2 == NOT_FOUND){
+        printf("\nWalawe, tidak ada pengguna dengan nama tersebut!\n\n");
+        return;
+    }
+    boolean canLook = ACCOUNTTYPE(USER(UserList, id2)) || isFriend(currentID, id2);
+    if (!canLook){
+        printf("\nWah, akun ");
+        displayStringNoNewline(leftInfo);
+        printf(" diprivat nih. Ikuti dulu yuk untuk bisa melihat profil ");
+        displayStringNoNewline(leftInfo);
+        printf("!\n\n");
+        return;
+    }
+    displayDataUser(USER(UserList, id2));
 }

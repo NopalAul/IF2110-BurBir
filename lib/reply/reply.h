@@ -4,7 +4,7 @@
 #include "../boolean/boolean.h"
 #include "../wordmachine/wordmachine.h"
 #include "../datetime/datetime.h"
-
+#include "../pcolor/pcolor.h"
 
 typedef struct replyNode* AddressReply;
 typedef struct replyNode {
@@ -40,5 +40,7 @@ void deleteReplyTree(REPLY *r, int depth);
 void displaySpecificReply(AddressReply p, int tab, boolean isPublic);
 
 void displayReply(REPLY p, int depth);
+
+void ReplyAuhtor(REPLY r, int id, STRING *Author);
 
 #endif

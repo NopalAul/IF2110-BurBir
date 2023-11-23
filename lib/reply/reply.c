@@ -38,6 +38,7 @@ void addREPLY(REPLY *r, int id, AddressReply reply, boolean *succeed)
             }
             SIBLING(p) = reply;
         }
+        *succeed = true;
     } else {
         if (!isEmptyREPLY(*r) && !(*succeed)){
             if (REPLYID(*r) == id){
@@ -99,7 +100,12 @@ void deleteReplyTree(REPLY *r, int depth)
 void displaySpecificReply(AddressReply p, int tab, boolean isPublic)
 {   
     int multiplier = 5;
-    printf("%*c ID = %d\n", tab*multiplier, '|', REPLYID(p));
+    printf("%*c ", tab*multiplier, '|');
+    print_green('I');
+    print_green('D');
+    printf(" ");
+    print_green('=');
+    printf(" %d\n", REPLYID(p));
     if (isPublic){
         printf("%*c ", tab*multiplier, '|');
         displayStringNoNewline(REPLYAUTHOR(p));
@@ -123,5 +129,18 @@ void displayReply(REPLY p, int depth)
         displaySpecificReply(p, depth, true);
         displayReply(CHILD(p), depth + 1);
         displayReply(SIBLING(p), depth);
+    }
+}
+
+
+void ReplyAuhtor(REPLY r, int id, STRING *Author)
+{
+    if (!isEmptyREPLY(r) && (*Author).length == 0){
+        if (REPLYID(r) == id){
+            copyString(Author, REPLYAUTHOR(r));
+        } else {
+            ReplyAuhtor(CHILD(r), id, Author);
+            ReplyAuhtor(SIBLING(r), id, Author);
+        }
     }
 }

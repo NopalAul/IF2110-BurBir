@@ -5,32 +5,37 @@
 void createListKicau(ListKicau *l, int capacity){
     BUFFER(*l) =  (KICAU*) malloc(sizeof(KICAU) * capacity);
     NEFF(*l) = 0;
-
-    CAPACITY(*l) = capacity;
     (*l).NextUtasID = 1;
+    CAPACITY(*l) = capacity;
 }
 
 void createKicau(ListKicau *l, USER user, STRING text){
-    KICAU kicau;
-    ID(kicau) = getAvailableID(*l);
-    printf("ID = %d\n",ID(kicau));
-    AUTHOR(kicau) = user;
-    TEXT(kicau) = text;
-    LIKE(kicau) = 0;
-    DATETIME(kicau) = getCurrentDATETIME();
-    BALASAN(kicau) = NULL;
-    CreateListUtas(&UTAS(kicau));
-    KICAU(*l, NEFF(*l)) = kicau;
+    if (isKicauanFull(*l)){
+        expandKicauan(l, CAPACITY(*l));
+    }
+    int idxNow = NEFF(*l);
+    ID(KICAU(*l, idxNow)) = idxNow+1;
+    AUTHOR(KICAU(*l, idxNow)) = user;
+    copyString(&TEXT(KICAU(*l, idxNow)), text);
+    LIKE(KICAU(*l, idxNow)) = 0;
+    DATETIME(KICAU(*l, idxNow)) = getCurrentDATETIME();
+    CreateREPLY(&BALASAN(KICAU(*l, idxNow)));
+    CreateListUtas(&UTAS(KICAU(*l, idxNow)));
+    NEXTREPLYID(KICAU(*l, idxNow)) = 1;
     NEFF(*l)++;
-
 }
 
 void buatKicau(ListKicau *l,USER user){
-    printf("Masukkan kicauan:\n");
-    readKicauan();
+    do {
+        printf("\nMasukkan kicauan:\n");
+        readKicauan();
+        if (!VALID){
+            printf("\nWalawe, kicauan Anda tidak sesuai. Isi kicauan tidak boleh berisi karakter spasi atau newline saja.\n");
+        }
+    }while (!VALID);
     createKicau(l,user,string);
-    printf("Selamat! kicauan telah diterbitkan!\n");
-    printf("Detil kicauan:\n");
+    printf("\nSelamat! kicauan telah diterbitkan!\n");
+    printf("Detil kicauan:\n\n");
     displayKicau(KICAU(*l,NEFF(*l)-1));
 }
 
@@ -52,17 +57,17 @@ void sukaKicauan(ListKicau *l,int id,USER currUser ){
         i++;
     }
     if(ID(KICAU(*l,i)) == id){
-        if(isAuthorKicauPublicOrFriend(KICAU(*l,i),currUser)){
+        if(ACCOUNTTYPE(USER(UserList, searchUser(USERNAME(AUTHOR(KICAU(*l, i)))))) || isFriend(searchUser(USERNAME(currUser)), searchUser(USERNAME(AUTHOR(KICAU(*l, i)))))){
             LIKE(KICAU(*l,i))++;
-            printf("Selamat! kicauan telah disukai! Detil kicauan:\n");
+            printf("\nSelamat! kicauan telah disukai! Detil kicauan:\n\n");
             displayKicau(KICAU(*l,i));
         }
         else{
-            printf("Wah, kicauan tersebut dibuat oleh akun privat! Ikuti akun itu dulu ya\n");
+            printf("\nWah, kicauan tersebut dibuat oleh akun privat! Ikuti akun itu dulu ya\n\n");
         }
     }
     else{
-        printf("Tidak ditemukan kicauan dengan ID %d\n",id);
+        printf("\nTidak ditemukan kicauan dengan ID %d\n\n",id);
     }
 }
 
@@ -72,36 +77,22 @@ void ubahKicauan(ListKicau *l,USER currUser,int id){
         i++;
     }
     if(ID(KICAU(*l,i)) == id){
-        if(isUserEqual(currUser,AUTHOR(KICAU(*l,i)))){
-            printf("Masukkan kicauan baru:\n");
-            readKicauan();
-            TEXT(KICAU(*l,i)) = string;
-            printf("Selamat! kicauan telah diterbitkan!\n Detil kicauan:\n");
+        if(isStringEqual(USERNAME(currUser), USERNAME(AUTHOR(KICAU(*l, i))))){
+            do {
+                printf("\nMasukkan kicauan baru:\n");
+                readKicauan();
+                if (!VALID) printf("\nWalawe, kicauan Anda tidak sesuai. Isi kicauan tidak boleh berisi karakter spasi atau newline saja.\n\n");
+            } while (!VALID);
+            copyString(&TEXT(KICAU(*l,i)), string);
+            printf("\nSelamat! kicauan telah diterbitkan!\n Detil kicauan:\n");
             displayKicau(KICAU(*l,i));
         }
         else{
-            printf("Kicauan dengan ID = %d bukan milikmu\n",id);
+            printf("\nKicauan dengan ID = %d bukan milikmu\n",id);
         }
     }
     else{
-        printf("Tidak ditemukan kicauan dengan ID = %d\n",id);
-    }
-}
-
-
-
-int getAvailableID(ListKicau l){
-    
-    if (isKicauanEmpty(l)){
-        return 1;
-    } else {
-        int max = 0;
-        for (int i = 0; i < NEFF(l); i++){
-            if (ID(KICAU(l,i)) > max){
-                max = ID(KICAU(l,i));
-            }
-        }
-        return max+1;
+        printf("\nTidak ditemukan kicauan dengan ID = %d\n",id);
     }
 }
 
@@ -110,18 +101,6 @@ void expandKicauan (ListKicau *l,int num){
     BUFFER(*l) = (KICAU*) realloc(BUFFER(*l),sizeof(KICAU) * CAPACITY(*l));
 }
 
-void addKicauan(ListKicau *l, KICAU *kicau){
-    if (isKicauanFull(*l)){
-        expandKicauan(l,1);
-    }
-    KICAU(*l, NEFF(*l)) = *kicau;
-    NEFF(*l)++;
-}
-
-void shrinkKicauan(ListKicau *l,int num){
-    CAPACITY(*l) -= num;
-    BUFFER(*l) = (KICAU*) realloc(BUFFER(*l),sizeof(KICAU) * CAPACITY(*l));
-}
 
 void displayKicau(KICAU kicau){
 
@@ -132,13 +111,14 @@ void displayKicau(KICAU kicau){
     displayDATETIME(DATETIME(kicau));
     printf("| ");
     displayString(TEXT(kicau));
-    printf("| Disukai: %d\n",LIKE(kicau));
+    printf("| Disukai: %d\n\n",LIKE(kicau));
 
 }
 
 void displayKicauan(ListKicau l,USER currUser){
+    printf("\n");
     for (int i = 0; i < NEFF(l); i++){
-        if(isAuthorKicauPublicOrFriend(KICAU(l,i),currUser)){
+        if(ACCOUNTTYPE(USER(UserList, searchUser(USERNAME(AUTHOR(KICAU(l, i)))))) || isFriend(searchUser(USERNAME(currUser)), searchUser(USERNAME(AUTHOR(KICAU(l, i)))))){
             displayKicau(KICAU(l,i));
         }
     }
@@ -147,23 +127,132 @@ void displayKicauan(ListKicau l,USER currUser){
 boolean isAuthorKicauPublicOrFriend(KICAU k,USER currUser){
     if (ACCOUNTTYPE(AUTHOR(k))){
         return true;
-    } 
-    else {
-      if(isFriend(userID(currUser),userID(AUTHOR(k)))){
-            return true;
-      }
-      else{
-        return false;
-      }
-        
     }
-
+    else {
+        if(isFriend(userID(currUser),userID(AUTHOR(k)))){
+            return true;
+        }
+        else{
+        return false;
+        }
+    }
 }
 
-/* UTAS */
+
+void BALAS(ListKicau *lk, int currentID)
+{
+    if (!isStringNumeric(leftInfo) || !isStringNumeric(rightInfo)){
+        printf("\nCommand yang Anda masukkan tidak sesuai!\n\n");
+        return;
+    }
+    int idKicau = stringToInteger(leftInfo);
+    if (idKicau > (*lk).nEFF || idKicau <= 0){
+        printf("\nWah, tidak terdapat kicauan dengan id tersebut!\n\n");
+        return;
+    }
+    int idReply = stringToInteger(rightInfo);
+    STRING author;;
+    createEmptyString(&author);
+    if (idReply == -1) copyString(&author, USERNAME(AUTHOR(KICAU(*lk, idKicau-1))));
+    else ReplyAuhtor(BALASAN(KICAU(*lk,idKicau-1)), idReply, &author);
+    if (author.length == 0){
+        printf("\nWah, tidak terdapat balasan yang ingin Anda balas!\n\n");
+        return;
+    }
+    if (!isFriend(currentID, searchUser(author)) && !ACCOUNTTYPE(USER(UserList, searchUser(author)))){
+        printf("\nWah, Anda tidak bisa membalas kicauan atau balasan dari akun privat yang bukan teman Anda!\n\n");
+        return;
+    }
+    do {
+        printf("\nMasukkan balasan:\n");
+        readString();
+        if (!isInputValid()){
+            printf("\nWalawe, balasan tidak valid. Balasan tidak dapat mengandung newline.\n");
+        }
+    } while (!isInputValid());
+    AddressReply p = newReply(NEXTREPLYID(KICAU(*lk,idKicau-1)), string, USERNAME(USER(UserList, currentID)), getCurrentDATETIME());
+    if (p == NULL){
+        printf("\nError: Gagal membuat balasan.\n\n");
+        return;
+    }
+    boolean succeed = false;
+    addREPLY(&BALASAN(KICAU(*lk,idKicau-1)), idReply, p, &succeed);
+    if (!succeed) {
+        printf("\nError: Gagal menerbitkan balasan.\n\n");
+        free(p);
+        return;
+    } 
+    NEXTREPLYID(KICAU(*lk,idKicau-1))++;
+    printf("\nSelamat! Balasan telah diterbitkan!\nDetil balasan:\n");
+    displaySpecificReply(p, 0, true);
+}
+
+void DISPLAYBALASAN(ListKicau *lk, int currentID)
+{
+    if (!isStringNumeric(leftInfo)){
+        printf("\nCommand yang Anda masukkan tidak sesuai!\n\n");
+        return;
+    }
+    int idKicau = stringToInteger(leftInfo);
+    if (idKicau <= 0 || idKicau > (*lk).nEFF){
+        printf("\nWah, tidak terdapat kicauan dengan id tersebut!\n\n");
+        return;
+    }
+    if (isEmptyREPLY(BALASAN(KICAU(*lk, idKicau-1)))){
+        printf("\nBelum terdapat balasan apapun pada kicauan tersebut. Yuk, balas kicauan tersebut!\n\n");
+        return;
+    }
+    printf("\n");
+    displayBalasanHandler(BALASAN(KICAU(*lk, idKicau-1)), currentID, 0);
+}
+
+void displayBalasanHandler(REPLY r, int currentID, int depth)
+{
+    if(!isEmptyREPLY(r)){
+        boolean noSensor = ACCOUNTTYPE(USER(UserList,searchUser(REPLYAUTHOR(r)))) || isFriend(currentID, searchUser(REPLYAUTHOR(r)));
+        displaySpecificReply(r,depth, noSensor);
+        displayBalasanHandler(CHILD(r), currentID, depth+1);
+        displayBalasanHandler(SIBLING(r), currentID, depth);
+    }
+}
+
+void HAPUSBALASAN(ListKicau *lk, int currentID)
+{
+    if (!isStringNumeric(leftInfo) || !isStringNumeric(rightInfo)){
+        printf("\nCommand yang Anda masukkan tidak sesuai!\n\n");
+        return;
+    }
+    int idKicau = stringToInteger(leftInfo);
+    if (idKicau <= 0 || idKicau > (*lk).nEFF){
+        printf("\nWalawe, tidak ada kicauan dengan id tersebut!\n\n");
+        return;
+    }
+    int idReply = stringToInteger(rightInfo);
+    STRING author;
+    createEmptyString(&author);
+    ReplyAuhtor(BALASAN(KICAU(*lk, idKicau-1)), idReply, &author);
+    if (author.length == 0){
+        printf("\nWalawe, tidak ada balasan dengan id tersebut.\n\n");
+        return;
+    }
+    if (!isStringEqual(USERNAME(USER(UserList, currentID)), author)){
+        printf("\nAra-ara, ini balasan punya siapa? Jangan dihapus ya.\n\n");
+        return;
+    }
+    boolean succeed = false;
+    deleteREPLY(&BALASAN(KICAU(*lk, idKicau-1)), idReply, &succeed, NULL, NULL);
+    if (!succeed) {
+        printf("\nError: Sepertinya ada masalah dalam proses penghapusan.\n\n");
+        return;
+    }
+    printf("\nBalasan berhasil dihapus.\n\n");
+}
+
+
+
 
 int getIDKicau(ListKicau l,int IDUtas) {
-    int IDKicau;
+    int IDKicau = NOT_FOUND;
     for (int i = 0; i < NEFF(l); i++){
         if (IDUTAS(KICAU(l,i).utas) == IDUtas){
             IDKicau = i;
@@ -185,41 +274,53 @@ boolean isIDUtasExist(ListKicau l, int IDUtas) {
     return exist;
 }
 
-void insertUtas(ListKicau *l, USER user, int IDUtas, int index) //PERLU PARAMETER USER?
+void insertUtas(ListKicau *l, int IDUtas, int index,USER currentuser) //PERLU PARAMETER USER?
 /* Melakukan sambung utas, menambah utas di posisi index yang dituju dari sebuah utas utama.
 I.S :   IDUtas, mungkin bukan milik pengguna saat ini
 F.S :   terisi kicauan baru, index Utas bertambah */
 {   
     int IDKicau = getIDKicau(*l,IDUtas);
+    if (IDKicau == NOT_FOUND){
+        printf("\nWalawe, kicauan dengan ID utas tersebut tidak ada.\n\n");
+        return;
+    }
     Address p;
     p = FIRSTUTAS(KICAU(*l,IDKicau).utas);
     STRING content;
 
     if(isIDUtasExist(*l,IDUtas) == false) {
         // Kondisi tidak ditemukan IDUtas
-        printf("Utas tidak ditemukan!\n\n");
+        printf("\nUtas tidak ditemukan!\n\n");
     }
     else if(index > length(KICAU(*l,IDKicau).utas)) {
         // Kondisi index terlalu tinggi
-        printf("Index terlalu tinggi!\n\n");
+        printf("\nIndex terlalu tinggi!\n\n");
     }
-    else if(!isStringEqual(USERNAME(user), USERNAME(AUTHOR(KICAU(*l,IDKicau))))) {
+    else if(!isStringEqual(USERNAME(currentuser), USERNAME(AUTHOR(KICAU(*l,IDKicau))))) {
         // Kondisi IDUtas bukan milik pengguna saat ini
-        printf("Anda tidak bisa menyambung utas ini!\n\n");
+        printf("\nAnda tidak bisa menyambung utas ini!\n\n");
     }
     else
         {
             // Kondisi valid
-            printf("Masukkan kicauan:\n");
-            readKicauan(); copyString(&content, string);
-            printf("\n");
+            do{
+                printf("\nMasukkan kicauan:\n");
+                readKicauan();
+                printf("\n");
+                if(!isInputValid()){
+                    printf("Input tidak valid. Masukkan lagi yuk!\n");
+                }
+
+            }while(!isInputValid());
+            
+            copyString(&content, string);
             
 
             insertAt(&KICAU(*l,IDKicau).utas, IDUtas, index, AUTHORUTAS(p), content);
         }
 }
 
-void hapusUtas(ListKicau *l, USER user, int IDUtas, int index)
+void hapusUtas(ListKicau *l, int IDUtas, int index, USER currentuser)
 {
     /* Menghapus utas sesuai posisi index, tidak dapat menghapus index 0 (ID kicauan utama) 
     I.S :   IDUtas, mungkin bukan milik pengguna saat ini
@@ -228,34 +329,34 @@ void hapusUtas(ListKicau *l, USER user, int IDUtas, int index)
     int IDKicau = getIDKicau(*l,IDUtas);
     if(isIDUtasExist(*l,IDUtas) == false) {
         // Kondisi utas tidak ditemukan
-        printf("Utas tidak ditemukan!\n\n");
+        printf("\nUtas tidak ditemukan!\n\n");
     }
-    else if(!isStringEqual(USERNAME(user), USERNAME(AUTHOR(KICAU(*l,IDKicau))))) {
+    else if(!isStringEqual(USERNAME(currentuser), USERNAME(AUTHOR(KICAU(*l,IDKicau))))) {
         // Kondisi IDUtas bukan milik pengguna saat ini
-        printf("Anda tidak bisa menghapus kicauan dalam utas ini!\n\n");
+        printf("\nAnda tidak bisa menghapus kicauan dalam utas ini!\n\n");
     }
     else
     {
         // Kondisi utas milik sendiri
         if(index > length(KICAU(*l,IDKicau).utas)-1) {
             // Kondisi index utas tidak ditemukan
-            printf("Kicauan sambungan dengan index %d tidak ditemukan pada utas!\n\n",index);
+            printf("\nKicauan sambungan dengan index %d tidak ditemukan pada utas!\n\n",index);
         }
         else if(index == 0) {
             // Kondisi index = 0
-            printf("Anda tidak bisa menghapus kicauan utama!\n\n");
+            printf("\nAnda tidak bisa menghapus kicauan utama!\n\n");
         }
         else {
             // Kondisi valid
             deleteAt(&KICAU(*l,IDKicau).utas,index-1);
-            printf("Kicauan sambungan berhasil dihapus!\n\n");
+            printf("\nKicauan sambungan berhasil dihapus!\n\n");
         }
     }
 }
 
-void sambungUtas(ListKicau *l, USER user, int IDUtas, int index)
+void sambungUtas(ListKicau *l, int IDUtas, int index, USER currentuser)
 {
-    insertUtas(l,user,IDUtas,index-1);
+    insertUtas(l,IDUtas,index-1,currentuser);
 }
 
 void tulisUtas(ListKicau *l, USER user, int IDKicau)
@@ -264,61 +365,67 @@ I.S :   IDKicau, mungkin bukan milik pengguna saat ini
 F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length ListUtas bertambah */
 {
     if(IDKicau > (*l).nEFF) {
-        printf("Kicauan tidak ditemukan\n\n");
+        printf("\nKicauan tidak ditemukan\n\n");
     }
     else if(!isStringEqual(USERNAME(user), USERNAME(AUTHOR(KICAU(*l,IDKicau-1))))) {
-        printf("Utas ini bukan milik anda!\n\n");
+        printf("\nUtas ini bukan milik anda!\n\n");
     }
     else if(IDUTAS(KICAU(*l,IDKicau-1).utas) != ID_UNDEF){
-        printf("ID Kicau ini sudah mempunyai utas!\n\n");
+        printf("\nID Kicau ini sudah mempunyai utas!\n\n");
     }
     else {
-        Address p;
-        p = FIRSTUTAS(KICAU(*l,IDKicau-1).utas);
         IDUTAS(KICAU(*l,IDKicau-1).utas) = (*l).NextUtasID;
-        printf("id utas: %d\n",IDUTAS(KICAU(*l,IDKicau-1).utas)); //delete
+        printf("\nId Utas: %d\n",IDUTAS(KICAU(*l,IDKicau-1).utas)); //delete
         (*l).NextUtasID++;
         int index;
         STRING content;
 
         // Kondisi milik pengguna saat ini
         printf("\nUtas berhasil dibuat!\n\n");
-        printf("Masukkan kicauan:\n");
-        readKicauan();
+        do{
+                printf("Masukkan kicauan:\n");
+                readKicauan();
+                printf("\n");
+                if(!isInputValid()){
+                    printf("Input tidak valid. Masukkan lagi yuk!\n\n");
+                }
+
+            }while(!isInputValid());
+
         copyString(&content, string); 
-        printf("\n");
-        
+
+        // insertFirst(&KICAU(*l,IDKicau-1-1).utas, IDUTAS(KICAU(*l,IDKicau-1-1).utas), user, content);
         insertFirst(&KICAU(*l,IDKicau-1).utas, IDUTAS(KICAU(*l,IDKicau-1).utas), user, content);
 
         do{
             printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
-            readString(); printf("\n");
-            if(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK")) {
-                printf("Input Anda tidak valid. Masukkan lagi yuk!\n\n");
+            readString();
+            if(!isWordSimiliar(string, "YA") && !isWordSimiliar(string, "TIDAK")) {
+                printf("\nInput Anda tidak valid. Masukkan lagi yuk!\n\n");
             }
-        } while(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK"));
+        } while(!isWordSimiliar(string, "YA") && !isWordSimiliar(string, "TIDAK"));
 
         // Pilihan YA, terus lanjutkan utas
-        while(isWordEqual(string, "YA")) {
+        while(isWordSimiliar(string, "YA")) {
             index = length(KICAU(*l,IDKicau-1).utas);
-            insertUtas(l,user,IDUTAS(KICAU(*l,IDKicau-1).utas), index);
+            insertUtas(l, IDUTAS(KICAU(*l,IDKicau-1).utas), index, user);
             do{
                 printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
-                readString(); printf("\n");
-                if(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK")) {
-                    printf("Input Anda tidak valid. Masukkan lagi yuk!\n\n");
+                readString();
+                if(!isWordSimiliar(string, "YA") && !isWordSimiliar(string, "TIDAK")) {
+                    printf("\nInput Anda tidak valid. Masukkan lagi yuk!\n\n");
                 }
-            } while(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK"));
+            } while(!isWordSimiliar(string, "YA") && !isWordSimiliar(string, "TIDAK"));
         }
-        printf("Utas selesai!\n\n");
+        printf("\nUtas selesai!\n\n");
     }
 }
 
 void cetakUtas(ListKicau l, int IDUtas)
 /* Mencetak seluruh kicauan dalam utas dengan id = IDUtas */
 {
+    printf("\n");
     int IDKicau = getIDKicau(l, IDUtas);
-    printf("idkicau: %d\n",IDKicau);
     Address p;
     p = FIRSTUTAS(KICAU(l,IDKicau).utas);
 
@@ -327,7 +434,7 @@ void cetakUtas(ListKicau l, int IDUtas)
     }
     else {
         // Cetak kicauan (utas utama)
-        displayKicau(KICAU(l,IDKicau)); printf("\n");
+        displayKicau(KICAU(l,IDKicau));
 
         // Cetak seluruh utas
         int index = 1;
@@ -342,14 +449,3 @@ void cetakUtas(ListKicau l, int IDUtas)
         }
     }
 }
-
-// int main(){
-    
-//     KICAU k;
-//     USER user;
-//     ListUser l;
-//     createListUser(&l);
-//     daftarUSER(&l);
-    
-    
-// }

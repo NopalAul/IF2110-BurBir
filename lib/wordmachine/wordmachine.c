@@ -135,9 +135,10 @@ F.S : alokasi memori string diset dengan PASSWORD_CAPACITY
 {
     createEmptyString(&string);
     START();
-    ignoreNewline();
+    VALID = true;
     while (!EOP && string.length < PASSWORD_CAPACITY){
         string.buffer[string.length] = currentChar;
+        if (currentChar == '\n' || currentChar == '\r') VALID = false;
         ADV();
         string.length++;
     }
@@ -145,7 +146,7 @@ F.S : alokasi memori string diset dengan PASSWORD_CAPACITY
         ADV();
         string.length++;
     }
-    VALID = string.length <= PASSWORD_CAPACITY;
+    VALID = VALID && string.length <= USERNAME_CAPACITY;
     ADV();
 }
 
@@ -156,10 +157,11 @@ F.S : alokasi memori string diset dengan USERNAME_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
     createEmptyString(&string);
+    VALID = true;
     START();
-    ignoreNewline();
     while (!EOP && string.length < USERNAME_CAPACITY){
         string.buffer[string.length] = currentChar;
+        if (currentChar == '\n' || currentChar == '\r') VALID = false;
         ADV();
         string.length++;
     }
@@ -167,7 +169,7 @@ F.S : alokasi memori string diset dengan USERNAME_CAPACITY
         ADV();
         string.length++;
     }
-    VALID = string.length <= USERNAME_CAPACITY;
+    VALID = VALID && string.length > 0 && string.length <= USERNAME_CAPACITY;
     ADV();
 }
 
@@ -246,6 +248,7 @@ F.S : alokasi memori string diset dengan KICAUAN_CAPACITY
     while (!EOP){
         ADV();
     }
+    VALID = isKicauValid();
     ADV();
 }
 
@@ -365,9 +368,15 @@ F.S : isi string s ditampilkan ke layar*/
 boolean isStringNumeric(STRING s)
 /*Mengembalikan true jika seluruh elemen s adalah bilangan kecuali elemen pertama dapat bernilai '-'*/
 {
+    if (s.length == 0){
+        return false;
+    }
     int i = 0;
     if (s.buffer[0] == '-'){
         i = 1;
+        if (s.length == 1){
+            return false;
+        }
     }
     for (int j = i; j < s.length; j++){
         if (s.buffer[j] < '0' || s.buffer[j]>'9'){
@@ -411,7 +420,16 @@ void displayStringNoNewline(STRING s)
 
 boolean isWordEqual(STRING s, char other[])
 {
+    int len = 0;
     int i = 0;
+    while (other[i] != '\0'){
+        len++;
+        i++;
+    }
+    if (len != s.length){
+        return false;
+    }
+    i = 0;
     boolean nodiff = true;
     while (other[i] != '\0' && nodiff){
         if (other[i] != s.buffer[i]){
@@ -420,4 +438,48 @@ boolean isWordEqual(STRING s, char other[])
         i++;
     }
     return nodiff;
+}
+
+boolean isWordSimiliar(STRING  s, char other[])
+{
+    int len = 0;
+    while (other[len] != '\0'){
+        len++;
+    }
+    if (len != s.length){
+        return false;
+    }
+    char l,f;
+    for (int i = 0; i < s.length; i++){
+        l = s.buffer[i];
+        f = other[i];
+        if (l != f && l+32 != f && l != f+32 && l-32 != f && l != f-32){
+            return false;
+        }
+    }
+    return true;
+}
+
+boolean isKicauValid()
+{
+    int count = 0;
+    for (int i = 0; i < string.length; i++){
+        if (string.buffer[i] == '\n' || string.buffer[i] == '\r'){
+            return false;
+        }
+        else {
+            count++;
+        }
+    }
+    return count > 0;
+}
+
+boolean isInputValid()
+{
+    for (int i = 0 ; i < string.length; i++){
+        if (string.buffer[i] == '\n' || string.buffer[i] == '\r'){
+            return false;
+        }
+    }
+    return true;
 }
