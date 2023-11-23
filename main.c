@@ -65,15 +65,22 @@ int main()
     boolean running = true;
     DisplayHeader();
 
-    printf("Apakah anda ingin melakukan load folder?\n(YA/TIDAK)\n");
-    readString();
+    printf("Apakah anda ingin melakukan load folder?\n");
+    do {
+        printf("(YA/TIDAK) ");
+        readString();
+        printf("\n");
+        if (!isWordSimiliar(string, "YA") && !isWordSimiliar(string, "TIDAK")){
+            printf("Walawe, input tidak sesuai!\n\n");
+        }
+    } while (!isWordSimiliar(string, "YA") && !isWordSimiliar(string, "TIDAK"));
     if(isWordSimiliar(string,"YA")){
         printf("Masukkan folder load : ");
         readString();
-
+        printf("\n");
         loadAll(string,&UserList,&RelMatrix,&listkicauan);
+        printf("\n\n");
     }
-    printf("\n");
     while(running){
         print_red('>');
         print_red('>');
