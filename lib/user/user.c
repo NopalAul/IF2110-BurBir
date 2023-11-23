@@ -362,7 +362,7 @@ void tambahTeman(int currentID)
                 displayStringNoNewline(string);
                 printf(".\n\n");
             } else if (isRequestedFriend(currentID, idFound)){
-                printf("\nWah, Anda sudah mengirim permintaan pertemanan ke ");
+                printf("Wah, Anda sudah mengirim permintaan pertemanan ke ");
                 displayStringNoNewline(string);
                 printf(" sebelumnya. Silahkan tunggu hingga permintaan Anda disetujui.\n\n");
             } else {
