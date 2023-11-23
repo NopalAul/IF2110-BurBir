@@ -15,13 +15,16 @@ void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListKicau *lk)
     {
         loadPengguna(folder, l, m);
         loadKicau(folder, lk, *l);
+        loadDraf(folder, l);
+        loadUtas(folder, lk);
+        loadBalasan(folder, l, lk);
     }
 }
 
 void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m)
 {
     char path[113] = "../../config/";
-    int N;
+    int N, idx;
     STRING text;
     USER currentUser;
     char pengguna[16] = "/pengguna.config";
@@ -34,9 +37,20 @@ void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m)
     {
         path[13+folder.length+i] = pengguna[i];
     }
+    createEmptyString(&text);
     startFile(path);
-    text.buffer[0] = currentChar;
-    text.length = 1;
+    idx = 0;
+    while (currentChar != NEWLINE)
+    {
+        text.buffer[idx] = currentChar;
+        text.length++;
+        idx++;
+        ADV();
+        if (currentChar == CARIAGE)
+        {
+            ignoreCarriage();
+        }   
+    }
     N = stringToInteger(text);
     LENGTH(*l) = N;
     ADV();
@@ -350,4 +364,551 @@ void loadKicau(STRING folder, ListKicau *l, ListUser lu)
         }
         addKicauan(l, &kicau);
     }
+}
+
+void loadBalasan(STRING folder, ListUser *lu, ListKicau *lk)
+{
+    char path[113] = "../../config/";
+    char balasan[15] = "/balasan.config";
+    STRING text, textBalasan, authorReply;
+    int jumlahBalasan, idxText, IDKicau, jumlahReply, IDParent, IDReply;
+    AddressReply rep;
+    REPLY r;
+    DATETIME replyDate;
+    boolean succeed;
+
+    for (int j = 0; j < folder.length; j++) // menambahkan input user ke dalam path
+    {
+        path[13+j] = folder.buffer[j];
+    }
+    for (int i = 0; i < 15; i++)
+    {
+        path[13+folder.length+i] = balasan[i];
+    } 
+    createEmptyString(&text);
+    startFile(path);
+    idxText = 0;
+    while (currentChar != NEWLINE)      // jumlah balasan
+    {
+        text.buffer[idxText] = currentChar;
+        text.length++;
+        idxText++;
+        ADV();
+        if (currentChar == CARIAGE)
+        {
+            ignoreCarriage();
+        }   
+    }
+    jumlahBalasan = stringToInteger(text);
+    ADV();
+    ignoreBlankCarriageNewline();
+    createEmptyString(&text);
+    for (int i = 0; i < jumlahBalasan; i++)
+    {
+        idxText = 0;
+        while (currentChar != NEWLINE)      // ID KICAUAN
+        {
+            text.buffer[idxText] = currentChar;
+            text.length++;
+            idxText++;
+            ADV();
+            if (currentChar == CARIAGE)
+            {
+                ignoreCarriage();
+            }   
+        }
+        ignoreNewline();
+        IDKicau = stringToInteger(text);
+        idxText = 0;
+        createEmptyString(&text);
+        while (currentChar != NEWLINE)      // jumlah reply
+        {
+            text.buffer[idxText] = currentChar;
+            text.length++;
+            idxText++;
+            ADV();
+            if (currentChar == CARIAGE)
+            {
+                ignoreCarriage();
+            }   
+        }
+        ignoreNewline();
+        jumlahReply = stringToInteger(text);
+
+        for (int j = 0; j < jumlahReply; j++)   // loop buat semua reply
+        {
+            idxText = 0;
+            createEmptyString(&text);
+            while (currentChar != BLANK)        // ID parent reply
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+            }
+            ignoreBlanks();
+            IDParent = stringToInteger(text);
+            idxText = 0;
+            createEmptyString(&text);
+            while (currentChar != NEWLINE)      // ID reply
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+                if (currentChar == CARIAGE)
+                {
+                    ignoreCarriage();
+                }   
+            }
+            ignoreNewline();
+            IDReply = stringToInteger(text);
+            idxText = 0;
+            createEmptyString(&text);
+            while (currentChar != NEWLINE)      // text reply
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+                if (currentChar == CARIAGE)
+                {
+                    ignoreCarriage();
+                }   
+            }
+            ignoreNewline();
+            createEmptyString(&textBalasan);
+            textBalasan = text;
+            idxText = 0;
+            createEmptyString(&text);
+            while (currentChar != NEWLINE)      // author reply
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+                if (currentChar == CARIAGE)
+                {
+                    ignoreCarriage();
+                }   
+            }
+            ignoreNewline();
+            createEmptyString(&authorReply);
+            authorReply = text;
+
+            idxText = 0;
+            createEmptyString(&text);
+            createDATETIME(&replyDate);
+            for (int x = 0; x < 2; x++)     // reply datetime
+            {
+                idxText = 0;
+                createEmptyString(&text);
+                while (currentChar != '/')
+                {
+                    text.buffer[idxText] = currentChar;
+                    text.length++;
+                    idxText++;
+                    ADV();
+                }
+                if (x == 0)
+                {
+                    DAY(replyDate) = stringToInteger(text);
+                }
+                else
+                {
+                    MONTH(replyDate) = stringToInteger(text);
+                }
+                ADV();
+            }
+            idxText = 0;
+            createEmptyString(&text);
+            while (currentChar != BLANK)
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+            }
+            YEAR(replyDate) = stringToInteger(text);
+            ignoreBlanks();
+            for (int x = 0; x < 2; x++)
+            {
+                idxText = 0;
+                createEmptyString(&text);
+                while (currentChar != ':')
+                {
+                    text.buffer[idxText] = currentChar;
+                    text.length++;
+                    idxText++;
+                    ADV();
+                }
+                if (x == 0)
+                {
+                    HOUR(replyDate) = stringToInteger(text);
+                }
+                else
+                {
+                    MINUTE(replyDate) = stringToInteger(text);
+                }
+                ADV();
+            }
+            idxText = 0;
+            createEmptyString(&text);
+            while (currentChar != NEWLINE)
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+            }
+            SECOND(replyDate) = stringToInteger(text);
+            ADV();
+            succeed = false;
+            rep = newReply(IDReply, textBalasan, authorReply, replyDate);
+            addREPLY(&BALASAN(KICAU(*lk,IDKicau)), IDParent, rep, &succeed);
+        } 
+    }   
+}
+
+void loadDraf(STRING folder, ListUser *lu)
+{
+    char path[113] = "../../config/";
+    char draf[12] = "/draf.config";
+    STRING text, ownerUsername, drafCount, isiDraft;
+    int  idxText, draftOwner, idxCount, banyakDraftperUser, userIdx, len;
+    char checkBlank;
+    DATETIME draftDate;
+    AddressDraft topDraft, val;
+    Draft tempDraft;
+
+    for (int j = 0; j < folder.length; j++) // menambahkan input user ke dalam path
+    {
+        path[13+j] = folder.buffer[j];
+    }
+    for (int i = 0; i < 12; i++)
+    {
+        path[13+folder.length+i] = draf[i];
+    } 
+    createEmptyString(&text);
+    startFile(path);
+    idxText = 0;
+    while (currentChar != NEWLINE)      // jumlah user yang punya draf
+    {
+        text.buffer[idxText] = currentChar;
+        text.length++;
+        idxText++;
+        ADV();
+        if (currentChar == CARIAGE)
+        {
+            ignoreCarriage();
+        }   
+    }
+    draftOwner = stringToInteger(text);
+    ADV();
+    for (int i = 0; i < draftOwner; i++)
+    {
+        createEmptyString(&text);
+        idxText = 0;
+        while (currentChar != NEWLINE)      // baca line yang berisi username dan banyaknya draft yang dimiliki
+        {
+            text.buffer[idxText] = currentChar;
+            text.length++;
+            idxText++;
+            ADV();
+            if (currentChar == CARIAGE)
+            {
+                ignoreCarriage();
+            }   
+        }
+        ADV();
+        idxCount = text.length-1;
+        while (text.buffer[idxCount] != BLANK)
+        {
+            idxCount--;     // dapet index blank antara username dan jumlah draf
+        }
+        createEmptyString(&ownerUsername);
+        createEmptyString(&drafCount);
+        for (int j = 0; j < idxCount; j++)
+        {
+            ownerUsername.buffer[j] = text.buffer[j];
+            ownerUsername.length++;        
+        }
+        userIdx = searchUser(ownerUsername);
+        for (int j = idxCount+1; j < text.length; j++)
+        {
+            drafCount.buffer[j-idxCount-1] = text.buffer[j];
+            drafCount.length++;
+        }
+        banyakDraftperUser = stringToInteger(drafCount);
+        createDraft(&tempDraft);
+        for (int j = 0; j < banyakDraftperUser; j++)    // baca seluruh draft milik user
+        {
+            createEmptyString(&text);
+            idxText = 0;
+            while (currentChar != NEWLINE)      // baca isi draf
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+                if (currentChar == CARIAGE)
+                {
+                    ignoreCarriage();
+                }   
+            }
+            isiDraft = text;
+            ADV();
+
+            for (int x = 0; x < 2; x++)     // draft datetime
+            {
+                idxText = 0;
+                createEmptyString(&text);
+                while (currentChar != '/')
+                {
+                    text.buffer[idxText] = currentChar;
+                    text.length++;
+                    idxText++;
+                    ADV();
+                }
+                if (x == 0)
+                {
+                    DAY(draftDate) = stringToInteger(text);
+                }
+                else
+                {
+                    MONTH(draftDate) = stringToInteger(text);
+                }
+                ADV();
+            }
+            idxText = 0;
+            createEmptyString(&text);
+            while (currentChar != BLANK)
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+            }
+            YEAR(draftDate) = stringToInteger(text);
+            ignoreBlanks();
+            for (int x = 0; x < 2; x++)
+            {
+                idxText = 0;
+                createEmptyString(&text);
+                while (currentChar != ':')
+                {
+                    text.buffer[idxText] = currentChar;
+                    text.length++;
+                    idxText++;
+                    ADV();
+                }
+                if (x == 0)
+                {
+                    HOUR(draftDate) = stringToInteger(text);
+                }
+                else
+                {
+                    MINUTE(draftDate) = stringToInteger(text);
+                }
+                ADV();
+            }
+            idxText = 0;
+            createEmptyString(&text);
+            while (currentChar != NEWLINE)
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+            }
+            
+            SECOND(draftDate) = stringToInteger(text);
+            pushDraft(&tempDraft, isiDraft);
+            TIMEDRAFT(TOPDRAFT(tempDraft)) = draftDate;
+            ADV();
+        }
+        len = lengthDraft(tempDraft);
+        for (int j = 0; j < len; j++)
+        {
+            popDraft(&tempDraft, &val);
+            pushDraft(&ContainerDraft[userIdx], CONTENTDRAFT(val));
+            TIMEDRAFT(TOPDRAFT(ContainerDraft[userIdx])) = TIMEDRAFT(val);
+        } 
+    }
+}
+
+void loadUtas(STRING folder, ListKicau *lk)
+{
+    char path[113] = "../../config/";
+    char utas[12] = "/utas.config";
+    STRING text;
+    int idxText, jumlahUtas, idxKicau, jumlahUtasperKicauan, idUtas = 1;
+    Address p;
+    DATETIME utasDate;
+
+    for (int j = 0; j < folder.length; j++) // menambahkan input user ke dalam path
+    {
+        path[13+j] = folder.buffer[j];
+    }
+    for (int i = 0; i < 12; i++)
+    {
+        path[13+folder.length+i] = utas[i];
+    } 
+    createEmptyString(&text);
+    startFile(path);
+    idxText = 0;
+    while (currentChar != NEWLINE)      // jumlah kicauan yang memiliki utas
+    {
+        text.buffer[idxText] = currentChar;
+        text.length++;
+        idxText++;
+        ADV();
+        if (currentChar == CARIAGE)
+        {
+            ignoreCarriage();
+        }   
+    }
+    jumlahUtas = stringToInteger(text);
+    ADV();
+    for (int i = 0; i < jumlahUtas; i++)
+    {
+        createEmptyString(&text);
+        idxText = 0;
+        while (currentChar != NEWLINE)      // ID Kicauan
+        {
+            text.buffer[idxText] = currentChar;
+            text.length++;
+            idxText++;
+            ADV();
+            if (currentChar == CARIAGE)
+            {
+                ignoreCarriage();
+            }   
+        }
+        idxKicau = stringToInteger(text);
+        ADV();
+        createEmptyString(&text);
+        idxText = 0;
+        while (currentChar != NEWLINE)      // jumlah utas per kicauan
+        {
+            text.buffer[idxText] = currentChar;
+            text.length++;
+            idxText++;
+            ADV();
+            if (currentChar == CARIAGE)
+            {
+                ignoreCarriage();
+            }   
+        }
+        ADV();
+        jumlahUtasperKicauan = stringToInteger(text);
+        IDUTAS(UTAS(KICAU(*lk, idxKicau))) = idUtas;
+        for (int j = 0; j < jumlahUtasperKicauan; j++)
+        {
+            createEmptyString(&text);
+            idxText = 0;
+            while (currentChar != NEWLINE)      // baca utas
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+                if (currentChar == CARIAGE)
+                {
+                    ignoreCarriage();
+                }   
+            }
+            ADV();
+            insertLastUtas(&UTAS(KICAU(*lk, idxKicau)), idUtas, AUTHOR(KICAU(*lk, idxKicau)), text);
+            p = getLast(UTAS(KICAU(*lk, idxKicau)));
+            if (p == NULL)
+            {
+                printf("hoho");
+            }
+
+            createEmptyString(&text);
+            idxText = 0;
+            while (currentChar != NEWLINE)      // baca author utas
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+                if (currentChar == CARIAGE)
+                {
+                    ignoreCarriage();
+                }   
+            }
+            USERNAME(AUTHORUTAS(p)) = text;
+            ADV();
+            createDATETIME(&utasDate);
+            for (int x = 0; x < 2; x++)     // utas datetime
+            {
+                idxText = 0;
+                createEmptyString(&text);
+                while (currentChar != '/')
+                {
+                    text.buffer[idxText] = currentChar;
+                    text.length++;
+                    idxText++;
+                    ADV();
+                }
+                if (x == 0)
+                {
+                    DAY(utasDate) = stringToInteger(text);
+                }
+                else
+                {
+                    MONTH(utasDate) = stringToInteger(text);
+                }
+                ADV();
+            }
+            idxText = 0;
+            createEmptyString(&text);
+            while (currentChar != BLANK)
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+            }
+            YEAR(utasDate) = stringToInteger(text);
+            ignoreBlanks();
+            for (int x = 0; x < 2; x++)
+            {
+                idxText = 0;
+                createEmptyString(&text);
+                while (currentChar != ':')
+                {
+                    text.buffer[idxText] = currentChar;
+                    text.length++;
+                    idxText++;
+                    ADV();
+                }
+                if (x == 0)
+                {
+                    HOUR(utasDate) = stringToInteger(text);
+                }
+                else
+                {
+                    MINUTE(utasDate) = stringToInteger(text);
+                }
+                ADV();
+            }
+            idxText = 0;
+            createEmptyString(&text);
+            while (currentChar != NEWLINE)
+            {
+                text.buffer[idxText] = currentChar;
+                text.length++;
+                idxText++;
+                ADV();
+            }
+            SECOND(utasDate) = stringToInteger(text);
+            DATETIMEUTAS(p) = utasDate;
+            ADV();
+        }
+        idUtas++;
+    }
+    
 }

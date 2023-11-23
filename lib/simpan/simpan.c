@@ -46,7 +46,7 @@ F.S : folder terbentuk dan berisi file config
     saveKicauan(path, pathLen, lk);
     saveBalasan(path, pathLen, lk);
     saveDraf(path, pathLen);
-    saveUtas(path, pathLen);
+    saveUtas(path, pathLen, lk);
     printf("\nPenyimpanan telah berhasil dilakukan!\n");
 }
 
@@ -214,7 +214,7 @@ I.S : folder ada dan file balasan.config di dalamnya sembarang
 F.S : file balasan.config tersimpan dalam folder config */
 {
     int length = len, count;
-    
+
     char configName[16] = "/balasan.config";
     for (int i = 0; i < 16; i++)
     {
@@ -224,11 +224,20 @@ F.S : file balasan.config tersimpan dalam folder config */
     FILE* balas = fopen(path, "w");
     for (int i = 0; i < NEFFLISTKICAU(lk); i++)
     {
-        
+        if (BALASAN(KICAU(lk,i)) != NULL)
+        {
+            count++;
+        }
     }
-    
-
-
+    fprintf(balas, "%d\n", count);
+    for (int i = 0; i < NEFFLISTKICAU(lk); i++)
+    {
+        if (BALASAN(KICAU(lk,i)) != NULL)
+        {
+            fprintf(balas, "%d\n", IDKICAUAN(KICAU(lk, i)));
+            saveReplyTree(BALASAN(KICAU(lk, i)), balas, -1);
+        }
+    }
 
     fclose(balas);
 }
@@ -238,7 +247,7 @@ void saveDraf(char path[], int len)
 I.S : folder ada dan file draf.config di dalamnya sembarang
 F.S : file draf.config tersimpan dalam folder config */
 {
-    int length = len;
+    int length = len, count;
     char configName[13] = "/draf.config";
     for (int i = 0; i < 13; i++)
     {
@@ -246,19 +255,39 @@ F.S : file draf.config tersimpan dalam folder config */
         length++;
     }
     FILE* draf = fopen(path, "w");
-    fprintf(draf,"ini test draf");
-
-
+    count = 0;
+    for (int i = 0; i < 20; i++)    // hitung user yang punya draft
+    {
+        if (!isEmptyDraft(ContainerDraft[i]))
+        {
+            count++;
+        }
+    }
+    fprintf(draf, "%d\n", count);
+    for (int i = 0; i < 20; i++)    // 
+    {
+        if (!isEmptyDraft(ContainerDraft[i]))
+        {
+            fprintf(draf, "%s %d\n", USERNAME(USER(UserList, i)).buffer, lengthDraft(ContainerDraft[i]));
+            AddressDraft p = TOPDRAFT(ContainerDraft[i]);
+            while (p != NULL)
+            {
+                fprintf(draf, "%s\n", CONTENTDRAFT(p).buffer);
+                fprintf(draf, "%d/%d/%d %d:%d:%d\n", DAY(TIMEDRAFT(p)), MONTH(TIMEDRAFT(p)), YEAR(TIMEDRAFT(p)), HOUR(TIMEDRAFT(p)), MINUTE(TIMEDRAFT(p)), SECOND(TIMEDRAFT(p)));
+                p = NEXTDRAFT(p);
+            }
+        }
+    }
 
     fclose(draf);
 }
 
-void saveUtas(char path[], int len)
+void saveUtas(char path[], int len, ListKicau lk)
 /*  Melakukan proses penyimpanan data utas ke dalam folder config
 I.S : folder ada dan file utas.config di dalamnya sembarang
 F.S : file utas.config tersimpan dalam folder config */
 {
-    int length = len;
+    int length = len, count;
     char configName[13] = "/utas.config";
     for (int i = 0; i < 13; i++)
     {
@@ -266,8 +295,46 @@ F.S : file utas.config tersimpan dalam folder config */
         length++;
     }
     FILE* utas = fopen(path, "w");
-    fprintf(utas,"ini test utas");
+    count = 0;
+    for (int i = 0; i < NEFFLISTKICAU(lk); i++)
+    {
+        if (!isEmpty(UTAS(KICAU(lk, i))))
+        {
+            count++;
+        }
+    }
+    fprintf(utas, "%d\n", count);
+    for (int i = 0; i < NEFFLISTKICAU(lk); i++)
+    {
+        if (!isEmpty(UTAS(KICAU(lk, i))))
+        {
+            Address u = FIRSTUTAS(UTAS(KICAU(lk, i)));
+            fprintf(utas, "%d\n", IDKICAUAN(KICAU(lk, i)));
+            fprintf(utas, "%d\n", lengthUtas(UTAS(KICAU(lk, i))));
+            for (int j = 0; j < lengthUtas(UTAS(KICAU(lk, i))); i++)
+            {
+                fprintf(utas, "%s\n", CONTENT(u).buffer);
+                fprintf(utas, "%s\n", USERNAME(AUTHORUTAS(u)).buffer);
+                fprintf(utas, "%d/%d/%d %d:%d:%d\n", DAY(DATETIMEUTAS(u)), MONTH(DATETIMEUTAS(u)), YEAR(DATETIMEUTAS(u)), HOUR(DATETIMEUTAS(u)), MINUTE(DATETIMEUTAS(u)), SECOND(DATETIMEUTAS(u)));
+                u = NEXT(u);
+            }
+        }
+    }
     fclose(utas);
+}
+
+void saveReplyTree(REPLY r, FILE *f, int parent)
+{
+    if (!isEmptyREPLY(r))
+    {
+        fprintf(f, "%d %d\n", parent, REPLYID(r));
+        fprintf(f, "%s\n", REPLYTEXT(r).buffer);
+        fprintf(f, "%s\n", REPLYAUTHOR(r).buffer);
+        fprintf(f, "%d/%d/%d %d:%d:%d\n", DAY(REPLYTIME(r)), MONTH(REPLYTIME(r)), YEAR(REPLYTIME(r)), HOUR(REPLYTIME(r)), MINUTE(REPLYTIME(r)), SECOND(REPLYTIME(r)));
+        saveReplyTree(SIBLING(r), f, parent);
+        saveReplyTree(CHILD(r), f, REPLYID(r));
+    }
+    
 }
 
 boolean isDirExist(char dir[])

@@ -20,5 +20,12 @@ void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m);
 void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m);
 
 void loadKicau(STRING folder, ListKicau *l, ListUser lu);
+
+void loadBalasan(STRING folder, ListUser *lu, ListKicau *lk);
+
+void loadDraf(STRING folder, ListUser *lu);
+
+void loadUtas(STRING folder, ListKicau *lk);
+
 #endif
 

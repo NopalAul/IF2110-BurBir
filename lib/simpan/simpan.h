@@ -13,6 +13,8 @@
 #include "../datetime/datetime.h"
 #include "../matrix/matrix.h"
 #include "../listRequest/listRequest.h"
+#include "../reply/reply.h"
+#include "../utas/utas.h"
 #include "../draft/draft.h"
 
 void saveAll(STRING folder, ListUser LU, RelationMatrix m, ListKicau lk);
@@ -41,10 +43,12 @@ void saveDraf(char path[], int len);
 I.S : folder ada dan file draf.config di dalamnya sembarang
 F.S : file draf.config tersimpan dalam folder config */
 
-void saveUtas(char path[], int len);
+void saveUtas(char path[], int len, ListKicau lk);
 /*  Melakukan proses penyimpanan data utas ke dalam folder config
 I.S : folder ada dan file utas.config di dalamnya sembarang
 F.S : file utas.config tersimpan dalam folder config */
+
+void saveReplyTree(REPLY r, FILE *f, int parent);
 
 boolean isDirExist(char dir[]);
 /*  Memeriksa keberadaan sebuah path atau folder

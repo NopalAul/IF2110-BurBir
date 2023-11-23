@@ -101,6 +101,8 @@ void ubahFotoProfil(USER *user);
 I.S :   user terdefinisi
 F.S :   foto profil user digantikan dengan foto profil baru*/
 
+boolean isUserEqual(USER user1,USER user2);
+
 int userID(USER user);
 
 void daftarTeman(int currentID);
@@ -110,5 +112,7 @@ void batalTambahTeman(int currentID);
 void daftarPermintaanTeman(int currentID);
 void acceptPertemanan(int currentID);
 
-boolean isUserEqual(USER user1, USER user2);
+void LIHAT_PROFIL(int currentID);
+
+
 #endif

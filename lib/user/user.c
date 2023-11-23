@@ -86,6 +86,11 @@ F.S :   melakukan procedure DAFTAR seperti spek
 
 }
 
+boolean isUserEqual(USER user1,USER user2){
+    return isStringEqual(USERNAME(user1),USERNAME(user2));
+
+}
+
 int searchUser(STRING username)
 /*Mengembalikan indeks ditemukannya user di dalam l, jika
 user tidak ditemukan maka mengembalikan NOT_FOUND*/
@@ -469,6 +474,22 @@ void acceptPertemanan(int currentID)
     }
 }
 
-boolean isUserEqual(USER user1, USER user2){
-    return isStringEqual(USERNAME(user1), USERNAME(user2));
+void LIHAT_PROFIL(int currentID)
+{
+    int id2 = searchUser(leftInfo);
+    if (id2 == NOT_FOUND){
+        printf("Walawe, tidak ada pengguna dengan nama tersebut!n\n\n");
+        return;
+    }
+    boolean canLook = ACCOUNTTYPE(USER(UserList, id2)) || isFriend(currentID, id2);
+    if (!canLook){
+        printf("Wah, akun ");
+        displayStringNoNewline(leftInfo);
+        printf(" diprivat nih. Ikuti dulu yuk untuk bisa melihat profil ");
+        displayStringNoNewline(leftInfo);
+        printf("!\n\n");
+        return;
+    }
+    printf("\n");
+    displayDataUser(USER(UserList, id2));
 }

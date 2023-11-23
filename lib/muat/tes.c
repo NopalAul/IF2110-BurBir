@@ -5,6 +5,11 @@ int main ()
     ListFriendRequest lf;
     ListKicau lk;
 
+    for (int i = 0; i < 20; i++)
+    {
+        createDraft(&ContainerDraft[i]);
+    }
+    
     readString();
     stopRead();
     createListUser(&UserList);
@@ -48,5 +53,9 @@ int main ()
     {
         printf("\nheeh\n");
     }
-    
+    displayDraft(ContainerDraft[0]);
+    displayDraft(ContainerDraft[1]);
+    displayDraft(NEXTDRAFT(ContainerDraft[1]));
+    cetakUtas(lk, 1);
+    displayReply(BALASAN(KICAU(lk, 0)), 0);
 }

@@ -24,6 +24,11 @@ F.S : string terdefinisi dengan buffer string dialokasikan
     //     i++;
     // }
     (*str).length = 0;
+    for (int i = 0; i < MAX_CAPACITY; i++)
+    {
+        str->buffer[i] = '\0';
+    }
+    
 }
 
 void createString(STRING *str, char input[])
