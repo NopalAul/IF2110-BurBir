@@ -213,3 +213,30 @@ $(TEST_CHARM_RESULTS): $(TEST_CHARM_DIR)/%.result: $(TEST_CHARM_DIR)/%.in $(TEST
 	else \
 		echo "$< $(word 2, $^): WRONG"; \
 	fi > $@
+
+
+#RELATION UNIT TEST
+SRC_RELATION_TEST = lib/relation/test/relation_test.c
+OBJ_RELATION_TEST = $(SRC_RELATION_TEST:.c=.o)
+
+
+TEST_RELATION_DIR = lib/relation/test
+TEST_RELATION_CASES = $(wildcard $(TEST_RELATION_DIR)/*.in)
+TEST_RALATION_OUTPUTS = $(TEST_RELATION_CASES:.in=.out)
+TEST_RELATION_RESULTS = $(TEST_RELATION_CASES:.in=.result)
+
+clean_relation:
+	rm -f relation_test $(OBJ_RELATION_TEST) $(OBJ_RELATION)
+
+relation_test: $(OBJ_RELATION_TEST) $(OBJ_RELATION)
+	$(CC) $(CFLAGS) -o $@ $^
+
+test_relation: relation_test $(TEST_RELATION_RESULTS)
+	@cat $(TEST_RELATION_RESULTS)
+
+$(TEST_RELATION_RESULTS): $(TEST_RELATION_DIR)/%.result: $(TEST_RELATION_DIR)/%.in $(TEST_RELATION_DIR)/%.out relation_test
+	@if ./relation_test < $< | diff -Z -B - $(word 2,$^) > /dev/null; then \
+		echo "$< $(word 2, $^): TRUE"; \
+	else \
+		echo "$< $(word 2, $^): WRONG"; \
+	fi > $@
