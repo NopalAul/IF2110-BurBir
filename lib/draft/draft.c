@@ -40,6 +40,25 @@ void popDraft(Draft *draft, AddressDraft *outDraft)
     NEXTDRAFT(*outDraft) = NULL;
 }
 
+int lengthDraft(Draft d)
+{
+    if (isEmptyDraft(d))
+    {
+        return 0;
+    }
+    else
+    {
+        AddressDraft p = d;
+        int len = 0;
+        while (p != NULL)
+        {
+            len++;
+            p = NEXTDRAFT(p);
+        }
+        return len;
+    }
+}
+
 void displayDraft(Draft draft)
 {
     printf("| ");

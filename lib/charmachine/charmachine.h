@@ -29,4 +29,5 @@ void ADV();
 void stopRead();
 /*Menghentikan proses pembacaan*/
 
+void startFile(char path[]);
 #endif

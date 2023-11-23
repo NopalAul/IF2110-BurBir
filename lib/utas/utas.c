@@ -36,11 +36,6 @@ boolean isEmpty(UtasList l)
     return (FIRSTUTAS(l) == NULL);
 }
 
-int indexOf(UtasList l, ElType val); //#### belum ganti
-/* I.S. l, val terdefinisi */
-/* F.S. Mencari apakah ada elemen list l yang bernilai val */
-/* Jika ada, mengembalikan indeks elemen pertama l yang bernilai val */
-/* Mengembalikan IDX_UNDEF jika tidak ditemukan */
 
 /*** PENAMBAHAN ELEMEN ***/
 void insertFirst(UtasList *l, int IDUtas, USER user, STRING content)
@@ -102,6 +97,15 @@ void insertAt(UtasList *l, int IDUtas, int index, USER user, STRING content)
     }
 }
 
+Address getLast(UtasList l)
+{
+    Address p = FIRSTUTAS(l);
+    while (NEXT(p) != NULL)
+    {
+        p = NEXT(p);
+    }
+    return p;
+}
 /*** PENGHAPUSAN ELEMEN ***/
 void deleteFirst(UtasList *l)
 /* I.S. List l tidak kosong  */
@@ -148,116 +152,3 @@ int length(UtasList l)
     }
     return len;
 }
-
-
-// int searchIndexUtas(UtasList l, int index)
-// {
-//     /* Mengembalikan index sebuah Utas di dalam UtasList l. Mengembalikan NOT_FOUND jika tidak ditemukan */
-//     Address p;
-//     p = FIRST(l);
-//     boolean found = false;
-//     while(NEXT(p) != NULL && !found) {
-//         if(INDEX(p) = index) {
-//             found = true;
-//         }
-//     }
-
-// }
-
-// void sambungUtas(UtasList *l, int IDUtas, int index) //PERLU PARAMETER USER?
-// /* Melakukan sambung utas, menambah utas di posisi index yang dituju dari sebuah utas utama.
-// I.S :   IDUtas, mungkin bukan milik pengguna saat ini
-// F.S :   terisi kicauan baru, index Utas bertambah */
-// {   
-//     Address p;
-//     p = FIRSTUTAS(*l);
-//     STRING content;
-
-//     if(IDUtas == NOT_FOUND) {
-//         // Kondisi tidak ditemukan IDUtas
-//         printf("Utas tidak ditemukan!\n\n");
-//     }
-//     else if(index > length(*l)) {
-//         // Kondisi index terlalu tinggi
-//         printf("Index terlalu tinggi!\n\n");
-//     }
-//     else if(IDUtas != -99) {
-//         // Kondisi IDUtas bukan milik pengguna saat ini
-//         printf("Anda tidak bisa menyambung utas ini!\n\n");
-//     }
-//     else
-//         {
-//             // Kondisi valid
-//             printf("Masukkan kicauan:\n");
-//             readKicauan(); copyString(&content, string);
-//             printf("\n");
-            
-
-//             insertAt(l, IDUtas, index, AUTHORUTAS(p), content);
-//         }
-// }
-
-// void hapusUtas(UtasList *l, int IDUtas, int index)
-// {
-//     /* Menghapus utas sesuai posisi index, tidak dapat menghapus index 0 (ID kicauan utama) 
-//     I.S :   IDUtas, mungkin bukan milik pengguna saat ini
-//     F.S :   Utas pada index terhapus, index Utas berkurang?*/
-//     // if(true) {
-//     //     // Kondisi utas bukan milik pengguna saat ini
-//     //     printf("Anda tidak bisa menghapus kicauan dalam utas ini!\n\n");
-//     // }
-//     // else if(true) {
-//     //     // Kondisi utas tidak ditemukan
-//     //     printf("Utas tidak ditemukan!\n\n");
-//     // }
-//     // else
-//     {
-//         // Kondisi utas milik sendiri
-//         if(index > length(*l)-1) {
-//             // Kondisi index utas tidak ditemukan
-//             printf("Kicauan sambungan dengan index %d tidak ditemukan pada utas!\n\n",index);
-//         }
-//         else if(index == 0) {
-//             // Kondisi index = 0
-//             printf("Anda tidak bisa menghapus kicauan utama!\n\n");
-//         }
-//         else {
-//             // Kondisi valid
-//             deleteAt(l,index);
-//             printf("Kicauan sambungan berhasil dihapus!\n\n");
-//         }
-//     }
-// }
-
-// void cetakUtas(UtasList l, int IDUtas)
-// /* Mencetak seluruh kicauan dalam utas dengan id = IDUtas */
-// {
-//     Address p;
-//     p = FIRSTUTAS(l);
-
-//     if(isEmpty(l)) {
-//         printf("Maaf, belum ada utas untuk ditampilkan.");
-//     }
-//     else {
-//         // Cetak kicauan (utas utama)
-//         // printf("| ID = %d\n",IDKICAU(p)); //IDKicau ganti
-//         // printf("| ID = %d\n",-1); //IDKicau ganti
-//         // printf("| "); displayString(USERNAME(AUTHORUTAS(p))); 
-//         // printf("| "); displayDATETIME(DATETIMEUTAS(p)); 
-//         // printf("| "); displayString(CONTENT(p)); printf("\n");
-        
-//         // p = NEXT(p);
-
-//         // Cetak seluruh utas
-//         int index = 1;
-//         while((p) != NULL) {
-//             printf("   | INDEX = %d\n",index);
-//             printf("   | "); displayString(USERNAME(AUTHORUTAS(p)));
-//             printf("   | "); displayDATETIME(DATETIMEUTAS(p)); 
-//             printf("   | "); displayString(CONTENT(p));printf("\n");
-
-//             index++;
-//             p = NEXT(p);
-//         }
-//     }
-// }
