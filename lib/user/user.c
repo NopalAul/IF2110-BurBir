@@ -159,7 +159,7 @@ F.S :   profil user diganti dengan yang baru
         createString(&listWeton[4], "Legi");
     }
     displayUser(*user);
-    printf("\nMasukkan Bio Akun:\n");
+    printf("Masukkan Bio Akun:\n");
     readBio();
     if (string.length != 0){
         copyString(&user->bio, string);
@@ -170,7 +170,7 @@ F.S :   profil user diganti dengan yang baru
         readString();
         printf("\n");
         if (!isNoHPValid(string)){
-            printf("\nNo HP tidak valid. Masukkan lagi yuk!\n");
+            printf("No HP tidak valid. Masukkan lagi yuk!\n\n");
         }
     } while (!isNoHPValid(string));
     if (string.length != 0){
@@ -190,7 +190,7 @@ F.S :   profil user diganti dengan yang baru
             i++;
         }
         if (!wetonValid){
-            printf("\nWeton Anda tidak valid.\n");
+            printf("Weton Anda tidak valid.\n\n");
         }
     } while (!wetonValid && string.length != 0);
     if (string.length != 0){
@@ -494,7 +494,5 @@ void LIHAT_PROFIL(int currentID)
         printf("!\n\n");
         return;
     }
-    printf("\n");
     displayDataUser(USER(UserList, id2));
-    printf("\n");
 }

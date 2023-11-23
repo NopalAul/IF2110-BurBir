@@ -135,9 +135,10 @@ F.S : alokasi memori string diset dengan PASSWORD_CAPACITY
 {
     createEmptyString(&string);
     START();
-    ignoreNewline();
+    VALID = true;
     while (!EOP && string.length < PASSWORD_CAPACITY){
         string.buffer[string.length] = currentChar;
+        if (currentChar == '\n' || currentChar == '\r') VALID = false;
         ADV();
         string.length++;
     }
@@ -145,7 +146,7 @@ F.S : alokasi memori string diset dengan PASSWORD_CAPACITY
         ADV();
         string.length++;
     }
-    VALID = string.length <= PASSWORD_CAPACITY;
+    VALID = VALID && string.length <= USERNAME_CAPACITY;
     ADV();
 }
 
@@ -156,10 +157,11 @@ F.S : alokasi memori string diset dengan USERNAME_CAPACITY
       kemudian dilakukan pembacaan string dan disimpan ke string*/
 {
     createEmptyString(&string);
+    VALID = true;
     START();
-    ignoreNewline();
     while (!EOP && string.length < USERNAME_CAPACITY){
         string.buffer[string.length] = currentChar;
+        if (currentChar == '\n' || currentChar == '\r') VALID = false;
         ADV();
         string.length++;
     }
@@ -167,7 +169,7 @@ F.S : alokasi memori string diset dengan USERNAME_CAPACITY
         ADV();
         string.length++;
     }
-    VALID = string.length > 0 && string.length <= USERNAME_CAPACITY;
+    VALID = VALID && string.length > 0 && string.length <= USERNAME_CAPACITY;
     ADV();
 }
 
@@ -438,13 +440,46 @@ boolean isWordEqual(STRING s, char other[])
     return nodiff;
 }
 
+boolean isWordSimiliar(STRING  s, char other[])
+{
+    int len = 0;
+    while (other[len] != '\0'){
+        len++;
+    }
+    if (len != s.length){
+        return false;
+    }
+    char l,f;
+    for (int i = 0; i < s.length; i++){
+        l = s.buffer[i];
+        f = other[i];
+        if (l != f && l+32 != f && l != f+32 && l-32 != f && l != f-32){
+            return false;
+        }
+    }
+    return true;
+}
+
 boolean isKicauValid()
 {
     int count = 0;
     for (int i = 0; i < string.length; i++){
-        if (string.buffer[i] != ' ' && string.buffer[i] != '\n' && string.buffer[i] != '\r'){
+        if (string.buffer[i] == '\n' || string.buffer[i] == '\r'){
+            return false;
+        }
+        else {
             count++;
         }
     }
     return count > 0;
+}
+
+boolean isInputValid()
+{
+    for (int i = 0 ; i < string.length; i++){
+        if (string.buffer[i] == '\n' || string.buffer[i] == '\r'){
+            return false;
+        }
+    }
+    return true;
 }

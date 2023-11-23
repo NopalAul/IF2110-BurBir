@@ -30,7 +30,7 @@ void buatKicau(ListKicau *l,USER user){
         printf("\nMasukkan kicauan:\n");
         readKicauan();
         if (!VALID){
-            printf("\nWalawe, draf Anda tidak sesuai. Isi draf tidak boleh berisi karakter spasi atau newline saja.\n");
+            printf("\nWalawe, kicauan Anda tidak sesuai. Isi kicauan tidak boleh berisi karakter spasi atau newline saja.\n");
         }
     }while (!VALID);
     createKicau(l,user,string);
@@ -81,7 +81,7 @@ void ubahKicauan(ListKicau *l,USER currUser,int id){
             do {
                 printf("\nMasukkan kicauan baru:\n");
                 readKicauan();
-                if (!VALID) printf("\nWalawe, draf Anda tidak sesuai. Isi draf tidak boleh berisi karakter spasi atau newline saja.\n\n");
+                if (!VALID) printf("\nWalawe, kicauan Anda tidak sesuai. Isi kicauan tidak boleh berisi karakter spasi atau newline saja.\n\n");
             } while (!VALID);
             copyString(&TEXT(KICAU(*l,i)), string);
             printf("\nSelamat! kicauan telah diterbitkan!\n Detil kicauan:\n");
@@ -127,7 +127,7 @@ void displayKicauan(ListKicau l,USER currUser){
 boolean isAuthorKicauPublicOrFriend(KICAU k,USER currUser){
     if (ACCOUNTTYPE(AUTHOR(k))){
         return true;
-    } 
+    }
     else {
         if(isFriend(userID(currUser),userID(AUTHOR(k)))){
             return true;
@@ -135,9 +135,7 @@ boolean isAuthorKicauPublicOrFriend(KICAU k,USER currUser){
         else{
         return false;
         }
-        
     }
-
 }
 
 
@@ -165,8 +163,13 @@ void BALAS(ListKicau *lk, int currentID)
         printf("\nWah, Anda tidak bisa membalas kicauan atau balasan dari akun privat yang bukan teman Anda!\n\n");
         return;
     }
-    printf("\nMasukkan balasan:\n");
-    readString();
+    do {
+        printf("\nMasukkan balasan:\n");
+        readString();
+        if (!isInputValid()){
+            printf("\nWalawe, balasan tidak valid. Balasan tidak dapat mengandung newline.\n");
+        }
+    } while (!isInputValid());
     AddressReply p = newReply(NEXTREPLYID(KICAU(*lk,idKicau-1)), string, USERNAME(USER(UserList, currentID)), getCurrentDATETIME());
     if (p == NULL){
         printf("\nError: Gagal membuat balasan.\n\n");
@@ -304,11 +307,11 @@ F.S :   terisi kicauan baru, index Utas bertambah */
                 printf("\nMasukkan kicauan:\n");
                 readKicauan();
                 printf("\n");
-                if(!VALID){
-                    printf("Kicauan tidak valid. Masukkan lagi yuk!\n");
+                if(!isInputValid()){
+                    printf("Input tidak valid. Masukkan lagi yuk!\n");
                 }
 
-            }while(!VALID);
+            }while(!isInputValid());
             
             copyString(&content, string);
             
@@ -383,11 +386,11 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
                 printf("Masukkan kicauan:\n");
                 readKicauan();
                 printf("\n");
-                if(!VALID){
-                    printf("\nKicauan tidak valid. Masukkan lagi yuk!\n");
+                if(!isInputValid()){
+                    printf("Input tidak valid. Masukkan lagi yuk!\n\n");
                 }
 
-            }while(!VALID);
+            }while(!isInputValid());
 
         copyString(&content, string); 
 
@@ -397,22 +400,22 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
         do{
             printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
             readString();
-            if(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK")) {
+            if(!isWordSimiliar(string, "YA") && !isWordSimiliar(string, "TIDAK")) {
                 printf("\nInput Anda tidak valid. Masukkan lagi yuk!\n\n");
             }
-        } while(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK"));
+        } while(!isWordSimiliar(string, "YA") && !isWordSimiliar(string, "TIDAK"));
 
         // Pilihan YA, terus lanjutkan utas
-        while(isWordEqual(string, "YA")) {
+        while(isWordSimiliar(string, "YA")) {
             index = length(KICAU(*l,IDKicau-1).utas);
             insertUtas(l, IDUTAS(KICAU(*l,IDKicau-1).utas), index, user);
             do{
                 printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
                 readString();
-                if(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK")) {
+                if(!isWordSimiliar(string, "YA") && !isWordSimiliar(string, "TIDAK")) {
                     printf("\nInput Anda tidak valid. Masukkan lagi yuk!\n\n");
                 }
-            } while(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK"));
+            } while(!isWordSimiliar(string, "YA") && !isWordSimiliar(string, "TIDAK"));
         }
         printf("\nUtas selesai!\n\n");
     }

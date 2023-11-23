@@ -141,6 +141,10 @@ void displayStringNoNewline(STRING s);
 
 boolean isWordEqual(STRING s, char other[]);
 
+boolean isWordSimiliar(STRING  s, char other[]);
+
 boolean isKicauValid();
+
+boolean isInputValid();
 
 #endif

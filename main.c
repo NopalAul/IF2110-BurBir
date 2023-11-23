@@ -71,95 +71,95 @@ int main()
         print_red('>');
         printf(" ");
         readCommand();
-        if (isWordEqual(string, "DAFTAR")){
+        if (isWordSimiliar(string, "DAFTAR")){
             if (currentID < 0){
                 daftarUSER();
             } else {
                 printf("\nWalawe, Anda sedang login. Keluar dulu yuk untuk daftar akun baru!\n\n");
             }
-        } else if (isWordEqual(string, "KELUAR")){
+        } else if (isWordSimiliar(string, "KELUAR")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login. Masuk atau daftar akun baru dulu yuk!\n\n");
             } else {
                 currentID = -1;
                 printf("\nAnda berhasil logout. Sampai jumpa di pertemuan berikutnya!\n\n");
             }
-        } else if (isWordEqual(string, "MASUK")) {
+        } else if (isWordSimiliar(string, "MASUK")) {
             if (currentID < 0){
                 login();
             } else {
                 printf("\nWalawe, Anda sedang login. Keluar dulu kalau ingin ganti akun.\n\n");
             }
-        } else if (isWordEqual(string, "TUTUP_PROGRAM")){
+        } else if (isWordSimiliar(string, "TUTUP_PROGRAM")){
             currentID = -1;
             running = false;
-        } else if (isWordEqual(string, "GANTI_PROFIL")){
+        } else if (isWordSimiliar(string, "GANTI_PROFIL")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 gantiProfil(&USER(UserList,currentID));
             }
-        } else if (isWordEqual(string, "LIHAT_PROFIL")){
+        } else if (isWordSimiliar(string, "LIHAT_PROFIL")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 LIHAT_PROFIL(currentID);
             }
-        } else if (isWordEqual(string, "ATUR_JENIS_AKUN")){
+        } else if (isWordSimiliar(string, "ATUR_JENIS_AKUN")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 aturJenisAkun(&USER(UserList,currentID));
             }
-        } else if (isWordEqual(string, "UBAH_FOTO_PROFIL")){
+        } else if (isWordSimiliar(string, "UBAH_FOTO_PROFIL")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 ubahFotoProfil(&USER(UserList, currentID));
             }
-        } else if (isWordEqual(string, "DAFTAR_TEMAN")){
+        } else if (isWordSimiliar(string, "DAFTAR_TEMAN")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 daftarTeman(currentID);
             }
-        } else if (isWordEqual(string, "HAPUS_TEMAN")){
+        } else if (isWordSimiliar(string, "HAPUS_TEMAN")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 hapusTeman(currentID);
             }
-        } else if (isWordEqual(string, "TAMBAH_TEMAN")){
+        } else if (isWordSimiliar(string, "TAMBAH_TEMAN")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 tambahTeman(currentID);
             }
-        } else if (isWordEqual(string, "DAFTAR_PERMINTAAN_PERTEMANAN")){
+        } else if (isWordSimiliar(string, "DAFTAR_PERMINTAAN_PERTEMANAN")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 daftarPermintaanTeman(currentID);
             }
-        } else if (isWordEqual(string, "SETUJUI_PERTEMANAN")){
+        } else if (isWordSimiliar(string, "SETUJUI_PERTEMANAN")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 acceptPertemanan(currentID);
             }
-        } else if (isWordEqual(string, "KICAU")){
+        } else if (isWordSimiliar(string, "KICAU")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 buatKicau(&listkicauan, USER(UserList, currentID));
             }
-        } else if (isWordEqual(string, "KICAUAN")){
+        } else if (isWordSimiliar(string, "KICAUAN")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 displayKicauan(listkicauan, USER(UserList, currentID));
             }
-        } else if (isWordEqual(string, "SUKA_KICAUAN")){
+        } else if (isWordSimiliar(string, "SUKA_KICAUAN")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
@@ -170,7 +170,7 @@ int main()
                     sukaKicauan(&listkicauan, target, USER(UserList, currentID));
                 }
             }
-        } else if (isWordEqual(string, "UBAH_KICAUAN")){
+        } else if (isWordSimiliar(string, "UBAH_KICAUAN")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
@@ -181,37 +181,37 @@ int main()
                     ubahKicauan(&listkicauan, USER(UserList, currentID), target);
                 }
             }
-        } else if (isWordEqual(string, "BALAS")){
+        } else if (isWordSimiliar(string, "BALAS")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 BALAS(&listkicauan, currentID);
             }
-        } else if (isWordEqual(string, "BALASAN")){
+        } else if (isWordSimiliar(string, "BALASAN")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 DISPLAYBALASAN(&listkicauan, currentID);
             }
-        } else if (isWordEqual(string, "HAPUS_BALASAN")){
+        } else if (isWordSimiliar(string, "HAPUS_BALASAN")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 HAPUSBALASAN(&listkicauan, currentID);
             }
-        } else if (isWordEqual(string, "BUAT_DRAFT")){
+        } else if (isWordSimiliar(string, "BUAT_DRAFT")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 BUAT_DRAFT(currentID, &listkicauan);
             }
-        } else if (isWordEqual(string, "LIHAT_DRAFT")){
+        } else if (isWordSimiliar(string, "LIHAT_DRAFT")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 LIHAT_DRAFT(currentID, &listkicauan);
             }
-        } else if (isWordEqual(string, "UTAS")){
+        } else if (isWordSimiliar(string, "UTAS")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
@@ -222,7 +222,7 @@ int main()
                     tulisUtas(&listkicauan, USER(UserList, currentID), stringToInteger(leftInfo));
                 }
             }
-        } else if (isWordEqual(string, "SAMBUNG_UTAS")){
+        } else if (isWordSimiliar(string, "SAMBUNG_UTAS")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
@@ -233,7 +233,7 @@ int main()
                     sambungUtas(&listkicauan, stringToInteger(leftInfo), stringToInteger(rightInfo), USER(UserList, currentID));
                 }
             }
-        } else if (isWordEqual(string, "HAPUS_UTAS")){
+        } else if (isWordSimiliar(string, "HAPUS_UTAS")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
@@ -243,7 +243,7 @@ int main()
                 hapusUtas(&listkicauan, stringToInteger(leftInfo), stringToInteger(rightInfo), USER(UserList, currentID));
                 }
             }
-        } else if (isWordEqual(string, "CETAK_UTAS")){
+        } else if (isWordSimiliar(string, "CETAK_UTAS")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
@@ -253,9 +253,9 @@ int main()
                     cetakUtas(listkicauan, stringToInteger(leftInfo));
                 } 
             }
-        } else if (isWordEqual(string, "SIMPAN")){
+        } else if (isWordSimiliar(string, "SIMPAN")){
             //do procedure
-        } else if (isWordEqual(string, "MUAT")){
+        } else if (isWordSimiliar(string, "MUAT")){
             if (currentID < 0){
                 //do procedure
             } else {

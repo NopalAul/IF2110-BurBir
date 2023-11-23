@@ -35,7 +35,7 @@ TEST_WORD_DIR = lib/wordmachine/test
 TEST_WORD_CASES = $(wildcard $(TEST_WORD_DIR)/*.in)
 TEST_WORD_OUTPUTS = $(TEST_WORD_CASES:.in=.out)
 TEST_WORD_RESULTS = $(TEST_WORD_CASES:.in=.result)
-TEMP_STDOUT_FILES = $(addprefix temp_stdout_,$(notdir $(TEST_WORD_CASES:.in=.txt)))
+TEMP_STDOUT_FILES = $(addprefix temp_stdout_,$(notdir $(TEST_WORD_CASES:.in=.txt))) 
 
 
 all : main word_test

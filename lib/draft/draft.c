@@ -69,13 +69,13 @@ void BUAT_DRAFT(int currentID, ListKicau *lk)
     printf("\nApakah Anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
     do {
         readString();
-        if (!isWordEqual(string, "HAPUS") && !isWordEqual(string, "SIMPAN") && !isWordEqual(string, "TERBIT")){
+        if (!isWordSimiliar(string, "HAPUS") && !isWordSimiliar(string, "SIMPAN") && !isWordSimiliar(string, "TERBIT")){
             printf("\nInput Anda tidak sesuai. Masukkan input yang sesuai, ya.\n");
         }
-    }while (!isWordEqual(string, "HAPUS") && !isWordEqual(string, "SIMPAN") && !isWordEqual(string, "TERBIT"));
-    if (isWordEqual(string, "HAPUS")){
+    }while (!isWordSimiliar(string, "HAPUS") && !isWordSimiliar(string, "SIMPAN") && !isWordSimiliar(string, "TERBIT"));
+    if (isWordSimiliar(string, "HAPUS")){
         printf("\nDraf telah berhasil dihapus!\n\n");
-    } else if (isWordEqual(string, "SIMPAN")){
+    } else if (isWordSimiliar(string, "SIMPAN")){
         pushDraft(&ContainerDraft[currentID], content);
         printf("\nDraf telah berhasil disimpan!\n\n");
     } else {
@@ -98,16 +98,16 @@ void LIHAT_DRAFT(int currentID, ListKicau *lk)
     do{
         printf("\nApakah Anda ingin mengubah, menghapus, atau menerbitkan draft ini? (KEMBALI jika ingin kembali)\n");
         readString();
-        if (!isWordEqual(string, "HAPUS") && !isWordEqual(string, "UBAH") && !isWordEqual(string, "TERBIT") && !isWordEqual(string, "KEMBALI")){
+        if (!isWordSimiliar(string, "HAPUS") && !isWordSimiliar(string, "UBAH") && !isWordSimiliar(string, "TERBIT") && !isWordSimiliar(string, "KEMBALI")){
             printf("\nCommand yang Anda masukkan tidak sesuai. Masukkan command yang sesuai.\n");
         }
-    } while (!isWordEqual(string, "HAPUS") && !isWordEqual(string, "UBAH") && !isWordEqual(string, "TERBIT") && !isWordEqual(string, "KEMBALI"));
-    if (isWordEqual(string, "HAPUS")){
+    } while (!isWordSimiliar(string, "HAPUS") && !isWordSimiliar(string, "UBAH") && !isWordSimiliar(string, "TERBIT") && !isWordSimiliar(string, "KEMBALI"));
+    if (isWordSimiliar(string, "HAPUS")){
         AddressDraft temp;
         popDraft(&ContainerDraft[currentID], &temp);
         free(temp);
         printf("\nDraft telah berhasil dihapus!\n\n");
-    } else if (isWordEqual(string, "UBAH")){
+    } else if (isWordSimiliar(string, "UBAH")){
         AddressDraft temp;
         popDraft(&ContainerDraft[currentID], &temp);
         free(temp);
@@ -123,13 +123,13 @@ void LIHAT_DRAFT(int currentID, ListKicau *lk)
         printf("\nApakah Anda ingin menghapus, menyimpan, atau menerbitkan draf ini?\n");
         do {
             readString();
-            if (!isWordEqual(string, "HAPUS") && !isWordEqual(string, "SIMPAN") && !isWordEqual(string, "TERBIT")){
+            if (!isWordSimiliar(string, "HAPUS") && !isWordSimiliar(string, "SIMPAN") && !isWordSimiliar(string, "TERBIT")){
                 printf("Input Anda tidak sesuai. Masukkan input yang sesuai, ya.\n");
             }
-        }while (!isWordEqual(string, "HAPUS") && !isWordEqual(string, "SIMPAN") && !isWordEqual(string, "TERBIT"));
-        if (isWordEqual(string, "HAPUS")){
+        }while (!isWordSimiliar(string, "HAPUS") && !isWordSimiliar(string, "SIMPAN") && !isWordSimiliar(string, "TERBIT"));
+        if (isWordSimiliar(string, "HAPUS")){
             printf("\nDraf telah berhasil dihapus!\n\n");
-        } else if (isWordEqual(string, "SIMPAN")){
+        } else if (isWordSimiliar(string, "SIMPAN")){
             pushDraft(&ContainerDraft[currentID], content);
             printf("\nDraf telah berhasil disimpan!\n\n");
         } else {
@@ -138,7 +138,7 @@ void LIHAT_DRAFT(int currentID, ListKicau *lk)
             printf("\n");
             displayKicau(KICAU(*lk, NEFF(*lk)-1));
         }
-    } else if (isWordEqual(string, "TERBIT")){
+    } else if (isWordSimiliar(string, "TERBIT")){
         AddressDraft temp;
         popDraft(&ContainerDraft[currentID], &temp);
         STRING content;
