@@ -11,6 +11,8 @@
 #include "lib/draft/draft.h"
 #include "lib/muat/muat.h"
 #include "lib/simpan/simpan.h"
+#define BRIGHT_BLUE_TEXT "\033[1;34m"
+#define RESET_COLOR "\033[0m"
 #define nl printf("\n")
 
 void DisplayHeader();
@@ -282,17 +284,15 @@ int main()
 
 
 void DisplayHeader(){
-    printf(".______    __    __  .______      .______    __  .______");
-    nl;
-    printf("|   _  \\  |  |  |  | |   _  \\     |   _  \\  |  | |   _  \\    ");
-    nl;
-    printf("|  |_)  | |  |  |  | |  |_)  |    |  |_)  | |  | |  |_)  |    ");
-    nl;
-    printf("|   _  <  |  |  |  | |      /     |   _  <  |  | |      /     ");
-    nl;
-    printf("|  |_)  | |  `--'  | |  |\\  \\----.|  |_)  | |  | |  |\\  \\----. ");
-    nl;
-    printf("|______/   \\______/  | _| `._____||______/  |__| | _| `._____| ");
-    nl;
-    nl;
+    char *strBurbir =   "888888b.                    888888b.   d8b               ::       ZQBQr7r\n"
+                        "888   88b                   888   88b  Y8P              DBE.    BBBBBBBr  \n"
+                        "888  .88P                   888  .88P                    .BBBBgsjBBBBBBU \n"
+                        "8888888K.  888  888 888d888 8888888K.  888 888d888       iBBBBQBQBBBBBB. \n"
+                        "888   Y88b 888  888 888P    888   Y88b 888 888P           iQBBBQBBBBBBQ \n"
+                        "888    888 888  888 888     888    888 888 888             jBBBBBBBBBQ \n"
+                        "888   d88P Y88b 888 888     888   d88P 888 888              iBBBBBBBr\n"
+                        "8888888P     Y88888 888     8888888P   888 888           :XBBBBBg. \n";
+    printf("%s",BRIGHT_BLUE_TEXT);
+    printf("\n%s\n",strBurbir);
+    printf("%s",RESET_COLOR);
 }
