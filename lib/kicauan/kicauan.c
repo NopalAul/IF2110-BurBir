@@ -301,11 +301,11 @@ F.S :   terisi kicauan baru, index Utas bertambah */
         {
             // Kondisi valid
             do{
-                printf("Masukkan kicauan:\n");
+                printf("\nMasukkan kicauan:\n");
                 readKicauan();
                 printf("\n");
                 if(!VALID){
-                    printf("Kicauan tidak valid. Masukkan lagi yuk!\n\n");
+                    printf("Kicauan tidak valid. Masukkan lagi yuk!\n");
                 }
 
             }while(!VALID);
@@ -396,9 +396,9 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
 
         do{
             printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
-            readString(); printf("\n");
+            readString();
             if(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK")) {
-                printf("Input Anda tidak valid. Masukkan lagi yuk!\n\n");
+                printf("\nInput Anda tidak valid. Masukkan lagi yuk!\n\n");
             }
         } while(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK"));
 
@@ -408,13 +408,13 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
             insertUtas(l, IDUTAS(KICAU(*l,IDKicau-1).utas), index, user);
             do{
                 printf("Apakah Anda ingin melanjutkan utas ini? (YA/TIDAK) ");
-                readString(); printf("\n");
+                readString();
                 if(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK")) {
-                    printf("Input Anda tidak valid. Masukkan lagi yuk!\n\n");
+                    printf("\nInput Anda tidak valid. Masukkan lagi yuk!\n\n");
                 }
             } while(!isWordEqual(string, "YA") && !isWordEqual(string, "TIDAK"));
         }
-        printf("Utas selesai!\n\n");
+        printf("\nUtas selesai!\n\n");
     }
 }
 
