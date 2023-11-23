@@ -162,6 +162,28 @@ $(TEST_BALASAN_RESULTS): $(TEST_BALASAN_DIR)/%.result: $(TEST_BALASAN_DIR)/%.in 
 	fi > $@
 
 
+# UTAS UNIT TEST
+TEST_UTAS_DIR = lib/utas/test
+TEST_UTAS_CASES = $(wildcard $(TEST_UTAS_DIR)/*.in)
+TEST_UTAS_OUTPUTS = $(TEST_UTAS_CASES:.in=.out)
+TEST_UTAS_RESULTS = $(TEST_UTAS_CASES:.in=.result)
+
+SRC_UTAS_TEST = lib/utas/test/utastest.c
+OBJ_UTAS_TEST = $(SRC_UTAS_TEST:.c=.o)
+
+utas_test : $(OBJ_UTAS_TEST) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_KICAUAN) $(OBJ_UTAS) $(OBJ_BALASAN) $(OBJ_RELATION) $(OBJ_DATETIME) $(OBJ_USER) $(OBJ_REQUEST) $(OBJ_PCOLOR)
+	$(CC) $(CFLAGS) -o $@ $^
+
+test_utas : utas_test $(TEST_UTAS_RESULTS)
+	@cat $(TEST_UTAS_RESULTS)
+
+$(TEST_UTAS_RESULTS): $(TEST_UTAS_DIR)/%.result: $(TEST_UTAS_DIR)/%.in $(TEST_UTAS_DIR)/%.out utas_test
+	@if ./utas_test < $< | diff -Z -B - $(word 2,$^) > /dev/null; then \
+		echo "$< $(word 2, $^): TRUE"; \
+	else \
+		echo "$< $(word 2, $^): WRONG"; \
+	fi > $@
+
 
 
 #CHARMACHINE UNIT TEST
