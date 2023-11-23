@@ -138,3 +138,17 @@ void ReplyAuhtor(REPLY r, int id, STRING *Author)
         }
     }
 }
+
+int lengthReply(REPLY r)
+{
+    int count;
+    if (isEmptyREPLY(r))
+    {
+        return 0;
+    }
+    else
+    {
+        return 1+lengthReply(SIBLING(r))+lengthReply(CHILD(r));
+    }
+    
+}

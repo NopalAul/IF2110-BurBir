@@ -57,5 +57,5 @@ int main ()
     displayDraft(ContainerDraft[1]);
     displayDraft(NEXTDRAFT(ContainerDraft[1]));
     cetakUtas(lk, 1);
-    displayReply(BALASAN(KICAU(lk, 0)), 0);
+    displayReply(BALASAN(KICAU(lk, 1)), 0);
 }

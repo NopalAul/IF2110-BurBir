@@ -402,9 +402,10 @@ void loadBalasan(STRING folder, ListUser *lu, ListKicau *lk)
     jumlahBalasan = stringToInteger(text);
     ADV();
     ignoreBlankCarriageNewline();
-    createEmptyString(&text);
+    
     for (int i = 0; i < jumlahBalasan; i++)
     {
+        createEmptyString(&text);
         idxText = 0;
         while (currentChar != NEWLINE)      // ID KICAUAN
         {

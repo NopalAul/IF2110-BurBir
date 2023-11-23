@@ -235,6 +235,7 @@ F.S : file balasan.config tersimpan dalam folder config */
         if (BALASAN(KICAU(lk,i)) != NULL)
         {
             fprintf(balas, "%d\n", IDKICAUAN(KICAU(lk, i)));
+            fprintf(balas, "%d\n", lengthReply(BALASAN(KICAU(lk, i))));
             saveReplyTree(BALASAN(KICAU(lk, i)), balas, -1);
         }
     }

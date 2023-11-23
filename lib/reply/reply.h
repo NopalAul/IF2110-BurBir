@@ -43,4 +43,6 @@ void displayReply(REPLY p, int depth);
 
 void ReplyAuhtor(REPLY r, int id, STRING *Author);
 
+int lengthReply(REPLY r);
+
 #endif
