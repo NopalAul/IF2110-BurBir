@@ -187,6 +187,27 @@ $(TEST_UTAS_RESULTS): $(TEST_UTAS_DIR)/%.result: $(TEST_UTAS_DIR)/%.in $(TEST_UT
 		echo "$< $(word 2, $^): WRONG"; \
 	fi > $@
 
+# DRAFT UNIT TEST
+TEST_DRAFT_DIR = lib/draft/test
+TEST_DRAFT_CASES = $(wildcard $(TEST_DRAFT_DIR)/*.in)
+TEST_DRAFT_OUTPUTS = $(TEST_DRAFT_CASES:.in=.out)
+TEST_DRAFT_RESULTS = $(TEST_DRAFT_CASES:.in=.result)
+
+SRC_DRAFT_TEST = lib/draft/test/drafttest.c
+OBJ_DRAFT_TEST = $(SRC_DRAFT_TEST:.c=.o)
+
+draft_test : $(OBJ_DRAFT_TEST) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_KICAUAN) $(OBJ_UTAS) $(OBJ_BALASAN) $(OBJ_RELATION) $(OBJ_DATETIME) $(OBJ_USER) $(OBJ_REQUEST) $(OBJ_PCOLOR)
+	$(CC) $(CFLAGS) -o $@ $^
+
+test_draft : draft_test $(TEST_DRAFT_RESULTS)
+	@cat $(TEST_DRAFT_RESULTS)
+
+$(TEST_DRAFT_RESULTS): $(TEST_DRAFT_DIR)/%.result: $(TEST_DRAFT_DIR)/%.in $(TEST_DRAFT_DIR)/%.out draft_test
+	@if ./draft_test < $< | diff -Z -B - $(word 2,$^) > /dev/null; then \
+		echo "$< $(word 2, $^): TRUE"; \
+	else \
+		echo "$< $(word 2, $^): WRONG"; \
+	fi > $@
 
 
 #CHARMACHINE UNIT TEST
