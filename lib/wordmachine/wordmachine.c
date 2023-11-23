@@ -135,6 +135,7 @@ F.S : alokasi memori string diset dengan PASSWORD_CAPACITY
 {
     createEmptyString(&string);
     START();
+    ignoreCarriageNewline();
     VALID = true;
     while (!EOP && string.length < PASSWORD_CAPACITY){
         string.buffer[string.length] = currentChar;
@@ -159,6 +160,7 @@ F.S : alokasi memori string diset dengan USERNAME_CAPACITY
     createEmptyString(&string);
     VALID = true;
     START();
+    ignoreCarriageNewline();
     while (!EOP && string.length < USERNAME_CAPACITY){
         string.buffer[string.length] = currentChar;
         if (currentChar == '\n' || currentChar == '\r') VALID = false;
@@ -239,7 +241,8 @@ F.S : alokasi memori string diset dengan KICAUAN_CAPACITY
 {
     createEmptyString(&string);
     START();
-    ignoreCarriage();
+    ADV();
+    ignoreCarriageNewline();
     while (!EOP && string.length < KICAUAN_CAPACITY){
         string.buffer[string.length] = currentChar;
         ADV();
@@ -464,7 +467,7 @@ boolean isKicauValid()
 {
     int count = 0;
     for (int i = 0; i < string.length; i++){
-        if (string.buffer[i] == '\n' || string.buffer[i] == '\r'){
+        if (string.buffer[i] == '\n'){
             return false;
         }
         else {
@@ -477,7 +480,7 @@ boolean isKicauValid()
 boolean isInputValid()
 {
     for (int i = 0 ; i < string.length; i++){
-        if (string.buffer[i] == '\n' || string.buffer[i] == '\r'){
+        if (string.buffer[i] == '\n'){
             return false;
         }
     }

@@ -40,6 +40,11 @@ TEMP_STDOUT_FILES = $(addprefix temp_stdout_,$(notdir $(TEST_WORD_CASES:.in=.txt
 
 all : main word_test
 
+AllClear:
+
+all_clean:
+	rm -f $(OBJS) $(OBJ_BALASAN_TEST) $(OBJ_CHARM_TEST) $(OBJ_KICAUAN_TEST) $(OBJ_RELATION_TEST) $(OBJ_REQ_TEST) $(OBJ_USER_TEST) $(OBJ_UTAS_TEST) $(OBJ_WORD_TEST)
+
 word_test : $(OBJ_WORD_TEST) $(OBJ_WORD) $(OBJ_CHARM) #masukkan semua OBJECT file yang diperlukan untuk test ini
 	$(CC) $(CFLAGS) -o $@ $^
 
@@ -260,6 +265,30 @@ test_req: req_test $(TEST_REQ_RESULTS)
 
 $(TEST_REQ_RESULTS): $(TEST_REQ_DIR)/%.result: $(TEST_REQ_DIR)/%.in $(TEST_REQ_DIR)/%.out req_test
 	@if ./req_test < $< | diff -Z -B - $(word 2,$^) > /dev/null; then \
+		echo "$< $(word 2, $^): TRUE"; \
+	else \
+		echo "$< $(word 2, $^): WRONG"; \
+	fi > $@
+
+#USER UNIT TEST
+SRC_USER_TEST = lib/user/test/user_test.c
+OBJ_USER_TEST = $(SRC_USER_TEST:.c=.o)
+
+TEST_USER_DIR = lib/user/test
+TEST_USER_CASES = $(wildcard $(TEST_USER_DIR)/*.in)
+TEST_USER_RESULTS = $(TEST_USER_CASES:.in=.result)
+
+clean_user:
+	rm -f user_test $(OBJ_USER_TEST) $(OBJ_USER) $(OBJ_MATRIX) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_PCOLOR) $(OBJ_REQUEST) $(OBJ_RELATION)
+
+user_test: $(OBJ_USER_TEST) $(OBJ_USER) $(OBJ_MATRIX) $(OBJ_WORD) $(OBJ_CHARM) $(OBJ_PCOLOR) $(OBJ_REQUEST) $(OBJ_RELATION)
+	$(CC) $(CFLAGS) -o $@ $^
+
+test_user: user_test $(TEST_USER_RESULTS)
+	@cat $(TEST_USER_RESULTS)
+
+$(TEST_USER_RESULTS): $(TEST_USER_DIR)/%.result: $(TEST_USER_DIR)/%.in $(TEST_USER_DIR)/%.out user_test
+	@if ./user_test < $< | diff -Z -B - $(word 2,$^) > /dev/null; then \
 		echo "$< $(word 2, $^): TRUE"; \
 	else \
 		echo "$< $(word 2, $^): WRONG"; \
