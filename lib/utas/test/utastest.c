@@ -1,14 +1,8 @@
 #include <stdio.h>
 #include "../utas.h"
-// #include "../user/user.h"
-// #include "../datetime/datetime.h"
-// #include "../wordmachine/wordmachine.h"
-// #include "../boolean/boolean.h"
 
 int main(){
     USER user;
-    // ListUser listUser;
-    // RelationMatrix r;
     STRING uname;
     STRING content;
     int type;
@@ -22,7 +16,7 @@ int main(){
             if(isEmpty(l1))
                 printf("%d",1);
             else
-                printf("%d",0); //0
+                printf("%d",0);
             break;
         case 2:
             // length
@@ -32,7 +26,7 @@ int main(){
             createString(&uname, "ucup");
             copyString(&USERNAME(user), uname);
             insertFirst(&l2, 1, user, content);
-            printf("%d",length(l2)); //1
+            printf("%d",length(l2));
             break;
         case 3:
             // insert first
@@ -46,7 +40,7 @@ int main(){
             Address p = FIRSTUTAS(l3);
             displayString(USERNAME(AUTHORUTAS(p)));
             displayString(CONTENT(p));
-            printf("%d",length(l3)); //1
+            printf("%d",length(l3)); 
             break;
         case 4:
             // insert last
@@ -62,7 +56,7 @@ int main(){
             Address p2 = FIRSTUTAS(l4);
             displayString(USERNAME(AUTHORUTAS(p2)));
             displayString(CONTENT(NEXT(p2)));
-            printf("%d",length(l4)); //2
+            printf("%d",length(l4));
             break;
         case 5:
             // insert at
