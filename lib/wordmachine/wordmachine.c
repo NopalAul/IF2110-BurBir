@@ -23,6 +23,9 @@ F.S : string terdefinisi dengan buffer string dialokasikan
     //     (*str).buffer = (char*)malloc(MaxCap*sizeof(char));
     //     i++;
     // }
+    for (int i = 0 ; i  < 300; i++){
+        (*str).buffer[i] = '\0';
+    }
     (*str).length = 0;
 }
 
