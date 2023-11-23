@@ -33,11 +33,11 @@ void login(){
                     printf("\nMasukkan kata sandi:\n");
                     readPassword();
                     if (!isStringEqual(string, PASSWORD(USER(UserList,idFound)))){
-                        printf("Wah, kata sandi yang Anda masukkan belum tepat. Perikas kembali kata sandi Anda!\n\n");
+                        printf("\nWah, kata sandi yang Anda masukkan belum tepat. Perikas kembali kata sandi Anda!\n");
                         i++;
                     }
                 } while (i!= 3 && !isStringEqual(string, PASSWORD(USER(UserList,idFound))));
-                if (i == 3) printf("Wah sayang sekali kesempatan Anda habis!\n\n");
+                if (i == 3) printf("\nWah sayang sekali kesempatan Anda habis!\n\n");
                 else {
                     currentID = idFound;
                     printf("\nAnda telah berhasil masuk dengan nama ");

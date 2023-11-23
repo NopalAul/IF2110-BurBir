@@ -100,7 +100,12 @@ void deleteReplyTree(REPLY *r, int depth)
 void displaySpecificReply(AddressReply p, int tab, boolean isPublic)
 {   
     int multiplier = 5;
-    printf("%*c ID = %d\n", tab*multiplier, '|', REPLYID(p));
+    printf("%*c ", tab*multiplier, '|');
+    print_green('I');
+    print_green('D');
+    printf(" ");
+    print_green('=');
+    printf(" %d\n", REPLYID(p));
     if (isPublic){
         printf("%*c ", tab*multiplier, '|');
         displayStringNoNewline(REPLYAUTHOR(p));

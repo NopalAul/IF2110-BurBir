@@ -464,13 +464,13 @@ void acceptPertemanan(int currentID)
         } while (!isStringSimiliar(Accept,string) && !isStringSimiliar(Reject,string));
         if (isStringSimiliar(Accept,string)){
             RelationVal(RelMatrix, currentID, out.id) = true;
-            printf("\nPermintaan pertemanan dari ");
+            printf("Permintaan pertemanan dari ");
             displayStringNoNewline(name);
             printf(" telah disetujui. Selamat! Anda telah berteman dengan ");
             displayStringNoNewline(name);
             printf(".\n\n");
         } else {
-            printf("\nPermintaan pertemanan dari ");
+            printf("Permintaan pertemanan dari ");
             displayStringNoNewline(name);
             printf(" telah ditolak.\n\n");
             RelationVal(RelMatrix, out.id, currentID) = false;

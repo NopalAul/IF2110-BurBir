@@ -4,7 +4,7 @@
 #include "../boolean/boolean.h"
 #include "../wordmachine/wordmachine.h"
 #include "../datetime/datetime.h"
-
+#include "../pcolor/pcolor.h"
 
 typedef struct replyNode* AddressReply;
 typedef struct replyNode {

@@ -372,6 +372,9 @@ boolean isStringNumeric(STRING s)
     int i = 0;
     if (s.buffer[0] == '-'){
         i = 1;
+        if (s.length == 1){
+            return false;
+        }
     }
     for (int j = i; j < s.length; j++){
         if (s.buffer[j] < '0' || s.buffer[j]>'9'){
