@@ -12,6 +12,6 @@ This program only run in unix based system, if you are using Windows,install WSL
 | ------------------------------ | :------: | 
 | Muhammad Naufal Aulia          | 13522074 |                        
 | Muhammad Syarafi Akmal         | 13522076 |  
-| Muhamad Rafli Rasyidin         | 13522088 | 
+| Muhamad Rafli Rasyiidin        | 13522088 | 
 | Rayhan Fadhlan Azka            | 13522095 |  
 | Suthasoma Mahardhika Munthe    | 13522098 | 
