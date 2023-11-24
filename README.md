@@ -17,3 +17,44 @@ This program only run in unix based system, if you are using Windows,install WSL
 | Rayhan Fadhlan Azka            | 13522095 |  ADT Kicau, Balasan, Datetime                                                                  |
 | Suthasoma Mahardhika Munthe    | 13522098 |  ADT Word Machine,Charmachine, Balasan , Pengguna , Profil, Pertemanan , Permintaan Pertemanan |
 
+## Daftar Fitur
+No
+Fitur
+Progress (0-100%)
+1.
+Inisialisasi
+100%
+2.
+Perintah
+100%
+3.
+Pengguna
+100%
+4.
+Profil
+100%
+6.
+Teman
+100%
+7.
+Permintaan Pertemanan
+100%
+8.
+Kicauan
+100%
+9.
+Balasan
+100%
+10.
+Draf Kicauan
+100%
+11.
+Utas
+100%
+12.
+Simpan dan Muat
+100%
+13.
+Laporan
+100%
+
