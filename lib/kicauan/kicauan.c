@@ -296,6 +296,11 @@ F.S :   terisi kicauan baru, index Utas bertambah */
         printf("\nWalawe, kicauan dengan ID utas tersebut tidak ada.\n\n");
         return;
     }
+    if(!isStringEqual(USERNAME(currentuser), USERNAME(AUTHOR(KICAU(*l,IDKicau))))) {
+        // Kondisi IDUtas bukan milik pengguna saat ini
+        printf("\nAnda tidak bisa menyambung utas ini!\n\n");
+        return;
+    }
     Address p;
     p = FIRSTUTAS(KICAU(*l,IDKicau).utas);
     STRING content;
@@ -350,7 +355,7 @@ void hapusUtas(ListKicau *l, int IDUtas, int index, USER currentuser)
     else
     {
         // Kondisi utas milik sendiri
-        if(index > length(KICAU(*l,IDKicau).utas)-1) {
+        if(index > length(KICAU(*l,IDKicau).utas)) {
             // Kondisi index utas tidak ditemukan
             printf("\nKicauan sambungan dengan index %d tidak ditemukan pada utas!\n\n",index);
         }
@@ -387,7 +392,6 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
     }
     else {
         IDUTAS(KICAU(*l,IDKicau-1).utas) = (*l).NextUtasID;
-        printf("\nId Utas: %d\n",IDUTAS(KICAU(*l,IDKicau-1).utas)); //delete
         (*l).NextUtasID++;
         int index;
         STRING content;
@@ -433,16 +437,23 @@ F.S :   IDUtas terbentuk, index Utas terbentuk, terisi kicauan baru, length List
     }
 }
 
-void cetakUtas(ListKicau l, int IDUtas)
+void cetakUtas(ListKicau l, int IDUtas, USER user)
 /* Mencetak seluruh kicauan dalam utas dengan id = IDUtas */
 {
     printf("\n");
     int IDKicau = getIDKicau(l, IDUtas);
+    if (IDKicau == NOT_FOUND){
+        printf("\nWalawe, utas tidak ditemukan!\n\n");
+        return;
+    }
     Address p;
     p = FIRSTUTAS(KICAU(l,IDKicau).utas);
 
-    if(isEmpty(KICAU(l,IDKicau).utas)) {
-        printf("Maaf, belum ada utas untuk ditampilkan.");
+    boolean isSeen = ACCOUNTTYPE(USER(UserList,searchUser(USERNAME(AUTHORUTAS(p))))) || isFriend(userID(user),searchUser(USERNAME(AUTHORUTAS(p))));
+
+    if (!isSeen) {
+        printf("Akun yang membuat utas ini adalah akun privat! Ikuti dahulu akun ini untuk melihat utasnya!\n\n");
+        return;
     }
     else {
         // Cetak kicauan (utas utama)
