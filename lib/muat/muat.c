@@ -13,6 +13,9 @@ void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListKicau *lk)
     }
     else
     {
+        createRelationMatrix(&m);
+        createListKicau(&lk, MAX_CAPACITY);
+        createListUser(&l);
         loadPengguna(folder, l, m);
         loadKicau(folder, lk, *l);
         loadDraf(folder, l);
