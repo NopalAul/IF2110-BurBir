@@ -312,7 +312,7 @@ F.S : file utas.config tersimpan dalam folder config */
             Address u = FIRSTUTAS(UTAS(KICAU(lk, i)));
             fprintf(utas, "%d\n", IDKICAUAN(KICAU(lk, i)));
             fprintf(utas, "%d\n", length(UTAS(KICAU(lk, i))));
-            for (int j = 0; j < length(UTAS(KICAU(lk, i))); i++)
+            for (int j = 0; j < length(UTAS(KICAU(lk, i))); j++)
             {
                 fprintf(utas, "%s\n", CONTENT(u).buffer);
                 fprintf(utas, "%s\n", USERNAME(AUTHORUTAS(u)).buffer);
