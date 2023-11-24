@@ -27,7 +27,7 @@ F.S : folder terbentuk dan berisi file config
         printf("\nMohon tunggu...\n");
         printf("1...\n");
         printf("2...\n");
-        int result = mkdir(path);
+        int result = mkdir(path, 0777);
         printf("3...\n");
 
         if(!result){

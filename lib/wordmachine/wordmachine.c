@@ -244,7 +244,6 @@ F.S : alokasi memori string diset dengan KICAUAN_CAPACITY
 {
     createEmptyString(&string);
     START();
-    ADV();
     ignoreCarriageNewline();
     while (!EOP && string.length < KICAUAN_CAPACITY){
         string.buffer[string.length] = currentChar;
@@ -470,7 +469,7 @@ boolean isKicauValid()
 {
     int count = 0;
     for (int i = 0; i < string.length; i++){
-        if (string.buffer[i] == '\n'){
+        if (string.buffer[i] == '\n' || string.buffer[i] == ' '){
             return false;
         }
         else {

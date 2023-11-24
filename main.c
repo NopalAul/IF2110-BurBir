@@ -217,13 +217,13 @@ int main()
             } else {
                 HAPUSBALASAN(&listkicauan, currentID);
             }
-        } else if (isWordSimiliar(string, "BUAT_DRAFT")){
+        } else if (isWordSimiliar(string, "BUAT_DRAF")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
                 BUAT_DRAFT(currentID, &listkicauan);
             }
-        } else if (isWordSimiliar(string, "LIHAT_DRAFT")){
+        } else if (isWordSimiliar(string, "LIHAT_DRAF")){
             if (currentID < 0){
                 printf("\nWalawe, Anda belum login! Masuk terlebih dahulu untuk menikmati layanan Burbir.\n\n");
             } else {
