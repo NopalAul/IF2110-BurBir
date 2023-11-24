@@ -47,7 +47,7 @@ F.S : folder terbentuk dan berisi file config
     saveBalasan(path, pathLen, lk);
     saveDraf(path, pathLen);
     saveUtas(path, pathLen, lk);
-    printf("\nPenyimpanan telah berhasil dilakukan!\n");
+    printf("\nPenyimpanan telah berhasil dilakukan!\n\n");
 }
 
 
@@ -213,7 +213,7 @@ void saveBalasan(char path[], int len, ListKicau lk)
 I.S : folder ada dan file balasan.config di dalamnya sembarang
 F.S : file balasan.config tersimpan dalam folder config */
 {
-    int length = len, count;
+    int length = len, count = 0;
 
     char configName[16] = "/balasan.config";
     for (int i = 0; i < 16; i++)

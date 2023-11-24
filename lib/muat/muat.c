@@ -2,14 +2,14 @@
 
 void loadAll(STRING folder, ListKicau *lk)
 {
-    char path[113] = "config/";
+    char path[307] = "config/";
     for (int j = 0; j < folder.length; j++) // menambahkan input user ke dalam path
     {
         path[7+j] = folder.buffer[j];
     }
     if (!isDirExist(path))
     {
-        printf("Tidak ada folder yang dimaksud!");
+        printf("Tidak ada folder yang dimaksud!\n\n");
     }
     else
     {   
@@ -23,12 +23,13 @@ void loadAll(STRING folder, ListKicau *lk)
         loadDraf(folder);
         loadUtas(folder, lk);
         loadBalasan(folder,lk);
+        printf("Folder berhasil dimuat.\n\n");
     }
 }
 
 void loadPengguna(STRING folder)
 {
-    char path[113] = "config/";
+    char path[307] = "config/";
     int N, idx;
     STRING text;
     USER currentUser;
@@ -233,13 +234,14 @@ void readUserFromFile(USER *u, int jumlahUser)
 
 void loadKicau(STRING folder, ListKicau *l)
 {
-    char path[113] = "config/";
+    char path[307] = "config/";
     char kicauan[15] = "/kicauan.config";
     STRING text;
     int jumlahKicauan, textIdx, k;
     KICAU kicau;
     CreateREPLY(&BALASAN(kicau));
     CreateListUtas(&UTAS(kicau));
+    NEXTREPLYID(kicau) = 1;
     boolean found;
 
     for (int j = 0; j < folder.length; j++) // menambahkan input user ke dalam path
@@ -395,10 +397,10 @@ void loadKicau(STRING folder, ListKicau *l)
 
 void loadBalasan(STRING folder, ListKicau *lk)
 {
-    char path[113] = "config/";
+    char path[307] = "config/";
     char balasan[15] = "/balasan.config";
     STRING text, textBalasan, authorReply;
-    int jumlahBalasan, idxText, IDKicau, jumlahReply, IDParent, IDReply;
+    int jumlahBalasan, idxText, IDKicau, jumlahReply, IDParent, IDReply, maxIDReply;
     AddressReply rep;
     DATETIME replyDate;
     boolean succeed;
@@ -431,6 +433,7 @@ void loadBalasan(STRING folder, ListKicau *lk)
     
     for (int i = 0; i < jumlahBalasan; i++)
     {
+        maxIDReply = 0;
         createEmptyString(&text);
         idxText = 0;
         while (currentChar != NEWLINE)      // ID KICAUAN
@@ -490,6 +493,11 @@ void loadBalasan(STRING folder, ListKicau *lk)
             }
             ignoreNewline();
             IDReply = stringToInteger(text);
+            if (maxIDReply < IDReply)
+            {
+                maxIDReply = IDReply;
+            }
+            
             idxText = 0;
             createEmptyString(&text);
             while (currentChar != NEWLINE)      // text reply
@@ -594,12 +602,13 @@ void loadBalasan(STRING folder, ListKicau *lk)
             rep = newReply(IDReply, textBalasan, authorReply, replyDate);
             addREPLY(&BALASAN(KICAU(*lk,IDKicau-1)), IDParent, rep, &succeed);
         } 
+        NEXTREPLYID(KICAU(*lk, IDKicau-1)) = maxIDReply+1;
     }   
 }
 
 void loadDraf(STRING folder)
 {
-    char path[113] = "config/";
+    char path[307] = "config/";
     char draf[12] = "/draf.config";
     STRING text, ownerUsername, drafCount, isiDraft;
     int  idxText, draftOwner, idxCount, banyakDraftperUser, userIdx, len;
@@ -765,7 +774,7 @@ void loadDraf(STRING folder)
 
 void loadUtas(STRING folder, ListKicau *lk)
 {
-    char path[113] = "config/";
+    char path[307] = "config/";
     char utas[12] = "/utas.config";
     STRING text;
     int idxText, jumlahUtas, idxKicau, jumlahUtasperKicauan, idUtas = 1;
@@ -795,6 +804,7 @@ void loadUtas(STRING folder, ListKicau *lk)
         }   
     }
     jumlahUtas = stringToInteger(text);
+    (*lk).NextUtasID = jumlahUtas+1;
     ADV();
     for (int i = 0; i < jumlahUtas; i++)
     {

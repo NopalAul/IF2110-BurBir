@@ -81,7 +81,6 @@ int main()
         readString();
         printf("\n");
         loadAll(string,&listkicauan);
-        printf("\n\n");
     }
     while(running){
         print_red('>');
@@ -263,13 +262,13 @@ int main()
                 } 
             }
         } else if (isWordSimiliar(string, "SIMPAN")){
-            printf("Masukkan folder penyimpanan: ");
+            printf("\nMasukkan folder penyimpanan: ");
             readString();
             printf("\n");
             saveAll(string, listkicauan);
         } else if (isWordSimiliar(string, "MUAT")){
             if (currentID < 0){
-                printf("Masukkan folder penyimpanan: ");
+                printf("\nMasukkan folder penyimpanan: ");
                 readString();
                 printf("\n");
                 loadAll(string,&listkicauan);
