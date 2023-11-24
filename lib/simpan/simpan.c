@@ -5,7 +5,7 @@
 #include "simpan.h"
 #include "../wordmachine/wordmachine.h"
 
-void saveAll(STRING folder, ListUser l, RelationMatrix m, ListKicau lk)
+void saveAll(STRING folder, ListKicau lk)
 /*  Melakukan penyimpanan data ke dalam folder config
 I.S : keberadaan folder dan file di dalamnya sembarang
 F.S : folder terbentuk dan berisi file config 
@@ -42,16 +42,16 @@ F.S : folder terbentuk dan berisi file config
     printf("1...\n");
     printf("2...\n");
     printf("3...\n");
-    savePengguna(path, pathLen, l, m);
+    savePengguna(path, pathLen);
     saveKicauan(path, pathLen, lk);
     saveBalasan(path, pathLen, lk);
     saveDraf(path, pathLen);
     saveUtas(path, pathLen, lk);
-    printf("\nPenyimpanan telah berhasil dilakukan!\n");
+    printf("\nPenyimpanan telah berhasil dilakukan!\n\n");
 }
 
 
-void savePengguna(char path[], int len, ListUser LU, RelationMatrix m)
+void savePengguna(char path[], int len)
 /*  Melakukan proses penyimpanan data pengguna ke dalam folder config
 I.S : folder ada dan file pengguna.config di dalamnya sembarang
 F.S : file pengguna.config tersimpan dalam folder config */
@@ -70,38 +70,38 @@ F.S : file pengguna.config tersimpan dalam folder config */
     FILE* user = fopen(path, "w");
 
     // Save jumlah pengguna
-    fprintf(user,"%d\n", LENGTH(LU));
+    fprintf(user,"%d\n", LENGTH(UserList));
 
     // Save data pengguna
-    for (int i = 0; i < LENGTH(LU); i++)
+    for (int i = 0; i < LENGTH(UserList); i++)
     {
-        fprintf(user, "%s\n", USERNAME(USER(LU,i)).buffer);
-        fprintf(user, "%s\n", PASSWORD(USER(LU,i)).buffer);
-        if (LENGTH(BIO(USER(LU,i))) == 0 )
+        fprintf(user, "%s\n", USERNAME(USER(UserList,i)).buffer);
+        fprintf(user, "%s\n", PASSWORD(USER(UserList,i)).buffer);
+        if (LENGTH(BIO(USER(UserList,i))) == 0 )
         {
             fprintf(user, "\n");
         }
         else
         {
-            fprintf(user, "%s\n", BIO(USER(LU,i)).buffer);
+            fprintf(user, "%s\n", BIO(USER(UserList,i)).buffer);
         }
-        if (LENGTH(NOHP(USER(LU,i))) == 0 )
+        if (LENGTH(NOHP(USER(UserList,i))) == 0 )
         {
             fprintf(user, "\n");
         }
         else
         {
-            fprintf(user, "%s\n", NOHP(USER(LU,i)).buffer);
+            fprintf(user, "%s\n", NOHP(USER(UserList,i)).buffer);
         }
-        if (LENGTH(WETON(USER(LU,i))) == 0 )
+        if (LENGTH(WETON(USER(UserList,i))) == 0 )
         {
             fprintf(user, "\n");
         }
         else
         {
-            fprintf(user, "%s\n", WETON(USER(LU,i)).buffer);
+            fprintf(user, "%s\n", WETON(USER(UserList,i)).buffer);
         }
-        if (ACCOUNTTYPE(USER(LU,i)))
+        if (ACCOUNTTYPE(USER(UserList,i)))
         {
             fprintf(user, "%s\n", "Publik");
         }
@@ -114,8 +114,8 @@ F.S : file pengguna.config tersimpan dalam folder config */
         {
             for (int j = 0; j < 5; j++)
             {
-                fprintf(user, "%c ", PhotoElmt(PHOTO(USER(LU,i)), i, j).color);
-                fprintf(user, "%c", PhotoElmt(PHOTO(USER(LU,i)), i, j).info);
+                fprintf(user, "%c ", PhotoElmt(PHOTO(USER(UserList,i)), i, j).color);
+                fprintf(user, "%c", PhotoElmt(PHOTO(USER(UserList,i)), i, j).info);
                 if (j != 4)
                 {
                     fprintf(user, " ");
@@ -126,11 +126,11 @@ F.S : file pengguna.config tersimpan dalam folder config */
     }
 
     // Save matrix pertemanan
-    for (int i = 0; i < RelationLength(m); i++)
+    for (int i = 0; i < RelationLength(RelMatrix); i++)
     {
-        for (int j = 0; j < RelationLength(m); j++)
+        for (int j = 0; j < RelationLength(RelMatrix); j++)
         {
-            if (RelationVal(m, i, j))
+            if (RelationVal(RelMatrix, i, j))
             {
                 fprintf(user, "1");
             }
@@ -138,7 +138,7 @@ F.S : file pengguna.config tersimpan dalam folder config */
             {
                 fprintf(user, "0");
             }
-            if (j != RelationLength(m)-1)
+            if (j != RelationLength(RelMatrix)-1)
             {
                 fprintf(user, " ");
             }
@@ -150,9 +150,9 @@ F.S : file pengguna.config tersimpan dalam folder config */
     }
 
     // Save jumlah permintaan berteman
-    for (int i = 0; i < LENGTH(LU); i++)
+    for (int i = 0; i < LENGTH(UserList); i++)
     {
-        FriendReqCount += CountLRF(REQUESTLIST(USER(LU,i)));
+        FriendReqCount += CountLRF(REQUESTLIST(USER(UserList,i)));
     }
     if (FriendReqCount == 0)
     {
@@ -164,19 +164,19 @@ F.S : file pengguna.config tersimpan dalam folder config */
     }
 
     // Save permintaan berteman dari seluruh user
-    for (int i = 0; i < LENGTH(LU); i++)
+    for (int i = 0; i < LENGTH(UserList); i++)
     {
         createListRequest(&tempReq);
-        for (int j = 0; j < CountLRF(REQUESTLIST(USER(LU,i))); j++)
+        for (int j = 0; j < CountLRF(REQUESTLIST(USER(UserList,i))); j++)
         {
-            dequeueListRequest(&REQUESTLIST(USER(LU,i)), &val);
+            dequeueListRequest(&REQUESTLIST(USER(UserList,i)), &val);
             fprintf(user, "%d ", val.id);
             fprintf(user, "%d ", i);
             fprintf(user, "%d\n", val.friendCount);
             enqueueListRequest(&tempReq, val);
         }
-        CountLRF(tempReq) = CountLRF(REQUESTLIST(USER(LU,i)));
-        REQUESTLIST(USER(LU,i)) = tempReq;
+        CountLRF(tempReq) = CountLRF(REQUESTLIST(USER(UserList,i)));
+        REQUESTLIST(USER(UserList,i)) = tempReq;
     }
 
     
@@ -213,7 +213,7 @@ void saveBalasan(char path[], int len, ListKicau lk)
 I.S : folder ada dan file balasan.config di dalamnya sembarang
 F.S : file balasan.config tersimpan dalam folder config */
 {
-    int length = len, count;
+    int length = len, count = 0;
 
     char configName[16] = "/balasan.config";
     for (int i = 0; i < 16; i++)

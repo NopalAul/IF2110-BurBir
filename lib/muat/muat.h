@@ -13,17 +13,17 @@
 #include "../simpan/simpan.h"
 #include "../kicauan/kicauan.h"
 
-void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListKicau *lk);
+void loadAll(STRING folder, ListKicau *lk);
 
-void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m);
+void loadPengguna(STRING folder);
 
-void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m);
+void readUserFromFile(USER *u, int jumlahUser);
 
-void loadKicau(STRING folder, ListKicau *l, ListUser lu);
+void loadKicau(STRING folder, ListKicau *l);
 
-void loadBalasan(STRING folder, ListUser *lu, ListKicau *lk);
+void loadBalasan(STRING folder, ListKicau *lk);
 
-void loadDraf(STRING folder, ListUser *lu);
+void loadDraf(STRING folder);
 
 void loadUtas(STRING folder, ListKicau *lk);
 

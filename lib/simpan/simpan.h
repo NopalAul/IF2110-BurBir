@@ -17,13 +17,13 @@
 #include "../utas/utas.h"
 #include "../draft/draft.h"
 
-void saveAll(STRING folder, ListUser LU, RelationMatrix m, ListKicau lk);
+void saveAll(STRING folder, ListKicau lk);
 /*  Melakukan penyimpanan data ke dalam folder config
 I.S : keberadaan folder dan file di dalamnya sembarang
 F.S : folder terbentuk dan berisi file config 
       yang menyimpan data program */
 
-void savePengguna(char path[], int len, ListUser LU, RelationMatrix m);
+void savePengguna(char path[], int len);
 /*  Melakukan proses penyimpanan data pengguna ke dalam folder config
 I.S : folder ada dan file pengguna.config di dalamnya sembarang
 F.S : file pengguna.config tersimpan dalam folder config */

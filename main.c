@@ -80,8 +80,7 @@ int main()
         printf("Masukkan folder load : ");
         readString();
         printf("\n");
-        loadAll(string,&UserList,&RelMatrix,&listkicauan);
-        printf("\n\n");
+        loadAll(string,&listkicauan);
     }
     while(running){
         print_red('>');
@@ -263,16 +262,16 @@ int main()
                 } 
             }
         } else if (isWordSimiliar(string, "SIMPAN")){
-            printf("Masukkan folder penyimpanan: ");
+            printf("\nMasukkan folder penyimpanan: ");
             readString();
             printf("\n");
-            saveAll(string, UserList, RelMatrix, listkicauan);
+            saveAll(string, listkicauan);
         } else if (isWordSimiliar(string, "MUAT")){
             if (currentID < 0){
-                printf("Masukkan folder penyimpanan: ");
+                printf("\nMasukkan folder penyimpanan: ");
                 readString();
                 printf("\n");
-                loadAll(string,&UserList,&RelMatrix,&listkicauan);
+                loadAll(string,&listkicauan);
             } else {
                 printf("\nWalawe, Anda masih login. Keluar dulu ya kalau ingin melakukan MUAT!\n\n");
             }
