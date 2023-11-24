@@ -210,6 +210,10 @@ void DISPLAYBALASAN(ListKicau *lk, int currentID)
         printf("\nBelum terdapat balasan apapun pada kicauan tersebut. Yuk, balas kicauan tersebut!\n\n");
         return;
     }
+    if (!ACCOUNTTYPE(USER(UserList,searchUser(USERNAME(AUTHOR(KICAU(*lk,idKicau-1)))))) && !isFriend(currentID, searchUser(USERNAME(AUTHOR(KICAU(*lk,idKicau-1)))))){
+        printf("\nWalawe, Kicauan tersebut dibuat oleh akun privat\n\n");
+        return;
+    }
     printf("\n");
     displayBalasanHandler(BALASAN(KICAU(*lk, idKicau-1)), currentID, 0);
 }
