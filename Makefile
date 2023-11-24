@@ -11,6 +11,8 @@ DIRECTORIES = $(wildcard $(SRC_DIR)/*)
 SRCS = $(foreach dir,$(DIRECTORIES),$(wildcard $(dir)/$(notdir $(dir)).c))
 OBJS = $(SRCS:.c=.o)
 
+.PHONY: run all_clean
+
 run: main
 	@./$^
 

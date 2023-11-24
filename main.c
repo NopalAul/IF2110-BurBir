@@ -258,7 +258,7 @@ int main()
                 if (!isStringNumeric(leftInfo)){
                     printf("\nCommand yang Anda masukkan tidak sesuai. Masukkan command yang sesuai!\n\n");
                 } else {
-                    cetakUtas(listkicauan, stringToInteger(leftInfo));
+                    cetakUtas(listkicauan, stringToInteger(leftInfo), USER(UserList,currentID));
                 } 
             }
         } else if (isWordSimiliar(string, "SIMPAN")){

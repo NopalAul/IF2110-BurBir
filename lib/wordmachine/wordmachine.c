@@ -468,12 +468,18 @@ boolean isWordSimiliar(STRING  s, char other[])
 boolean isKicauValid()
 {
     int count = 0;
+    boolean isAllBlank = true;
     for (int i = 0; i < string.length; i++){
         if (string.buffer[i] == '\n' || string.buffer[i] == ' '){
             return false;
         }
         else {
-            count++;
+            if(string.buffer[i] != ' '){
+                isAllBlank = false;
+            }
+            if(!isAllBlank){
+                count++;
+            }
         }
     }
     return count > 0;
