@@ -14,7 +14,7 @@ void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListKicau *lk)
     else
     {
         createRelationMatrix(&m);
-        createListKicau(&lk, MAX_CAPACITY);
+        createListKicau(lk, MAX_CAPACITY);
         createListUser(&l);
         loadPengguna(folder, l, m);
         loadKicau(folder, lk, *l);
@@ -131,11 +131,11 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m)
             {
                 if (processedString.buffer[1] == 'u')
                 {
-                    ACCOUNTTYPE(*u) = false;
+                    ACCOUNTTYPE(*u) = true;
                 }
                 else
                 {
-                    ACCOUNTTYPE(*u) = true;
+                    ACCOUNTTYPE(*u) = false;
                 }
             }
             if (i != 6)
@@ -248,13 +248,20 @@ void loadKicau(STRING folder, ListKicau *l, ListUser lu)
     }
     createEmptyString(&text);
     startFile(path);
-    text.buffer[0] = currentChar;
-    text.length = 1;
+    while (currentChar != NEWLINE)
+    {
+        text.buffer[textIdx] = currentChar;
+        text.length++;
+        textIdx++;
+        ADV();
+        if (currentChar == CARIAGE)
+        {
+            ignoreCarriage();
+        }
+    }
     jumlahKicauan = stringToInteger(text);
     ADV();
     ignoreCarriage();
-    createEmptyString(&text);
-
     for (int i = 0; i < jumlahKicauan; i++)
     {
         for (int j = 0; j < 5; j++)
@@ -324,6 +331,11 @@ void loadKicau(STRING folder, ListKicau *l, ListUser lu)
                     text.length++;
                     textIdx++;
                     ADV();
+                    if (currentChar == CARIAGE)
+                    {
+                        ignoreCarriage();
+                    }
+                    
                 }
                 SECOND(DATETIME(kicau)) = stringToInteger(text);
                 ADV();
@@ -336,6 +348,10 @@ void loadKicau(STRING folder, ListKicau *l, ListUser lu)
                     text.length++;
                     textIdx++;
                     ADV();
+                    if (currentChar == CARIAGE)
+                    {
+                        ignoreCarriage();
+                    }
                 }
                 if (j == 0)
                 {
@@ -572,7 +588,7 @@ void loadBalasan(STRING folder, ListUser *lu, ListKicau *lk)
             ADV();
             succeed = false;
             rep = newReply(IDReply, textBalasan, authorReply, replyDate);
-            addREPLY(&BALASAN(KICAU(*lk,IDKicau)), IDParent, rep, &succeed);
+            addREPLY(&BALASAN(KICAU(*lk,IDKicau-1)), IDParent, rep, &succeed);
         } 
     }   
 }
@@ -808,7 +824,7 @@ void loadUtas(STRING folder, ListKicau *lk)
         }
         ADV();
         jumlahUtasperKicauan = stringToInteger(text);
-        IDUTAS(UTAS(KICAU(*lk, idxKicau))) = idUtas;
+        IDUTAS(UTAS(KICAU(*lk, idxKicau-1))) = idUtas;
         for (int j = 0; j < jumlahUtasperKicauan; j++)
         {
             createEmptyString(&text);
@@ -825,8 +841,8 @@ void loadUtas(STRING folder, ListKicau *lk)
                 }   
             }
             ADV();
-            insertLast(&UTAS(KICAU(*lk, idxKicau)), idUtas, AUTHOR(KICAU(*lk, idxKicau)), text);
-            p = getLast(UTAS(KICAU(*lk, idxKicau)));
+            insertLast(&UTAS(KICAU(*lk, idxKicau-1)), idUtas, AUTHOR(KICAU(*lk, idxKicau-1)), text);
+            p = getLast(UTAS(KICAU(*lk, idxKicau-1)));
             if (p == NULL)
             {
                 printf("hoho");
