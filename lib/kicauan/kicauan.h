@@ -93,6 +93,6 @@ F.S :   Utas pada index terhapus, index Utas berkurang?*/
 
 void sambungUtas(ListKicau *l, int IDUtas, int index, USER currentuser);
 
-void cetakUtas(ListKicau l, int IDUtas);
+void cetakUtas(ListKicau l, int IDUtas, USER user);
 /* Mencetak seluruh kicauan dalam utas dengan id = IDUtas */
 #endif
