@@ -1,6 +1,6 @@
 #include "muat.h"
 
-void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListKicau *lk)
+void loadAll(STRING folder, ListKicau *lk)
 {
     char path[113] = "config/";
     for (int j = 0; j < folder.length; j++) // menambahkan input user ke dalam path
@@ -18,15 +18,15 @@ void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListKicau *lk)
         free((lk)->buffer);
         createListKicau(lk, MAX_CAPACITY);
         createListUser();
-        loadPengguna(folder, l, m);
-        loadKicau(folder, lk, *l);
-        loadDraf(folder, l);
+        loadPengguna(folder);
+        loadKicau(folder, lk);
+        loadDraf(folder);
         loadUtas(folder, lk);
-        loadBalasan(folder, l, lk);
+        loadBalasan(folder,lk);
     }
 }
 
-void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m)
+void loadPengguna(STRING folder)
 {
     char path[113] = "config/";
     int N, idx;
@@ -57,14 +57,14 @@ void loadPengguna(STRING folder, ListUser *l, RelationMatrix *m)
         }   
     }
     N = stringToInteger(text);
-    LENGTH(*l) = N;
+    LENGTH(UserList) = N;
     ADV();
     ignoreBlankCarriageNewline();
     createUSER(&currentUser);
-    readUserFromFile(&currentUser, N, l, m);
+    readUserFromFile(&currentUser, N);
 }
 
-void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m)
+void readUserFromFile(USER *u, int jumlahUser)
 {
     int i, j, tempIdx, IDreceiver, FriendListCounter;
     STRING processedString;
@@ -80,7 +80,7 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m)
             createEmptyString(&processedString);
             if (i == 6)
             {
-                Length(PHOTO(USER(*l, k))) = 5;
+                Length(PHOTO(USER(UserList, k))) = 5;
                 for (int count = 0; count < 5; count++)
                 {
                     for (int x = 0; x < 5; x++)
@@ -145,22 +145,22 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m)
                 ADV();
             }
         }
-        USER(*l, k) = *u; 
+        USER(UserList, k) = *u; 
     }
     
     // Read matrix pertemanan
-    RelationLength(*m) = jumlahUser;
+    RelationLength(RelMatrix) = jumlahUser;
     for (int i = 0; i < jumlahUser; i++)
     {
         for (int j = 0; j < jumlahUser; j++)
         {
             if (currentChar == '1')
             {
-                RelationVal(*m, i, j) = true;
+                RelationVal(RelMatrix, i, j) = true;
             }
             else
             {
-                RelationVal(*m, i, j) = false;
+                RelationVal(RelMatrix, i, j) = false;
             }
             ADV();
             if (currentChar == CARIAGE)
@@ -227,17 +227,19 @@ void readUserFromFile(USER *u, int jumlahUser, ListUser *l, RelationMatrix *m)
             }
         }
         userP.friendCount = stringToInteger(processedString);
-        enqueueListRequest(&REQUESTLIST(USER(*l, IDreceiver)), userP);
+        enqueueListRequest(&REQUESTLIST(USER(UserList, IDreceiver)), userP);
     }
 }
 
-void loadKicau(STRING folder, ListKicau *l, ListUser lu)
+void loadKicau(STRING folder, ListKicau *l)
 {
     char path[113] = "config/";
     char kicauan[15] = "/kicauan.config";
     STRING text;
     int jumlahKicauan, textIdx, k;
     KICAU kicau;
+    CreateREPLY(&BALASAN(kicau));
+    CreateListUtas(&UTAS(kicau));
     boolean found;
 
     for (int j = 0; j < folder.length; j++) // menambahkan input user ke dalam path
@@ -250,6 +252,7 @@ void loadKicau(STRING folder, ListKicau *l, ListUser lu)
     }
     createEmptyString(&text);
     startFile(path);
+    textIdx = 0;
     while (currentChar != NEWLINE)
     {
         text.buffer[textIdx] = currentChar;
@@ -337,7 +340,6 @@ void loadKicau(STRING folder, ListKicau *l, ListUser lu)
                     {
                         ignoreCarriage();
                     }
-                    
                 }
                 SECOND(DATETIME(kicau)) = stringToInteger(text);
                 ADV();
@@ -371,11 +373,11 @@ void loadKicau(STRING folder, ListKicau *l, ListUser lu)
                 {
                     k = 0;
                     found = false;
-                    while (k < LENGTH(lu) && !found)
+                    while (k < LENGTH(UserList) && !found)
                     {
-                        if (isStringEqual(USERNAME(USER(lu, k)), text))
+                        if (isStringEqual(USERNAME(USER(UserList, k)), text))
                         {
-                            AUTHOR(kicau) = USER(lu, k);
+                            AUTHOR(kicau) = USER(UserList, k);
                             found = true;
                         }
                         else
@@ -391,7 +393,7 @@ void loadKicau(STRING folder, ListKicau *l, ListUser lu)
     }
 }
 
-void loadBalasan(STRING folder, ListUser *lu, ListKicau *lk)
+void loadBalasan(STRING folder, ListKicau *lk)
 {
     char path[113] = "config/";
     char balasan[15] = "/balasan.config";
@@ -595,7 +597,7 @@ void loadBalasan(STRING folder, ListUser *lu, ListKicau *lk)
     }   
 }
 
-void loadDraf(STRING folder, ListUser *lu)
+void loadDraf(STRING folder)
 {
     char path[113] = "config/";
     char draf[12] = "/draf.config";
@@ -845,11 +847,6 @@ void loadUtas(STRING folder, ListKicau *lk)
             ADV();
             insertLast(&UTAS(KICAU(*lk, idxKicau-1)), idUtas, AUTHOR(KICAU(*lk, idxKicau-1)), text);
             p = getLast(UTAS(KICAU(*lk, idxKicau-1)));
-            if (p == NULL)
-            {
-                printf("hoho");
-            }
-
             createEmptyString(&text);
             idxText = 0;
             while (currentChar != NEWLINE)      // baca author utas
@@ -934,5 +931,4 @@ void loadUtas(STRING folder, ListKicau *lk)
         }
         idUtas++;
     }
-    
 }
