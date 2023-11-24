@@ -12,10 +12,12 @@ void loadAll(STRING folder, ListUser *l, RelationMatrix *m, ListKicau *lk)
         printf("Tidak ada folder yang dimaksud!");
     }
     else
-    {
-        createRelationMatrix(&m);
+    {   
+        createContainerDraft();
+        createRelationMatrix();
+        free((lk)->buffer);
         createListKicau(lk, MAX_CAPACITY);
-        createListUser(&l);
+        createListUser();
         loadPengguna(folder, l, m);
         loadKicau(folder, lk, *l);
         loadDraf(folder, l);
